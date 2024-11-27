@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-11-20T11:49:52.266Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.16 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="EUKLjSl80BJwUHti2sJb" version="22.1.16" type="device">
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
   <diagram name="v.1.0" id="U3Ethrib_to-rewBgai2">
-    <mxGraphModel dx="1434" dy="1236" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1609" dy="1386" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -14,9 +14,6 @@
           <mxGeometry x="601" y="618" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="orHUfnyb1fv-9ykqrMK_-39" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=none;endFill=0;" parent="1" source="orHUfnyb1fv-9ykqrMK_-2" target="orHUfnyb1fv-9ykqrMK_-10" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="orHUfnyb1fv-9ykqrMK_-44" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=none;endFill=0;" parent="1" source="orHUfnyb1fv-9ykqrMK_-2" target="orHUfnyb1fv-9ykqrMK_-43" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="orHUfnyb1fv-9ykqrMK_-49" style="shape=connector;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;labelBackgroundColor=default;strokeColor=default;align=center;verticalAlign=middle;fontFamily=Helvetica;fontSize=11;fontColor=default;endArrow=none;endFill=0;" parent="1" source="orHUfnyb1fv-9ykqrMK_-2" target="orHUfnyb1fv-9ykqrMK_-47" edge="1">
@@ -57,7 +54,7 @@
           <mxGeometry x="386" y="440.25" width="132" height="46" as="geometry" />
         </mxCell>
         <mxCell id="orHUfnyb1fv-9ykqrMK_-10" value="Propone Offerta per Immobile" style="ellipse;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1122" y="339.75" width="132" height="46" as="geometry" />
+          <mxGeometry x="1122" y="283" width="132" height="46" as="geometry" />
         </mxCell>
         <mxCell id="orHUfnyb1fv-9ykqrMK_-11" value="Aggiunge Inserzione&lt;br&gt;Immobile" style="ellipse;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="373" y="233.75" width="132" height="46" as="geometry" />
@@ -73,9 +70,6 @@
             <mxPoint x="615.66" y="618" as="sourcePoint" />
             <mxPoint x="615.66" y="517" as="targetPoint" />
           </mxGeometry>
-        </mxCell>
-        <mxCell id="orHUfnyb1fv-9ykqrMK_-43" value="Acquista Immobile" style="ellipse;html=1;whiteSpace=wrap;" parent="1" vertex="1">
-          <mxGeometry x="1122" y="282.75" width="132" height="46" as="geometry" />
         </mxCell>
         <mxCell id="orHUfnyb1fv-9ykqrMK_-45" value="Cambia password" style="ellipse;html=1;whiteSpace=wrap;" parent="1" vertex="1">
           <mxGeometry x="383" y="657.25" width="132" height="46" as="geometry" />
