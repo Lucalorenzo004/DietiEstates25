@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/services/offer/offer.iml" filepath="$PROJECT_DIR$/services/offer/offer.iml" />
       <module fileurl="file://$PROJECT_DIR$/services/user/user.iml" filepath="$PROJECT_DIR$/services/user/user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/backend.iml" filepath="$PROJECT_DIR$/.idea/backend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/services/estate-handle/estate-handle.iml" filepath="$PROJECT_DIR$/services/estate-handle/estate-handle.iml" />
     </modules>
   </component>
 </project>

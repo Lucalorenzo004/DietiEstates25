@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,4 +22,16 @@ public class Addons {
     @NotEmpty(message = "An addons should have a name")
     @Column(name = "name", nullable = false)
     private String name;
+
+    @NotEmpty(message = "An addons should refer to at least one estate")
+    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    private List<Estate> estates;
+
+    @Override
+    public String toString() {
+        return "Addons{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

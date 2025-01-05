@@ -32,6 +32,10 @@ public class File {
     @Column(name = "extension", nullable = false)
     private String extension;
 
+    @NotEmpty(message = "A file should have a reference to an estate")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Estate estate;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
@@ -39,4 +43,16 @@ public class File {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false, updatable = false)
     private Timestamp updatedAt;
+
+    @Override
+    public String toString() {
+        return "File{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", name='" + name + '\'' +
+                ", extension='" + extension + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
