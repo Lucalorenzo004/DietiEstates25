@@ -19,4 +19,14 @@ public class FileDTO {
 
     @NotEmpty(message = "A file should have an extension")
     private String extension;
+
+    @Override
+    public String toString() {
+        return "FileDTO{" +
+                "id=" + id +
+                ", url='" + url + '\'' +
+                ", name='" + name + '\'' +
+                ", extension='" + extension + '\'' +
+                '}';
+    }
 }

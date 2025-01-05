@@ -1,4 +1,7 @@
 package com.ctlfab.estatehandle.repository;
 
-public interface LocationRepository {
+import com.ctlfab.estatehandle.model.Location;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface LocationRepository extends JpaRepository<Location, Long> {
 }
