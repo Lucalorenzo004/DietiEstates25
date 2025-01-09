@@ -3,10 +3,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/user
     username: postgres
     password: password1029
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
     show-sql: true
+    database: postgresql
 
 server:
   port: 8060
