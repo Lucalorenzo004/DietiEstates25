@@ -41,8 +41,8 @@ public class OfferController {
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",offerService.updateOffer(offerId,status)))
-                        .message("user updated")
+                        .data(Map.of("offer",offerService.updateOffer(offerId,status)))
+                        .message("offer updated")
                         .httpStatus(OK)
                         .statusCode(OK.value())
                         .build()
