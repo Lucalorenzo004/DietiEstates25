@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/user?currentSchema=dietiestate25_user
+    url: jdbc:postgresql://localhost:5432/offer?currentSchema=dietiestate25_offer
     username: postgres
     password: password1029
     driver-class-name: org.postgresql.Driver
@@ -10,4 +10,9 @@ spring:
     database: postgresql
 
 server:
-  port: 8060
+  port: 8061
+
+
+application:
+  config:
+    user-url: http://localhost:8060/user-api/v1/users

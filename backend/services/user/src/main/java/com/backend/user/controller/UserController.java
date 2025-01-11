@@ -4,8 +4,8 @@ import com.backend.user.dto.UserRequestDTO;
 import com.backend.user.model.Response;
 import com.backend.user.service.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +16,11 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping("/user-api/v1/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @GetMapping("/{userId}")
     public ResponseEntity<Response> getUser(@PathVariable Long userId){
@@ -36,11 +36,11 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> registerUser(@RequestBody @Valid UserRequestDTO userRequestDTO){
+    public ResponseEntity<Response> registerUser(@RequestBody @Valid UserRequestDTO request){
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",userService.registerUser(userRequestDTO)))
+                        .data(Map.of("user",userService.registerUser(request)))
                         .message("user saved")
                         .httpStatus(CREATED)
                         .statusCode(CREATED.value())
@@ -49,11 +49,11 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Response> updateUser(@RequestBody @Valid UserRequestDTO userRequestDTO){
+    public ResponseEntity<Response> updateUser(@RequestBody @Valid UserRequestDTO request){
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",userService.updateUser(userRequestDTO)))
+                        .data(Map.of("user",userService.updateUser(request)))
                         .message("user updated")
                         .httpStatus(OK)
                         .statusCode(OK.value())
@@ -62,7 +62,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Response> deleteUser(@RequestParam(value = "user") Long userId){
+    public ResponseEntity<Response> deleteUser(@RequestParam(value = "userId") Long userId){
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())

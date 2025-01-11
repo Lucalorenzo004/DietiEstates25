@@ -15,10 +15,10 @@ import java.util.Date;
 @Getter
 @Setter
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty(message = "L'utente dovrebbe avere un nome")
@@ -42,13 +42,15 @@ public class User {
     private String provider;
 
     @CreatedDate
-    @Column(name = "created_at",nullable = false,updatable = false)
+    @Column(name = "created_at",updatable = false)
     private Date createdAt;
 
     @LastModifiedDate
-    @Column(name = "updated_at",nullable = false,insertable = false)
+    @Column(name = "updated_at",insertable = false)
     private Date updatedAt;
 
+    @Column(name = "role",nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 }
