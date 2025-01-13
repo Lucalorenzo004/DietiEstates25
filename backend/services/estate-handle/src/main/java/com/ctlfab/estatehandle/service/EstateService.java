@@ -4,9 +4,10 @@ import com.ctlfab.estatehandle.dto.EstateDTO;
 
 import java.util.List;
 
+
 public interface EstateService {
-    List<EstateDTO> getEstatesByEmplyeeId(long emplyeeId);
-    EstateDTO addEstate(EstateDTO estate);
-    EstateDTO editEstate(EstateDTO estate);
+    List<EstateDTO> getAllEstates();
+    EstateDTO addEstate(EstateDTO estateDTO);
+    EstateDTO editEstate(EstateDTO estateDTO);
     boolean deleteEstate(long estateId);
 }

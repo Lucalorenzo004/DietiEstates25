@@ -1,5 +1,6 @@
 package com.ctlfab.estatehandle.model;
 
+import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -39,27 +40,28 @@ public class Estate {
 
     @NotEmpty(message = "A estate should have a price")
     @Column(name = "price", nullable = false)
-    private Float price;
+    private float price;
 
     @NotEmpty(message = "A estate should have a mtq")
     @Column(name = "mtq", nullable = false)
-    private String mtq;
+    private int mtq;
 
     @NotEmpty(message = "A estate should have an energy class")
-    @Column(name = "energy_class", nullable = false)
-    private String energyClass;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "energy_class", nullable = false, columnDefinition = "energy_class")
+    private EnergyClass energyClass;
 
     @NotEmpty(message = "A estate should have at least 1 room")
     @Column(name = "rooms", nullable = false)
-    private Integer rooms;
+    private int rooms;
 
     @NotEmpty(message = "A estate should have at least 1 service")
     @Column(name = "services", nullable = false)
-    private Integer services;
+    private int services;
 
-    @NotEmpty(message = "A estate should have a location")
+    //@NotEmpty(message = "A estate should have a location")
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
+    @JoinColumn(name = "location_id", nullable = true)
     private Location location;
 
     @NotEmpty(message = "A estate should be saved by an employee")
@@ -69,16 +71,16 @@ public class Estate {
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private List<Addons> addons;
 
-    @NotEmpty(message = "A estate should have a location")
+    //@NotEmpty(message = "A estate should have a location")
     @OneToMany(mappedBy = "estate", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<File> files;
 
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false, updatable = false)
+    @Column(name = "updated_at", updatable = false)
     private Timestamp updatedAt;
 
     @Override
