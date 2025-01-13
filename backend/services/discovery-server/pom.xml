@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.backend</groupId>
-	<artifactId>discovery</artifactId>
+	<artifactId>discovery-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>discovery</name>
-	<description>discovery</description>
+	<name>discovery-server</name>
+	<description>discovery-server</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -38,6 +38,7 @@
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+			<version>4.2.0</version>
 		</dependency>
 
 		<dependency>

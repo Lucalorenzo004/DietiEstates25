@@ -1,5 +1,6 @@
 package com.ctlfab.estatehandle.dto;
 
+import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import com.ctlfab.estatehandle.model.Addons;
 import com.ctlfab.estatehandle.model.File;
 import com.ctlfab.estatehandle.model.Location;
@@ -29,19 +30,19 @@ public class EstateDTO {
     private boolean rental;
 
     @NotEmpty(message = "A estate should have a price")
-    private Float price;
+    private float price;
 
     @NotEmpty(message = "A estate should have a mtq")
-    private String mtq;
+    private int mtq;
 
     @NotEmpty(message = "A estate should have an energy class")
-    private String energyClass;
+    private EnergyClass energyClass;
 
     @NotEmpty(message = "A estate should have at least 1 room")
-    private Integer rooms;
+    private int rooms;
 
     @NotEmpty(message = "A estate should have at least 1 service")
-    private Integer services;
+    private int services;
 
     @NotEmpty(message = "A estate should have a location")
     private Location location;

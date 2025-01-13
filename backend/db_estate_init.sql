@@ -3,28 +3,12 @@ CREATE SCHEMA IF NOT EXISTS dietiestate25_estate;
 set search_path to dietiestate25_estate;
 
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.location(
-    "id" SERIAL PRIMARY KEY,
-    "latitude" VARCHAR(255) NOT NULL,
-    "longitude" VARCHAR(255) NOT NULL,
-    "region" VARCHAR(255) NOT NULL,
-    "city" VARCHAR(255) NOT NULL,
-    "cap" VARCHAR(255) NOT NULL,
-    "address" VARCHAR(255) NOT NULL,
-    "near_school" BOOLEAN NOT NULL DEFAULT FALSE,
-    "near_park" BOOLEAN NOT NULL DEFAULT FALSE,
-    "near_transport" BOOLEAN NOT NULL DEFAULT FALSE,
+    "id" VARCHAR(500) PRIMARY KEY,
+    "address_line1" VARCHAR(255) NOT NULL,
+    "address_line2" VARCHAR(255) NOT NULL,
     "created_at" TIMESTAMP WITH TIME ZONE DEFAULT now(),
-    "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now(),
-
-    CONSTRAINT unique_address UNIQUE(region, city, cap, address),
-    CONSTRAINT unique_location UNIQUE(latitude, longitude)
+    "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now()
 );
-
-DO $$ BEGIN
-	CREATE TYPE dietiestate25_estate.energy_class AS ENUM ('A3', 'A2', 'A1', 'A','B','C','D','E', 'F');
-EXCEPTION
-    WHEN duplicate_object THEN null;
-END $$;
 
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate(
     "id" SERIAL PRIMARY KEY,
@@ -34,10 +18,10 @@ CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate(
     "rental" BOOLEAN NOT NULL DEFAULT FALSE,
     "price" REAL NOT NULL,
     "mtq" INTEGER NOT NULL,
-    "energy_class" energy_class NOT NULL,
+    "energy_class" VARCHAR(2) NOT NULL,
     "rooms" INTEGER NOT NULL DEFAULT 1,
     "services" INTEGER NOT NULL DEFAULT 1,
-    "location_id" INTEGER NOT NULL,
+    "location_id" VARCHAR(500) NOT NULL,
     "user_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP WITH TIME ZONE DEFAULT now(),
     "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now(),
