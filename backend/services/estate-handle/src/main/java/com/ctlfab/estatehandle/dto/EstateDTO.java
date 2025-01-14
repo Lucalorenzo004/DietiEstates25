@@ -1,10 +1,8 @@
 package com.ctlfab.estatehandle.dto;
 
 import com.ctlfab.estatehandle.enumeration.EnergyClass;
-import com.ctlfab.estatehandle.model.Addons;
-import com.ctlfab.estatehandle.model.File;
-import com.ctlfab.estatehandle.model.Location;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -26,34 +24,33 @@ public class EstateDTO {
     @NotEmpty(message = "A estate should have a description")
     private String description;
 
-    @NotEmpty(message = "A estate should be for rent or for sale")
+    @NotNull(message = "A estate should be for rent or for sale")
     private boolean rental;
 
-    @NotEmpty(message = "A estate should have a price")
+    @NotNull(message = "A estate should have a price")
     private float price;
 
-    @NotEmpty(message = "A estate should have a mtq")
+    @NotNull(message = "A estate should have a mtq")
     private int mtq;
 
-    @NotEmpty(message = "A estate should have an energy class")
-    private EnergyClass energyClass;
+    @NotNull(message = "A estate should have an energy class")
+    private String energyClass;
 
-    @NotEmpty(message = "A estate should have at least 1 room")
+    @NotNull(message = "A estate should have at least 1 room")
     private int rooms;
 
-    @NotEmpty(message = "A estate should have at least 1 service")
+    @NotNull(message = "A estate should have at least 1 service")
     private int services;
 
-    @NotEmpty(message = "A estate should have a location")
-    private Location location;
+    @NotNull(message = "A estate should have a location")
+    private LocationDTO location;
 
-    @NotEmpty(message = "A estate should be saved by an employee")
+    @NotNull(message = "A estate should be saved by an employee")
     private Long userId;
 
-    private List<Addons> addons;
+    private List<AddonsDTO> addons;
 
-    @NotEmpty(message = "A estate should have a location")
-    private List<File> files;
+    private List<FileDTO> files;
 
     @Override
     public String toString() {
@@ -71,7 +68,6 @@ public class EstateDTO {
                 ", location=" + location +
                 ", userId=" + userId +
                 ", addons=" + addons +
-                ", files=" + files +
                 '}';
     }
 }

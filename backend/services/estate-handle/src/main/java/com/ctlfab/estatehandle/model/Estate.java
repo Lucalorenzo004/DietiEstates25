@@ -3,6 +3,7 @@ package com.ctlfab.estatehandle.model;
 import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -34,46 +35,42 @@ public class Estate {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotEmpty(message = "A estate should be for rent or for sale")
+    @NotNull(message = "A estate should be for rent or for sale")
     @Column(name = "rental", nullable = false)
     private boolean rental;
 
-    @NotEmpty(message = "A estate should have a price")
+    @NotNull(message = "A estate should have a price")
     @Column(name = "price", nullable = false)
     private float price;
 
-    @NotEmpty(message = "A estate should have a mtq")
+    @NotNull(message = "A estate should have a mtq")
     @Column(name = "mtq", nullable = false)
     private int mtq;
 
-    @NotEmpty(message = "A estate should have an energy class")
+    @NotNull(message = "A estate should have an energy class")
     @Enumerated(EnumType.STRING)
     @Column(name = "energy_class", nullable = false, columnDefinition = "energy_class")
     private EnergyClass energyClass;
 
-    @NotEmpty(message = "A estate should have at least 1 room")
+    @NotNull(message = "A estate should have at least 1 room")
     @Column(name = "rooms", nullable = false)
     private int rooms;
 
-    @NotEmpty(message = "A estate should have at least 1 service")
+    @NotNull(message = "A estate should have at least 1 service")
     @Column(name = "services", nullable = false)
     private int services;
 
-    //@NotEmpty(message = "A estate should have a location")
+    @NotNull(message = "A estate should have a location")
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = true)
+    @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    @NotEmpty(message = "A estate should be saved by an employee")
+    @NotNull(message = "A estate should be saved by an employee")
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private List<Addons> addons;
-
-    //@NotEmpty(message = "A estate should have a location")
-    @OneToMany(mappedBy = "estate", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    private List<File> files;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -99,7 +96,6 @@ public class Estate {
                 ", location=" + location +
                 ", userId=" + userId +
                 ", addons=" + addons +
-                ", files=" + files +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

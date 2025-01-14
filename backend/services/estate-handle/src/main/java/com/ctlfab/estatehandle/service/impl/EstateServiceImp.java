@@ -1,7 +1,12 @@
 package com.ctlfab.estatehandle.service.impl;
 
+import com.ctlfab.estatehandle.dto.AddonsDTO;
 import com.ctlfab.estatehandle.dto.EstateDTO;
+import com.ctlfab.estatehandle.dto.LocationDTO;
+import com.ctlfab.estatehandle.enumeration.EnergyClass;
+import com.ctlfab.estatehandle.model.Addons;
 import com.ctlfab.estatehandle.model.Estate;
+import com.ctlfab.estatehandle.model.Location;
 import com.ctlfab.estatehandle.repository.EstateRepository;
 import com.ctlfab.estatehandle.service.EstateService;
 import jakarta.transaction.Transactional;
@@ -23,8 +28,8 @@ public class EstateServiceImp implements EstateService {
     @Override
     public List<EstateDTO> getAllEstates() {
         log.info("Fetching all estates");
-        List<EstateDTO> estatesDTO = new ArrayList<>();
 
+        List<EstateDTO> estatesDTO = new ArrayList<>();
         for(Estate estate : estateRepository.findAll()){
             estatesDTO.add(mapToDTO(estate));
         }
@@ -66,7 +71,21 @@ public class EstateServiceImp implements EstateService {
     }
 
     private Estate mapToEntity(EstateDTO estateDTO) {
-        // TODO: location, addons, files
+        Location location = Location.builder()
+                .id(estateDTO.getLocation().getId())
+                .addressLine1(estateDTO.getLocation().getAddressLine1())
+                .addressLine2(estateDTO.getLocation().getAddressLine2())
+                .build();
+
+        List<Addons> addonsList = new ArrayList<>();
+        for(AddonsDTO addonsDTO : estateDTO.getAddons()){
+            Addons addons = Addons.builder()
+                    .id(addonsDTO.getId())
+                    .name(addonsDTO.getName())
+                    .build();
+
+            addonsList.add(addons);
+        }
 
         return Estate.builder()
                 .id(estateDTO.getId())
@@ -76,17 +95,33 @@ public class EstateServiceImp implements EstateService {
                 .rental(estateDTO.isRental())
                 .price(estateDTO.getPrice())
                 .mtq(estateDTO.getMtq())
-                .energyClass(estateDTO.getEnergyClass())
+                .energyClass(EnergyClass.valueOf(estateDTO.getEnergyClass()))
                 .rooms(estateDTO.getRooms())
                 .services(estateDTO.getServices())
                 .userId(estateDTO.getUserId())
+                .location(location)
+                .addons(addonsList)
                 .build();
     }
 
     private EstateDTO mapToDTO(Estate estate) {
-        // TODO: location, addons, files
+        LocationDTO location = LocationDTO.builder()
+                .id(estate.getLocation().getId())
+                .addressLine1(estate.getLocation().getAddressLine1())
+                .addressLine2(estate.getLocation().getAddressLine2())
+                .build();
 
-        return EstateDTO.builder()
+        List<AddonsDTO> addonsDTOList = new ArrayList<>();
+        for(Addons addons : estate.getAddons()){
+            AddonsDTO addonsDTO = AddonsDTO.builder()
+                    .id(addons.getId())
+                    .name(addons.getName())
+                    .build();
+
+            addonsDTOList.add(addonsDTO);
+        }
+
+       return EstateDTO.builder()
                 .id(estate.getId())
                 .title(estate.getTitle())
                 .category(estate.getCategory())
@@ -94,10 +129,12 @@ public class EstateServiceImp implements EstateService {
                 .rental(estate.isRental())
                 .price(estate.getPrice())
                 .mtq(estate.getMtq())
-                .energyClass(estate.getEnergyClass())
+                .energyClass(String.valueOf(estate.getEnergyClass()))
                 .rooms(estate.getRooms())
                 .services(estate.getServices())
                 .userId(estate.getUserId())
+                .location(location)
+                .addons(addonsDTOList)
                 .build();
     }
 }

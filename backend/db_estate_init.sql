@@ -59,9 +59,10 @@ CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate_addon(
 
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.file(
     "id" SERIAL PRIMARY KEY,
-    "url" VARCHAR(500) NOT NULL UNIQUE,
+    "bucket" VARCHAR(500) NOT NULL,
     "name" VARCHAR(255) NOT NULL,
-    "extension" VARCHAR(10) NOT NULL,
+    "size" REAL NOT NULL,
+    "content_type" VARCHAR(10) NOT NULL,
     "estate_id" INTEGER NOT NULL,
     "created_at" TIMESTAMP WITH TIME ZONE DEFAULT now(),
     "updated_at" TIMESTAMP WITH TIME ZONE DEFAULT now(),
