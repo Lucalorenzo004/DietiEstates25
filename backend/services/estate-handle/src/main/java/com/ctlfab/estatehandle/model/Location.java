@@ -28,16 +28,12 @@ public class Location {
     @Column(name = "address_line2", nullable = false)
     private String addressLine2;
 
-    @NotEmpty(message = "A location should refer to at least one estate")
-    @OneToMany
-    private List<Estate> estates;
-
     @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false, updatable = false)
+    @Column(name = "updated_at", updatable = false)
     private Timestamp updatedAt;
 
     @Override

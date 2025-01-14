@@ -1,6 +1,7 @@
 package com.ctlfab.estatehandle.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -11,22 +12,26 @@ import lombok.*;
 public class FileDTO {
     private Long id;
 
-    @NotEmpty(message = "A file should have a url reference")
-    private String url;
+    @NotEmpty(message = "A file should have a bucket reference")
+    private String bucket;
 
     @NotEmpty(message = "A file should have a name")
     private String name;
 
-    @NotEmpty(message = "A file should have an extension")
-    private String extension;
+    @NotEmpty(message = "A file should have an content type")
+    private String contentType;
+
+    @NotNull(message = "A file should have a size")
+    private long size;
 
     @Override
     public String toString() {
         return "FileDTO{" +
                 "id=" + id +
-                ", url='" + url + '\'' +
+                ", bucket='" + bucket + '\'' +
                 ", name='" + name + '\'' +
-                ", extension='" + extension + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", size='" + size +  '\'' +
                 '}';
     }
 }

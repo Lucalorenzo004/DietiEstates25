@@ -2,6 +2,7 @@ package com.ctlfab.estatehandle.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,20 +21,25 @@ public class File {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "A file should have a url reference")
-    @Column(name = "url", nullable = false)
-    private String url;
+    @NotEmpty(message = "A file should have a bucket reference")
+    @Column(name = "bucket", nullable = false)
+    private String bucket;
 
     @NotEmpty(message = "A file should have a name")
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotEmpty(message = "A file should have an extension")
-    @Column(name = "extension", nullable = false)
-    private String extension;
+    @NotEmpty(message = "A file should have a content type")
+    @Column(name = "content_type", nullable = false)
+    private String contentType;
 
-    @NotEmpty(message = "A file should have a reference to an estate")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull(message = "A file should have a size")
+    @Column(name = "size", nullable = false)
+    private long size;
+
+    @NotNull(message = "A file should have a reference to an estate")
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "estate_id", nullable = false)
     private Estate estate;
 
     @CreationTimestamp
@@ -48,9 +54,10 @@ public class File {
     public String toString() {
         return "File{" +
                 "id=" + id +
-                ", url='" + url + '\'' +
+                ", bucket='" + bucket + '\'' +
                 ", name='" + name + '\'' +
-                ", extension='" + extension + '\'' +
+                ", size=" + size +  '\'' +
+                ", contentType='" + contentType + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

@@ -19,13 +19,12 @@ import java.io.InputStream;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RequestMapping("/s3bucketstorage")
 public class AwsController {
+    /*
     private final AwsService service;
 
     // Endpoint to list files in a bucket
     @GetMapping("/{bucketName}")
-    public ResponseEntity<?> listFiles(
-            @PathVariable("bucketName") String bucketName
-    ) {
+    public ResponseEntity<?> listFiles(@PathVariable("bucketName") String bucketName) {
         val body = service.listFiles(bucketName);
         return ResponseEntity.ok(body);
     }
@@ -33,10 +32,7 @@ public class AwsController {
     // Endpoint to upload a file to a bucket
     @PostMapping("/{bucketName}/upload")
     @SneakyThrows(IOException.class)
-    public ResponseEntity<?> uploadFile(
-            @PathVariable("bucketName") String bucketName,
-            @RequestParam("file") MultipartFile file
-    ) {
+    public ResponseEntity<?> uploadFile(@PathVariable("bucketName") String bucketName, @RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty");
         }
@@ -75,4 +71,6 @@ public class AwsController {
         service.deleteFile(bucketName, fileName);
         return ResponseEntity.ok().build();
     }
+
+    */
 }

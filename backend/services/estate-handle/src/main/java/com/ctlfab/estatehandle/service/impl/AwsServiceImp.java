@@ -6,10 +6,13 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.ctlfab.estatehandle.dto.FileDTO;
+import com.ctlfab.estatehandle.model.File;
 import com.ctlfab.estatehandle.service.AwsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -25,19 +28,18 @@ public class AwsServiceImp implements AwsService {
     private final AmazonS3 s3Client;
 
     @Override
-    public void uploadFile(final String bucketName, final String keyName, final Long contentLength,
-                           final String contentType, final InputStream value) throws AmazonClientException {
+    public void uploadFile(final FileDTO file, final String bucket, final InputStream value) throws AmazonClientException {
         ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentLength(contentLength);
-        metadata.setContentType(contentType);
+        metadata.setContentLength(file.getSize());
+        metadata.setContentType(file.getContentType());
 
-        s3Client.putObject(bucketName, keyName, value, metadata);
-        log.info("File uploaded to bucket({}): {}", bucketName, keyName);
+        s3Client.putObject(bucket, file.getName(), value, metadata);
+        log.info("File uploaded to bucket({}): {}", bucket, file.getName());
     }
 
     @Override
-    public ByteArrayOutputStream downloadFile(final String bucketName, final String keyName) throws IOException, AmazonClientException {
-        S3Object s3Object = s3Client.getObject(bucketName, keyName);
+    public ByteArrayOutputStream downloadFile(final String bucket, final String fileName) throws IOException, AmazonClientException {
+        S3Object s3Object = s3Client.getObject(bucket, fileName);
         InputStream inputStream = s3Object.getObjectContent();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -47,14 +49,14 @@ public class AwsServiceImp implements AwsService {
             outputStream.write(buffer, 0, len);
         }
 
-        log.info("File downloaded from bucket({}): {}", bucketName, keyName);
+        log.info("File downloaded from bucket({}): {}", bucket, fileName);
         return outputStream;
     }
 
     @Override
-    public List<String> listFiles(final String bucketName) throws AmazonClientException {
+    public List<String> listFiles(final String bucket) throws AmazonClientException {
         List<String> keys = new ArrayList<>();
-        ObjectListing objectListing = s3Client.listObjects(bucketName);
+        ObjectListing objectListing = s3Client.listObjects(bucket);
 
         while (true) {
             List<S3ObjectSummary> objectSummaries = objectListing.getObjectSummaries();
@@ -70,13 +72,13 @@ public class AwsServiceImp implements AwsService {
             objectListing = s3Client.listNextBatchOfObjects(objectListing);
         }
 
-        log.info("Files found in bucket({}): {}", bucketName, keys);
+        log.info("Files found in bucket({}): {}", bucket, keys);
         return keys;
     }
 
     @Override
-    public void deleteFile(final String bucketName, final String keyName) throws AmazonClientException {
-        s3Client.deleteObject(bucketName, keyName);
-        log.info("File deleted from bucket({}): {}", bucketName, keyName);
+    public void deleteFile(final String bucket, final String fileName) throws AmazonClientException {
+        s3Client.deleteObject(bucket, fileName);
+        log.info("File deleted from bucket({}): {}", bucket, fileName);
     }
 }
