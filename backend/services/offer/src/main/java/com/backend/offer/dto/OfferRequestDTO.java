@@ -18,7 +18,7 @@ public class OfferRequestDTO {
     private Long idUser;
 
     @NotNull(message = "è richiesto l'importo dell'offerta")
-    private float price;
+    private Float price;
 
     @NotNull(message = "è richiesto lo stato dell'offerta (accettata/rifiutata/consegnata)")
     private String status;

@@ -9,10 +9,8 @@ import com.backend.user.service.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,13 +20,12 @@ import static java.lang.Boolean.TRUE;
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Transactional
+@Slf4j
 public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
-    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImplementation.class);
     @Override
     public UserResponseDTO getUser(Long userId) {
-        logger.info("Fetching user by id: {}",userId);
+        log.info("Fetching user by id: {}",userId);
 
         Optional<User> optional = userRepository.findById(userId);
         if (optional.isEmpty()){
@@ -41,7 +38,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserResponseDTO registerUser(UserRequestDTO request) {
-        logger.info("Saving new user {}", request);
+        log.info("Saving new user {}", request);
 
         User user = mapDTOToEntity(request);
         user = userRepository.save(user);
@@ -51,7 +48,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserResponseDTO updateUser(UserRequestDTO request) {
-        logger.info("Updating the user {}",request);
+        log.info("Updating the user {}",request);
 
         User user = mapDTOToEntity(request);
 
@@ -60,7 +57,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public Boolean deleteUser(Long userId) {
-        logger.info("Deleting user by ID: {}", userId);
+        log.info("Deleting user by ID: {}", userId);
         userRepository.deleteById(userId);
 
         return TRUE;

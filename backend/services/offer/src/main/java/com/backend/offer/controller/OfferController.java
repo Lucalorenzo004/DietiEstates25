@@ -62,4 +62,18 @@ public class OfferController {
         );
     }
 
+    @GetMapping("/{estateId}")
+    public ResponseEntity<Response> getOffers(@PathVariable Long estateId,@RequestParam(value = "page") Long page,
+                                              @RequestParam(value = "pageSize") Long pageSize){
+        return ResponseEntity.ok(
+                Response.builder()
+                        .timestamp(LocalDateTime.now())
+                        .data(Map.of("offer",offerService.getOffers(estateId, page, pageSize)))
+                        .message("offers retrieved")
+                        .httpStatus(OK)
+                        .statusCode(OK.value())
+                        .build()
+        );
+    }
+
 }

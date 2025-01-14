@@ -1,7 +1,7 @@
 package com.backend.offer.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,19 +21,19 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "L'offerta dovrebbe essere relativa ad un immobile")
+    @NotNull(message = "L'offerta dovrebbe essere relativa ad un immobile")
     @Column(name = "estate_id",nullable = false)
     private Long idEstate;
 
-    @NotEmpty(message = "L'offerta dovrebbe esser stata effettuata da un utente")
+    @NotNull(message = "L'offerta dovrebbe esser stata effettuata da un utente")
     @Column(name = "user_id",nullable = false)
     private Long idUser;
 
-    @NotEmpty(message = "L'offerta dovrebbe avere un importo offerto")
+    @NotNull(message = "L'offerta dovrebbe avere un importo offerto")
     @Column(name = "price",nullable = false)
-    private float price;
+    private Float price;
 
-    @NotEmpty(message = "L'offerta dovrebbe mantenere uno stato (accettata/rifiutata/consegnata)")
+    @Enumerated(EnumType.STRING)
     @Column(name = "status",nullable = false)
     private Status status;
 
