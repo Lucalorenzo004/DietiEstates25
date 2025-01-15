@@ -48,20 +48,4 @@ public class AddonsServiceImp implements AddonsService {
         log.info("Addons {} deleted successfully", addonsId);
         return true;
     }
-
-    private Addons mapToEntity(AddonsDTO addonsDTO) {
-        // TODO: estates
-
-        return Addons.builder()
-                .id(addonsDTO.getId())
-                .name(addonsDTO.getName())
-                .build();
-    }
-
-    private AddonsDTO mapToDTO(Addons addons) {
-        return AddonsDTO.builder()
-                .id(addons.getId())
-                .name(addons.getName())
-                .build();
-    }
 }
