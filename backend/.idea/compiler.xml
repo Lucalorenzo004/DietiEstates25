@@ -21,12 +21,14 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="User" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="User" target="21" />
+      <module name="discovery" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

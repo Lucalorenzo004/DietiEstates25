@@ -2,15 +2,12 @@ package com.ctlfab.estatehandle.controller.v1;
 
 import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
-import com.ctlfab.estatehandle.dto.LocationDTO;
-import com.ctlfab.estatehandle.model.Location;
+import com.ctlfab.estatehandle.mapper.FileMapper;
 import com.ctlfab.estatehandle.model.Response;
 import com.ctlfab.estatehandle.service.AwsService;
 import com.ctlfab.estatehandle.service.EstateService;
 import com.ctlfab.estatehandle.service.FileService;
-import com.ctlfab.estatehandle.service.LocationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -37,16 +34,16 @@ import static org.springframework.http.HttpStatus.*;
 @RequestMapping("/estate-handle-api/v1/estates")
 public class EstateController {
     private final AwsService awsService;
+    private final EstateService service;
+    private final FileMapper fileMapper;
     private final FileService fileService;
-    private final EstateService estateService;
-    private final LocationService locationService;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
     @GetMapping
     public ResponseEntity<Response> getAllEstates(){
-        List<EstateDTO> estateDTOList = estateService.getAllEstates();
+        List<EstateDTO> estateDTOList = service.getAllEstates();
 
         return ResponseEntity.ok(
                 Response.builder()
@@ -60,15 +57,13 @@ public class EstateController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> addEstate(@RequestParam("data") String estateJson, @RequestParam("files") List<MultipartFile> files) {
+    public ResponseEntity<Response> addEstate(@RequestParam("data") String estateJson, @RequestParam("files") List<MultipartFile> multipartFiles) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             EstateDTO estateDTO = mapper.readValue(estateJson, EstateDTO.class);
 
-            LocationDTO location = locationService.saveLocation(estateDTO.getLocation());
-            estateDTO.setLocation(location);
-            EstateDTO newEstate = estateService.addEstate(estateDTO);
-            newEstate.setFiles(uploadFile(files, newEstate));
+            List<FileDTO> filesDTO = uploadOnAws(multipartFiles);
+            EstateDTO newEstate = service.addEstate(estateDTO, filesDTO);
 
             return ResponseEntity.ok(
                     Response.builder()
@@ -79,14 +74,14 @@ public class EstateController {
                             .data(Map.of("estate", newEstate))
                             .build()
             );
-        } catch (JsonProcessingException e) {
+        } catch (IOException e) {
             return ResponseEntity.badRequest().body(
-            Response.builder()
-                    .timestamp(now())
-                    .message(e.getMessage())
-                    .httpStatus(BAD_REQUEST)
-                    .statusCode(BAD_REQUEST.value())
-                    .build()
+                    Response.builder()
+                            .timestamp(now())
+                            .message(e.getMessage())
+                            .httpStatus(BAD_REQUEST)
+                            .statusCode(BAD_REQUEST.value())
+                            .build()
             );
         }
     }
@@ -111,30 +106,18 @@ public class EstateController {
                         .message("Estate deleted")
                         .httpStatus(OK)
                         .statusCode(OK.value())
-                        .data(Map.of("estate", estateService.deleteEstate(estateId)))
+                        .data(Map.of("estate", service.deleteEstate(estateId)))
                         .build()
         );
     }
 
+    private List<FileDTO> uploadOnAws(List<MultipartFile> multipartFiles) throws IOException {
+        List<FileDTO> filesDTO = new LinkedList<>();
+        for(MultipartFile multipartFile : multipartFiles){
+            FileDTO fileDTO = fileMapper.mapToDTO(multipartFile, bucket);
+            filesDTO.add(fileDTO);
+            awsService.uploadFile(fileDTO, bucket, multipartFile.getInputStream());
 
-    private List<FileDTO> uploadFile(List<MultipartFile> multipartFiles, EstateDTO estateDTO) {
-        List<FileDTO> filesDTO = new ArrayList<>();
-
-        try {
-            for(MultipartFile file : multipartFiles ){
-                FileDTO estateFile = FileDTO.builder()
-                        .bucket(bucket)
-                        .name(file.getOriginalFilename())
-                        .contentType(file.getContentType())
-                        .size(file.getSize())
-                        .build();
-
-
-                awsService.uploadFile(estateFile, bucket, file.getInputStream());
-                filesDTO.add(fileService.saveFile(estateFile, estateDTO));
-            }
-        } catch (IOException e) {
-            log.warn(e.getMessage());
         }
 
         return filesDTO;

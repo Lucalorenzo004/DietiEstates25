@@ -23,10 +23,6 @@ public class Addons {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotEmpty(message = "An addons should refer to at least one estate")
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    private List<Estate> estates;
-
     @Override
     public String toString() {
         return "Addons{" +
