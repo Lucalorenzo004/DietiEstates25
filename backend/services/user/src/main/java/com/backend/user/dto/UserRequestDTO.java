@@ -1,6 +1,5 @@
 package com.backend.user.dto;
 
-import com.backend.user.model.Role;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 

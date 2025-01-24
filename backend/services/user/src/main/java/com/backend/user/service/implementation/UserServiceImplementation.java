@@ -11,6 +11,7 @@ import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,6 +24,7 @@ import static java.lang.Boolean.TRUE;
 @Slf4j
 public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
     public UserResponseDTO getUser(Long userId) {
         log.info("Fetching user by id: {}",userId);
@@ -41,6 +43,7 @@ public class UserServiceImplementation implements UserService {
         log.info("Saving new user {}", request);
 
         User user = mapDTOToEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
 
         return mapEntityToDTO(user);
