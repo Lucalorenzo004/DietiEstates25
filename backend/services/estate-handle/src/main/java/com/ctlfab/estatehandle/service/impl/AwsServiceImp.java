@@ -28,7 +28,7 @@ public class AwsServiceImp implements AwsService {
     private final AmazonS3 s3Client;
 
     @Override
-    public void uploadFile(final FileDTO file, final String bucket, final InputStream value) throws AmazonClientException {
+    public void uploadFile(FileDTO file, String bucket, InputStream value){
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         metadata.setContentType(file.getContentType());
@@ -38,23 +38,28 @@ public class AwsServiceImp implements AwsService {
     }
 
     @Override
-    public ByteArrayOutputStream downloadFile(final String bucket, final String fileName) throws IOException, AmazonClientException {
+    public ByteArrayOutputStream downloadFile(String bucket, String fileName){
         S3Object s3Object = s3Client.getObject(bucket, fileName);
         InputStream inputStream = s3Object.getObjectContent();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        int len;
-        byte[] buffer = new byte[4096];
-        while ((len = inputStream.read(buffer, 0, buffer.length)) != -1) {
-            outputStream.write(buffer, 0, len);
+        try{
+            int len;
+            byte[] buffer = new byte[4096];
+            while ((len = inputStream.read(buffer, 0, buffer.length)) != -1) {
+                outputStream.write(buffer, 0, len);
+            }
+
+            log.info("File downloaded from bucket({}): {}", bucket, fileName);
+        }catch (IOException e){
+            log.warn("Something was gone wrong ");
         }
 
-        log.info("File downloaded from bucket({}): {}", bucket, fileName);
         return outputStream;
     }
 
     @Override
-    public List<String> listFiles(final String bucket) throws AmazonClientException {
+    public List<String> listFiles(String bucket){
         List<String> keys = new ArrayList<>();
         ObjectListing objectListing = s3Client.listObjects(bucket);
 
@@ -77,7 +82,7 @@ public class AwsServiceImp implements AwsService {
     }
 
     @Override
-    public void deleteFile(final String bucket, final String fileName) throws AmazonClientException {
+    public void deleteFile(String bucket, String fileName) throws AmazonClientException {
         s3Client.deleteObject(bucket, fileName);
         log.info("File deleted from bucket({}): {}", bucket, fileName);
     }

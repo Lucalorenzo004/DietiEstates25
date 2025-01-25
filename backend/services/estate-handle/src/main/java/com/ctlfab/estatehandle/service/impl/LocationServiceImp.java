@@ -17,28 +17,27 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class LocationServiceImp implements LocationService {
     private final LocationRepository repository;
-    private final LocationMapper mapper;
 
     @Override
     public LocationDTO saveLocation(LocationDTO locationDTO) {
         log.info("Saving location {}", locationDTO);
 
-        Location location = mapper.mapToEntity(locationDTO);
+        Location location = LocationMapper.mapToEntity(locationDTO);
         location = repository.save(location);
 
         log.info("Location {} saved successfully", locationDTO);
-        return mapper.mapToDTO(location);
+        return LocationMapper.mapToDTO(location);
     }
 
     @Override
     public LocationDTO editLocation(LocationDTO locationDTO) {
         log.info("Updating location {}", locationDTO);
 
-        Location location = mapper.mapToEntity(locationDTO);
+        Location location = LocationMapper.mapToEntity(locationDTO);
         location = repository.save(location);
 
         log.info("Location {} updated successfully", locationDTO);
-        return mapper.mapToDTO(location);
+        return LocationMapper.mapToDTO(location);
     }
 
     @Override

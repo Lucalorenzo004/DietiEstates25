@@ -1,6 +1,7 @@
 package com.ctlfab.estatehandle.service.impl;
 
 import com.ctlfab.estatehandle.dto.AddonsDTO;
+import com.ctlfab.estatehandle.mapper.AddonsMapper;
 import com.ctlfab.estatehandle.model.Addons;
 import com.ctlfab.estatehandle.repository.AddonsRepository;
 import com.ctlfab.estatehandle.service.AddonsService;
@@ -21,22 +22,22 @@ public class AddonsServiceImp implements AddonsService {
     public AddonsDTO saveAddons(AddonsDTO addonsDTO) {
         log.info("Saving addons {}", addonsDTO);
 
-        Addons addons = mapToEntity(addonsDTO);
+        Addons addons = AddonsMapper.mapToEntity(addonsDTO);
         addons = addonsRepository.save(addons);
 
         log.info("Addons {} saved successfully", addons);
-        return mapToDTO(addons);
+        return AddonsMapper.mapToDTO(addons);
     }
 
     @Override
     public AddonsDTO editAddons(AddonsDTO addonsDTO) {
         log.info("Updating addons {}", addonsDTO);
 
-        Addons addons = mapToEntity(addonsDTO);
+        Addons addons = AddonsMapper.mapToEntity(addonsDTO);
         addons = addonsRepository.save(addons);
 
         log.info("Addons {} updated successfully", addons);
-        return mapToDTO(addons);
+        return AddonsMapper.mapToDTO(addons);
     }
 
     @Override

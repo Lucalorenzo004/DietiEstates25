@@ -1,21 +1,39 @@
 package com.ctlfab.estatehandle.service;
 
-import com.amazonaws.AmazonClientException;
 import com.ctlfab.estatehandle.dto.FileDTO;
-import com.ctlfab.estatehandle.model.File;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * AWS Service
+ * Author: Fabrizio Ciotola
+ */
 public interface AwsService {
 
-    void uploadFile(final FileDTO file, final String bucket, final InputStream value) throws AmazonClientException;
+    /**
+     * Upload file on AWS
+     * @param file File to upload
+     * @param bucket Bucket
+     * @param value Value of file
+     */
+    void uploadFile(FileDTO file, String bucket, InputStream value);
 
-    ByteArrayOutputStream downloadFile(final String bucket, final String fileName) throws IOException, AmazonClientException;
+    List<String> listFiles(String bucket);
 
-    List<String> listFiles(final String bucket) throws AmazonClientException;
+    /**
+     * Download file from AWS
+     * @param bucket Bucket
+     * @param fileName Name of file
+     * @return ByteArrayOutputStream
+     */
+    ByteArrayOutputStream downloadFile(String bucket, String fileName);
 
-    void deleteFile(final String bucket, final String fileName) throws AmazonClientException;
+    /**
+     * Delete file on AWS
+     * @param bucket Bucket
+     * @param fileName Name of file
+     */
+    void deleteFile(final String bucket, final String fileName);
 }

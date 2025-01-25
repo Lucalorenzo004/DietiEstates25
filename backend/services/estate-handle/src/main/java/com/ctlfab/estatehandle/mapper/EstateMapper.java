@@ -7,28 +7,29 @@ import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import com.ctlfab.estatehandle.model.Addons;
 import com.ctlfab.estatehandle.model.Estate;
 import com.ctlfab.estatehandle.model.Location;
-import com.ctlfab.estatehandle.repository.EstateRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Class mapper for Estate
+ * Author: Fabrizio Ciotola
+ */
+@Component
 public class EstateMapper {
-    private final EstateRepository repository;
-    private final LocationMapper locationMapper;
-    private final AddonsMapper addonsMapper;
 
-
-    public EstateDTO mapToDTO(Estate estate) {
-        LocationDTO location = locationMapper.mapToDTO(estate.getLocation());
+    /**
+     * Map EstateDTO to Estate
+     * @param estate Estate to map
+     * @return Estate
+     */
+    public static EstateDTO mapToDTO(Estate estate) {
+        LocationDTO locationDTO = LocationMapper.mapToDTO(estate.getLocation());
 
         List<AddonsDTO> addonsDTOList = new LinkedList<>();
         for(Addons addons : estate.getAddons()){
-            addonsDTOList.add(addonsMapper.mapToDTO(addons));
+            addonsDTOList.add(AddonsMapper.mapToDTO(addons));
         }
 
         return EstateDTO.builder()
@@ -39,27 +40,26 @@ public class EstateMapper {
                 .rental(estate.isRental())
                 .price(estate.getPrice())
                 .mtq(estate.getMtq())
-                .energyClass(String.valueOf(estate.getEnergyClass()))
+                .energyClass(estate.getEnergyClass().name())
                 .rooms(estate.getRooms())
                 .services(estate.getServices())
                 .userId(estate.getUserId())
-                .location(location)
+                .location(locationDTO)
                 .addons(addonsDTOList)
                 .build();
     }
 
-    public Estate mapToEntity(EstateDTO estateDTO) {
-        if(estateDTO.getId() != null){
-            Optional<Estate> estateOptional = repository.findById(estateDTO.getId());
-            if(estateOptional.isPresent()){
-                return estateOptional.get();
-            }
-        }
+    /**
+     * Map EstateDTO to Estate
+     * @param estateDTO EstateDTO to map
+     * @return Estate
+     */
+    public static Estate mapToEntity(EstateDTO estateDTO) {
+        Location location = LocationMapper.mapToEntity(estateDTO.getLocation());
 
-        Location location = locationMapper.mapToEntity(estateDTO.getLocation());
         List<Addons> addonsList = new LinkedList<>();
         for(AddonsDTO addonsDTO : estateDTO.getAddons()){
-            addonsList.add(addonsMapper.mapToEntity(addonsDTO));
+            addonsList.add(AddonsMapper.mapToEntity(addonsDTO));
         }
 
         return Estate.builder()

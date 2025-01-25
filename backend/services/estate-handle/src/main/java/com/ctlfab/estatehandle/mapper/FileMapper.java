@@ -4,30 +4,38 @@ import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
 import com.ctlfab.estatehandle.model.Estate;
 import com.ctlfab.estatehandle.model.File;
-import com.ctlfab.estatehandle.repository.FileRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
-
-
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+/**
+ * Class mapper for file
+ * Author: Fabrizio Ciotola
+ */
+@Component
 public class FileMapper{
-    private final FileRepository repository;
-    private final EstateMapper estateMapper;
 
-    public FileDTO mapToDTO(File file, String bucket){
+    /**
+     *  Map File to FileDTO
+     * @param file File to map
+     * @return FileDTO
+     */
+    public static FileDTO mapToDTO(File file){
         return FileDTO.builder()
                 .id(file.getId())
                 .name(file.getName())
-                .bucket(bucket)
+                .bucket(file.getBucket())
                 .size(file.getSize())
                 .contentType(file.getContentType())
                 .build();
     }
 
-    public FileDTO mapToDTO(MultipartFile file, String bucket){
+    /**
+     * Map MultipartFile to FileDTO
+     * @param file MultipartFile to map
+     * @param bucket Bucket
+     * @return FileDTO
+     */
+    public static FileDTO mapToDTO(MultipartFile file, String bucket){
         return FileDTO.builder()
                 .bucket(bucket)
                 .name(file.getOriginalFilename())
@@ -36,16 +44,17 @@ public class FileMapper{
                 .build();
     }
 
-    public File mapToEntity(FileDTO fileDTO, EstateDTO estateDTO){
-        if(fileDTO.getId() != null){
-            Optional<File> fileOptional = repository.findById(fileDTO.getId());
-            if(fileOptional.isPresent()){
-                return fileOptional.get();
-            }
-        }
+    /**
+     * Map FileDTO to File
+     * @param fileDTO FileDTO to map
+     * @param estateDTO EstateDTO related to the file
+     * @return File
+     */
+    public static File mapToEntity(FileDTO fileDTO, EstateDTO estateDTO){
+        Estate estate = EstateMapper.mapToEntity(estateDTO);
 
-        Estate estate = estateMapper.mapToEntity(estateDTO);
         return File.builder()
+                .id(fileDTO.getId())
                 .name(fileDTO.getName())
                 .bucket(fileDTO.getBucket())
                 .size(fileDTO.getSize())

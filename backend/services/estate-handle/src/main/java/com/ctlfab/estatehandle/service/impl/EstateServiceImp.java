@@ -1,16 +1,11 @@
 package com.ctlfab.estatehandle.service.impl;
 
-import com.ctlfab.estatehandle.dto.AddonsDTO;
 import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
 import com.ctlfab.estatehandle.dto.LocationDTO;
-import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import com.ctlfab.estatehandle.mapper.EstateMapper;
-import com.ctlfab.estatehandle.model.Addons;
 import com.ctlfab.estatehandle.model.Estate;
-import com.ctlfab.estatehandle.model.Location;
 import com.ctlfab.estatehandle.repository.EstateRepository;
-import com.ctlfab.estatehandle.repository.LocationRepository;
 import com.ctlfab.estatehandle.service.EstateService;
 import com.ctlfab.estatehandle.service.FileService;
 import com.ctlfab.estatehandle.service.LocationService;
@@ -29,7 +24,6 @@ import java.util.List;
 @Transactional
 public class EstateServiceImp implements EstateService {
     private final EstateRepository repository;
-    private final EstateMapper mapper;
     private final LocationService locationService;
     private final FileService fileService;
 
@@ -39,7 +33,7 @@ public class EstateServiceImp implements EstateService {
 
         List<EstateDTO> estatesDTO = new ArrayList<>();
         for(Estate estate : repository.findAll()){
-            estatesDTO.add(mapper.mapToDTO(estate));
+            estatesDTO.add(EstateMapper.mapToDTO(estate));
         }
 
         log.info("Estates fetched successfully");
@@ -53,7 +47,7 @@ public class EstateServiceImp implements EstateService {
         LocationDTO locationDTO = locationService.saveLocation(estateDTO.getLocation());
         estateDTO.setLocation(locationDTO);
 
-        Estate estate = mapper.mapToEntity(estateDTO);
+        Estate estate = EstateMapper.mapToEntity(estateDTO);
         estate = repository.save(estate);
 
         for(FileDTO fileDTO : filesDTO){
@@ -61,7 +55,7 @@ public class EstateServiceImp implements EstateService {
         }
 
         log.info("Estate {} saved successfully", estateDTO);
-        return mapper.mapToDTO(estate);
+        return EstateMapper.mapToDTO(estate);
     }
 
     @Override
@@ -71,7 +65,7 @@ public class EstateServiceImp implements EstateService {
         LocationDTO locationDTO = locationService.saveLocation(estateDTO.getLocation());
         estateDTO.setLocation(locationDTO);
 
-        Estate estate = mapper.mapToEntity(estateDTO);
+        Estate estate = EstateMapper.mapToEntity(estateDTO);
         estate = repository.save(estate);
 
         for(FileDTO fileDTO : filesDTO){
@@ -79,7 +73,7 @@ public class EstateServiceImp implements EstateService {
         }
 
         log.info("Estate {} updated successfully", estateDTO);
-        return mapper.mapToDTO(estate);
+        return EstateMapper.mapToDTO(estate);
     }
 
     @Override
