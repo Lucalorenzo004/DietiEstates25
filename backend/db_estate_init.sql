@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS dietiestate25_estate.addons(
     "name" VARCHAR(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate_addon(
+CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate_addons(
     "estate_id" INTEGER NOT NULL,
     "addons_id" INTEGER NOT NULL,
     

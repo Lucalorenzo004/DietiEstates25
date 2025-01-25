@@ -22,7 +22,6 @@ import java.util.List;
 @Transactional
 public class FileServiceImp implements FileService{
     private final FileRepository fileRepository;
-    private final FileMapper mapper;
 
     @Override
     public List<FileDTO> getFilesByEstateId(long estateId) {
@@ -30,7 +29,7 @@ public class FileServiceImp implements FileService{
         List<FileDTO> filesDTO  = new LinkedList<>();
 
         for(File file : fileRepository.findAllFileByEstateId(estateId)){
-            FileDTO fileDTO = mapper.mapToDTO(file);
+            FileDTO fileDTO = FileMapper.mapToDTO(file);
             filesDTO.add(fileDTO);
         }
 
@@ -42,22 +41,22 @@ public class FileServiceImp implements FileService{
     public FileDTO saveFile(FileDTO fileDTO, EstateDTO estateDTO) {
         log.info("Saving file {}", fileDTO);
 
-        File file = mapper.mapToEntity(fileDTO, estateDTO);
+        File file = FileMapper.mapToEntity(fileDTO, estateDTO);
         file = fileRepository.save(file);
 
         log.info("File saved successfully");
-        return mapper.mapToDTO(file);
+        return FileMapper.mapToDTO(file);
     }
 
     @Override
     public FileDTO updateFile(FileDTO fileDTO, EstateDTO estateDTO) {
         log.info("Updating file {}", fileDTO);
 
-        File file = mapper.mapToEntity(fileDTO, estateDTO);
+        File file = FileMapper.mapToEntity(fileDTO, estateDTO);
         file = fileRepository.save(file);
 
         log.info("File updated successfully");
-        return mapper.mapToDTO(file);
+        return FileMapper.mapToDTO(file);
     }
 
     @Override

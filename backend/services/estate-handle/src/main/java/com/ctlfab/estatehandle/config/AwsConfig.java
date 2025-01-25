@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuring access to AWS
+ * Author: Fabrizio Ciotola
+ */
 @Configuration
 public class AwsConfig {
     @Value("${cloud.aws.credentials.accessKey}")
