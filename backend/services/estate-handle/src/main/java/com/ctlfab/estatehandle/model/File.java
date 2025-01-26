@@ -38,8 +38,8 @@ public class File {
     private long size;
 
     @NotNull(message = "A file should have a reference to an estate")
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-    @JoinColumn(name = "estate_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "estate_id")
     private Estate estate;
 
     @CreationTimestamp

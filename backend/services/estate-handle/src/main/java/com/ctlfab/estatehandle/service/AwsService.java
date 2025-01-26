@@ -1,39 +1,43 @@
 package com.ctlfab.estatehandle.service;
 
-import com.ctlfab.estatehandle.dto.FileDTO;
+import com.ctlfab.estatehandle.model.File;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * AWS Service
- * Author: Fabrizio Ciotola
- */
 public interface AwsService {
+    /**
+     * Uploads a file to an AWS S3 bucket.
+     *
+     * @param file The {@link File} object representing the file to be uploaded.
+     * @param bucket The name of the S3 bucket to upload the file to.
+     * @param value The {@link InputStream} representing the file's contents.
+     */
+    void uploadFile(File file, String bucket, InputStream value);
 
     /**
-     * Upload file on AWS
-     * @param file File to upload
-     * @param bucket Bucket
-     * @param value Value of file
+     * Retrieves a list of file names from a specified S3 bucket.
+     *
+     * @param bucket The name of the S3 bucket from which to list the files.
+     * @return A list of {@link String} representing the names of the files in the S3 bucket.
      */
-    void uploadFile(FileDTO file, String bucket, InputStream value);
-
     List<String> listFiles(String bucket);
 
     /**
-     * Download file from AWS
-     * @param bucket Bucket
-     * @param fileName Name of file
-     * @return ByteArrayOutputStream
+     * Downloads a file from an AWS S3 bucket.
+     *
+     * @param bucket The name of the S3 bucket from which to download the file.
+     * @param fileName The name of the file to be downloaded.
+     * @return A {@link ByteArrayOutputStream} containing the downloaded file's contents.
      */
     ByteArrayOutputStream downloadFile(String bucket, String fileName);
 
     /**
-     * Delete file on AWS
-     * @param bucket Bucket
-     * @param fileName Name of file
+     * Deletes a file from an AWS S3 bucket.
+     *
+     * @param bucket The name of the S3 bucket from which to delete the file.
+     * @param fileName The name of the file to be deleted.
      */
     void deleteFile(final String bucket, final String fileName);
 }

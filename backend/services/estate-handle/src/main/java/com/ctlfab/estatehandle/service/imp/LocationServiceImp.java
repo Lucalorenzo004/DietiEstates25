@@ -1,4 +1,4 @@
-package com.ctlfab.estatehandle.service.impl;
+package com.ctlfab.estatehandle.service.imp;
 
 import com.ctlfab.estatehandle.dto.LocationDTO;
 import com.ctlfab.estatehandle.mapper.LocationMapper;
@@ -17,27 +17,30 @@ import org.springframework.stereotype.Service;
 @Transactional
 public class LocationServiceImp implements LocationService {
     private final LocationRepository repository;
+    private final LocationMapper mapper;
 
     @Override
     public LocationDTO saveLocation(LocationDTO locationDTO) {
         log.info("Saving location {}", locationDTO);
 
-        Location location = LocationMapper.mapToEntity(locationDTO);
+        Location location = mapper.toEntity(locationDTO);
         location = repository.save(location);
+        locationDTO = mapper.toDto(location);
 
         log.info("Location {} saved successfully", locationDTO);
-        return LocationMapper.mapToDTO(location);
+        return locationDTO;
     }
 
     @Override
     public LocationDTO editLocation(LocationDTO locationDTO) {
         log.info("Updating location {}", locationDTO);
 
-        Location location = LocationMapper.mapToEntity(locationDTO);
+        Location location = mapper.toEntity(locationDTO);
         location = repository.save(location);
+        locationDTO = mapper.toDto(location);
 
         log.info("Location {} updated successfully", locationDTO);
-        return LocationMapper.mapToDTO(location);
+        return locationDTO;
     }
 
     @Override
