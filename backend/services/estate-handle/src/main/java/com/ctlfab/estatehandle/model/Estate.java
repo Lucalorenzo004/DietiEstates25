@@ -1,6 +1,5 @@
 package com.ctlfab.estatehandle.model;
 
-import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -48,9 +47,8 @@ public class Estate {
     private int mtq;
 
     @NotNull(message = "A estate should have an energy class")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "energy_class", nullable = false, columnDefinition = "energy_class")
-    private EnergyClass energyClass;
+    @Column(name = "energy_class", nullable = false)
+    private String energyClass;
 
     @NotNull(message = "A estate should have at least 1 room")
     @Column(name = "rooms", nullable = false)
@@ -67,10 +65,13 @@ public class Estate {
 
     @NotNull(message = "A estate should be saved by an employee")
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private long userId;
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Addons> addons;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "estate", fetch = FetchType.LAZY)
+    private List<File> files;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

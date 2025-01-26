@@ -1,8 +1,9 @@
-package com.ctlfab.estatehandle.service.impl;
+package com.ctlfab.estatehandle.service.imp;
 
 
 import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
+import com.ctlfab.estatehandle.mapper.EstateMapper;
 import com.ctlfab.estatehandle.mapper.FileMapper;
 import com.ctlfab.estatehandle.model.File;
 import com.ctlfab.estatehandle.repository.FileRepository;
@@ -21,15 +22,17 @@ import java.util.List;
 @Service
 @Transactional
 public class FileServiceImp implements FileService{
-    private final FileRepository fileRepository;
+    private final FileRepository repository;
+    private final FileMapper fileMapper;
+    private final EstateMapper estateMapper;
 
     @Override
     public List<FileDTO> getFilesByEstateId(long estateId) {
         log.info("Fetching files by estate id {}", estateId);
         List<FileDTO> filesDTO  = new LinkedList<>();
 
-        for(File file : fileRepository.findAllFileByEstateId(estateId)){
-            FileDTO fileDTO = FileMapper.mapToDTO(file);
+        for(File file : repository.findAllFileByEstateId(estateId)){
+            FileDTO fileDTO = fileMapper.toDto(file);
             filesDTO.add(fileDTO);
         }
 
@@ -41,29 +44,35 @@ public class FileServiceImp implements FileService{
     public FileDTO saveFile(FileDTO fileDTO, EstateDTO estateDTO) {
         log.info("Saving file {}", fileDTO);
 
-        File file = FileMapper.mapToEntity(fileDTO, estateDTO);
-        file = fileRepository.save(file);
+        File file = fileMapper.toEntity(fileDTO);
+        file.setEstate(estateMapper.toEntity(estateDTO));
 
-        log.info("File saved successfully");
-        return FileMapper.mapToDTO(file);
+        file = repository.save(file);
+        fileDTO = fileMapper.toDto(file);
+
+        log.info("File {} saved successfully", fileDTO);
+        return fileDTO;
     }
 
     @Override
-    public FileDTO updateFile(FileDTO fileDTO, EstateDTO estateDTO) {
+    public FileDTO editFile(FileDTO fileDTO, EstateDTO estateDTO) {
         log.info("Updating file {}", fileDTO);
 
-        File file = FileMapper.mapToEntity(fileDTO, estateDTO);
-        file = fileRepository.save(file);
+        File file = fileMapper.toEntity(fileDTO);
+        file.setEstate(estateMapper.toEntity(estateDTO));
 
-        log.info("File updated successfully");
-        return FileMapper.mapToDTO(file);
+        file = repository.save(file);
+        fileDTO = fileMapper.toDto(file);
+
+        log.info("File {} updated successfully", fileDTO);
+        return fileDTO;
     }
 
     @Override
     public boolean deleteFile(long id) {
         log.info("Deleting file {}", id);
 
-        fileRepository.deleteById(id);
+        repository.deleteById(id);
 
         log.info("File deleted successfully");
         return true;
