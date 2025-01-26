@@ -69,8 +69,11 @@ public class Estate {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Addons> addons;
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<File> files;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

@@ -1,172 +1,121 @@
 package com.ctlfab.estatehandle.controller.v1;
 
-import com.ctlfab.estatehandle.dto.EstateDTO;
-import com.ctlfab.estatehandle.dto.FileDTO;
-import com.ctlfab.estatehandle.mapper.FileMapper;
-import com.ctlfab.estatehandle.model.Response;
-import com.ctlfab.estatehandle.service.AwsService;
-import com.ctlfab.estatehandle.service.EstateService;
-import com.ctlfab.estatehandle.service.FileService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ctlfab.estatehandle.dto.*;
+import com.ctlfab.estatehandle.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.*;
 
-
-/**
- *  Endpoint for handling creation, update and deletion operations concerning estates
- *  Author: Fabrizio Ciotola
- */
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
 @RequestMapping("/estate-handle-api/v1/estates")
 public class EstateController {
-    private final AwsService awsService;
-    private final EstateService service;
+    private final EstateService estateService;
     private final FileService fileService;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private final String bucket;
+    private final LocationService locationService;
 
     @GetMapping
-    public ResponseEntity<Response> getAllEstates(){
-        List<EstateDTO> estateDTOList = service.getAllEstates();
+    public ResponseEntity<EstateResponse> getAllEstates(){
+        List<EstateDTO> estateDTOList = estateService.getAllEstates();
 
         return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(now())
-                        .message("Estate retrieved")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .data(Map.of("estates", estateDTOList))
-                        .build()
+                buildResponse(estateDTOList, "Estate retrieved saved", OK)
         );
     }
 
     /**
-     * Handling the saving of an Estate
-     * @param estateJson JSON representation of an EstateDTO
-     * @param multipartFiles Files related to an Estate (e.g., photos, documents)
-     * @return ResponseEntity.OK if the save was successful, ResponseEntity.badRequest otherwise
+     * Handles the creation of a new estate along with its associated location and files.
+     *
+     * @param estateDTO The DTO containing details of the estate to be saved
+     * @return A {@link ResponseEntity} containing a standardized response with the saved estate data.
      */
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> addEstate(@RequestParam("data") String estateJson, @RequestParam("files") List<MultipartFile> multipartFiles) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            EstateDTO estateDTO = mapper.readValue(estateJson, EstateDTO.class);
+    @PostMapping
+    public ResponseEntity<EstateResponse> saveEstate(@RequestBody @Valid EstateDTO estateDTO) {
+        LocationDTO newlocation = locationService.saveLocation(estateDTO.getLocation());
+        EstateDTO newEstate = estateService.saveEstate(estateDTO);
 
-            List<FileDTO> filesDTO = new LinkedList<>();
-            for(MultipartFile multipartFile : multipartFiles){
-                FileDTO fileDTO = FileMapper.mapToDTO(multipartFile, bucket);
-                filesDTO.add(fileDTO);
-                awsService.uploadFile(fileDTO, bucket, multipartFile.getInputStream());
+        List<FileDTO> newFiles = estateDTO.getFiles().stream()
+                .map(fileDTO -> fileService.saveFile(fileDTO, newEstate))
+                .toList();
 
-            }
+        newEstate.setLocation(newlocation);
+        newEstate.setFiles(newFiles);
 
-            EstateDTO newEstate = service.addEstate(estateDTO, filesDTO);
-
-            return ResponseEntity.ok(
-                    Response.builder()
-                            .timestamp(now())
-                            .message("Estate saved")
-                            .httpStatus(CREATED)
-                            .statusCode(CREATED.value())
-                            .data(Map.of("estate", newEstate))
-                            .build()
-            );
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body(
-                    Response.builder()
-                            .timestamp(now())
-                            .message(e.getMessage())
-                            .httpStatus(BAD_REQUEST)
-                            .statusCode(BAD_REQUEST.value())
-                            .build()
-            );
-        }
+        return ResponseEntity.ok(
+                buildResponse(newEstate, "Estate saved", CREATED)
+        );
     }
 
     /**
-     * Handling the updating of an Estate
-     * @param estateJson JSON representation of an EstateDTO
-     * @param multipartFiles Files related to an Estate (e.g., photos, documents)
-     * @return ResponseEntity.OK if the update was successful, ResponseEntity.badRequest otherwise
+     * Updates an existing estate and its associated files and location.
+     *
+     * @param estateDTO The DTO containing the updated estate information, including its files and location.
+     * @return A {@link ResponseEntity} containing a standardized response with the updated estate data.
      */
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Response> editEstate(@RequestParam("data") String estateJson, @RequestParam("files") List<MultipartFile> multipartFiles) {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            EstateDTO estateDTO = mapper.readValue(estateJson, EstateDTO.class);
+    @PutMapping()
+    public ResponseEntity<EstateResponse> editEstate(@RequestBody @Valid EstateDTO estateDTO) {
+        LocationDTO updatedLocation  = locationService.editLocation(estateDTO.getLocation());
+        EstateDTO updatedEstate  = estateService.editEstate(estateDTO);
 
-            List<FileDTO> filesDTO = new LinkedList<>();
-            for(MultipartFile multipartFile : multipartFiles){
-                FileDTO fileDTO = FileMapper.mapToDTO(multipartFile, bucket);
-                filesDTO.add(fileDTO);
-                awsService.uploadFile(fileDTO, bucket, multipartFile.getInputStream());
+        List<FileDTO> updatedFiles = estateDTO.getFiles().stream()
+                        .map(fileDTO -> fileService.editFile(fileDTO, updatedEstate))
+                        .toList();
 
-            }
+        updatedEstate.setLocation(updatedLocation);
+        updatedEstate.setFiles(updatedFiles);
 
-            EstateDTO newEstate = service.editEstate(estateDTO, filesDTO);
-
-            return ResponseEntity.ok(
-                    Response.builder()
-                            .timestamp(now())
-                            .message("Estate saved")
-                            .httpStatus(CREATED)
-                            .statusCode(CREATED.value())
-                            .data(Map.of("estate", newEstate))
-                            .build()
-            );
-        } catch (IOException e) {
-            return ResponseEntity.badRequest().body(
-                    Response.builder()
-                            .timestamp(now())
-                            .message(e.getMessage())
-                            .httpStatus(BAD_REQUEST)
-                            .statusCode(BAD_REQUEST.value())
-                            .build()
-            );
-        }
+        return ResponseEntity.ok(
+                buildResponse(updatedEstate, "Estate updated", OK)
+        );
     }
 
     /**
-     * Handling the deleting of an Estate
-     * @param estateId ID of an EstateDTO
-     * @return ResponseEntity.OK if the deletion was successful
+     * Deletes an estate and all associated files.
+     *
+     * @param estateId The ID of the estate to be deleted.
+     * @return A {@link ResponseEntity} containing a standardized response with a success message if the deletion was successful.
      */
     @DeleteMapping
-    public ResponseEntity<Response> deleteEstate(@Param("estate") long estateId) {
+    public ResponseEntity<EstateResponse> deleteEstate(@Param("estate") long estateId) {
         List<FileDTO> filesDTO = fileService.getFilesByEstateId(estateId);
         for (FileDTO fileDTO : filesDTO) {
             fileService.deleteFile(fileDTO.getId());
-            awsService.deleteFile(bucket, fileDTO.getName());
         }
 
         return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(now())
-                        .message("Estate deleted")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .data(Map.of("estate", service.deleteEstate(estateId)))
-                        .build()
+                buildResponse(Map.of("estate", estateService.deleteEstate(estateId)),"Estate deleted", OK)
         );
     }
+
+    /**
+     * Builds a standardized response for operations related to the Estate entity.
+     *
+     * @param <T>       The generic type of the data contained in the response.
+     * @param data      The object containing the data to be included in the response. Can be of any type.
+     * @param message   A descriptive message accompanying the response, useful for context.
+     * @param httpStatus The HTTP status associated with the response (e.g., 200 OK, 201 CREATED, 400 BAD REQUEST, etc.).
+     * @return          An {@link EstateResponse} object built with the provided information.
+     */
+    private <T> EstateResponse buildResponse(T data, String message, HttpStatus httpStatus) {
+        return EstateResponse.builder()
+                .timestamp(now())
+                .message(message)
+                .httpStatus(httpStatus)
+                .statusCode(httpStatus.value())
+                .data(Map.of("estate", data))
+                .build();
+    }
 }
+

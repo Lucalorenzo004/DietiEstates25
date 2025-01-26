@@ -1,38 +1,38 @@
 package com.ctlfab.estatehandle.service;
 
 import com.ctlfab.estatehandle.dto.EstateDTO;
-import com.ctlfab.estatehandle.dto.FileDTO;
 
 import java.util.List;
 
-
-/**
- * Estate Service
- * Author: Fabrizio Ciotola
- */
 public interface EstateService {
+    /**
+     * Retrieves a list of all estates.
+     *
+     * @return A list of {@link EstateDTO} objects representing all estates.
+     */
     List<EstateDTO> getAllEstates();
 
     /**
-     * Save a new Estate
-     * @param estateDTO EstateDTO to save
-     * @param filesDTO File related to Estate
-     * @return EstateDTO saved
+     * Saves a new estate.
+     *
+     * @param estateDTO The {@link EstateDTO} object containing details of the estate to be saved.
+     * @return The saved {@link EstateDTO}
      */
-    EstateDTO addEstate(EstateDTO estateDTO, List<FileDTO> filesDTO);
+    EstateDTO saveEstate(EstateDTO estateDTO);
 
     /**
-     * Update Estate
-     * @param estateDTO EstateDTO to update
-     * @param filesDTO File related to Estate
-     * @return EstateDTO updated
+     * Updates an existing estate.
+     *
+     * @param estateDTO The {@link EstateDTO} object containing updated details of the estate.
+     * @return The updated {@link EstateDTO}.
      */
-    EstateDTO editEstate(EstateDTO estateDTO, List<FileDTO> filesDTO);
+    EstateDTO editEstate(EstateDTO estateDTO);
 
     /**
-     * Delete estate by its ID
-     * @param estateId ID of estate
-     * @return True if the deletion was successful
+     * Deletes an estate by its ID.
+     *
+     * @param estateId The ID of the estate to be deleted.
+     * @return {@code true} if the estate was successfully deleted, {@code false} otherwise.
      */
     boolean deleteEstate(long estateId);
 }
