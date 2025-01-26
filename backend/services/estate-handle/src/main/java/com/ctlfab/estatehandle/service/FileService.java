@@ -5,10 +5,6 @@ import com.ctlfab.estatehandle.dto.FileDTO;
 
 import java.util.List;
 
-/**
- * File Service
- * Author: Fabrizio Ciotola
- */
 public interface FileService {
     /**
      * Retrieve file by estate ID
@@ -18,25 +14,29 @@ public interface FileService {
     List<FileDTO> getFilesByEstateId(long estateId);
 
     /**
-     * Save a new File
-     * @param fileDTO FileDTO to save
-     * @param estateDTO EstateDTO related to the File
-     * @return FileDTO saved
+     * Saves a new file.
+     *
+     * @param fileDTO The {@link FileDTO} object containing details of the file to be saved.
+     * @param estateDTO The {@link EstateDTO} object containing details of the related to the file
+     * @return The saved {@link FileDTO}
      */
     FileDTO saveFile(FileDTO fileDTO, EstateDTO estateDTO);
 
     /**
-     * Update File
-     * @param fileDTO FileDTO to update
-     * @param estateDTO EstateDTO related to the File
-     * @return FileDTO updated
+     * Updates an existing file
+     *
+     * @param fileDTO The {@link FileDTO} object containing updated details of the file.
+     *                The file ID must be present to identify the file to be updated.
+     * @param estateDTO The {@link EstateDTO} object containing details of the related to the file
+     * @return The updated {@link FileDTO}.
      */
-    FileDTO updateFile(FileDTO fileDTO, EstateDTO estateDTO);
+    FileDTO editFile(FileDTO fileDTO, EstateDTO estateDTO);
 
     /**
-     * Delete File by its ID
-     * @param id ID of file
-     * @return True if the deletion was successful
+     * Deletes an existing file by its ID.
+     *
+     * @param fileId The ID of the file to be deleted.
+     * @return {@code true} if the file was successfully deleted, {@code false} otherwise.
      */
-    boolean deleteFile(long id);
+    boolean deleteFile(long fileId);
 }

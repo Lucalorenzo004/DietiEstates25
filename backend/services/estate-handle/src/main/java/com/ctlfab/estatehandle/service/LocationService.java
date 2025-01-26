@@ -2,29 +2,30 @@ package com.ctlfab.estatehandle.service;
 
 import com.ctlfab.estatehandle.dto.LocationDTO;
 
-/**
- * Location Service
- * Author: Fabrizio Ciotola
- */
 public interface LocationService {
-    /**
-     * Save a new location
-     * @param location LocationDTO to save
-     * @return LocationDTO saved
-     */
-    LocationDTO saveLocation(LocationDTO location);
 
     /**
-     * Update Location
-     * @param location LocationDTO to update
-     * @return LocationDTO updated
+     * Saves a new location.
+     *
+     * @param locationDTO The {@link LocationDTO} object containing details of the location to be saved.
+     * @return The saved {@link LocationDTO}
      */
-    LocationDTO editLocation(LocationDTO location);
+    LocationDTO saveLocation(LocationDTO locationDTO);
 
     /**
-     * Delete Location by its ID
-     * @param locationId ID of location
-     * @return True if the deletion was successful
+     * Updates an existing location.
+     *
+     * @param locationDTO The {@link LocationDTO} object containing updated details of the location.
+     *                    The location ID must be present to identify the location to be updated.
+     * @return The updated {@link LocationDTO}.
+     */
+    LocationDTO editLocation(LocationDTO locationDTO);
+
+    /**
+     * Deletes an existing location by its ID.
+     *
+     * @param locationId The ID of the location to be deleted.
+     * @return {@code true} if the location was successfully deleted, {@code false} otherwise.
      */
     boolean deleteLocation(long locationId);
 }

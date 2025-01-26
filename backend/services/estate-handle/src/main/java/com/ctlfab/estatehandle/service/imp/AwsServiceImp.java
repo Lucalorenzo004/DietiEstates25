@@ -1,4 +1,4 @@
-package com.ctlfab.estatehandle.service.impl;
+package com.ctlfab.estatehandle.service.imp;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -6,13 +6,11 @@ import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.ctlfab.estatehandle.dto.FileDTO;
 import com.ctlfab.estatehandle.model.File;
 import com.ctlfab.estatehandle.service.AwsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -28,12 +26,14 @@ public class AwsServiceImp implements AwsService {
     private final AmazonS3 s3Client;
 
     @Override
-    public void uploadFile(FileDTO file, String bucket, InputStream value){
+    public void uploadFile(File file, String bucket, InputStream value){
+        log.info("Uploading file to bucket({}): {}", bucket, file.getName());
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         metadata.setContentType(file.getContentType());
-
         s3Client.putObject(bucket, file.getName(), value, metadata);
+
         log.info("File uploaded to bucket({}): {}", bucket, file.getName());
     }
 

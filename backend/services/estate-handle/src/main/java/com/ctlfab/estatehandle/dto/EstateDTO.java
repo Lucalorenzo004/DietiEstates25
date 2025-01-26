@@ -1,10 +1,10 @@
 package com.ctlfab.estatehandle.dto;
 
-import com.ctlfab.estatehandle.enumeration.EnergyClass;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Getter

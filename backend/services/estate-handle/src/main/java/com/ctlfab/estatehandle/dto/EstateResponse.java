@@ -1,4 +1,4 @@
-package com.ctlfab.estatehandle.model;
+package com.ctlfab.estatehandle.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -11,10 +11,10 @@ import java.util.Map;
 @Data
 @SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Response {
+public class EstateResponse {
     private LocalDateTime timestamp;
     private int statusCode;
     private HttpStatus httpStatus;
     private String message;
-    private Map<?, ?> data;
+    private Map<String, ?> data;
 }
