@@ -43,14 +43,14 @@ public class EstateController {
      */
     @PostMapping
     public ResponseEntity<EstateResponse> saveEstate(@RequestBody @Valid EstateDTO estateDTO) {
-        LocationDTO newlocation = locationService.saveLocation(estateDTO.getLocation());
+        LocationDTO newLocation = locationService.saveLocation(estateDTO.getLocation());
         EstateDTO newEstate = estateService.saveEstate(estateDTO);
 
         List<FileDTO> newFiles = estateDTO.getFiles().stream()
                 .map(fileDTO -> fileService.saveFile(fileDTO, newEstate))
                 .toList();
 
-        newEstate.setLocation(newlocation);
+        newEstate.setLocation(newLocation);
         newEstate.setFiles(newFiles);
 
         return ResponseEntity.ok(
@@ -105,15 +105,15 @@ public class EstateController {
      * @param <T>       The generic type of the data contained in the response.
      * @param data      The object containing the data to be included in the response. Can be of any type.
      * @param message   A descriptive message accompanying the response, useful for context.
-     * @param httpStatus The HTTP status associated with the response (e.g., 200 OK, 201 CREATED, 400 BAD REQUEST, etc.).
+     * @param status The HTTP status associated with the response (e.g., 200 OK, 201 CREATED, 400 BAD REQUEST, etc.).
      * @return          An {@link EstateResponse} object built with the provided information.
      */
-    private <T> EstateResponse buildResponse(T data, String message, HttpStatus httpStatus) {
+    private <T> EstateResponse buildResponse(T data, String message, HttpStatus status) {
         return EstateResponse.builder()
                 .timestamp(now())
                 .message(message)
-                .httpStatus(httpStatus)
-                .statusCode(httpStatus.value())
+                .httpStatus(status)
+                .statusCode(status.value())
                 .data(Map.of("estate", data))
                 .build();
     }
