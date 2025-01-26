@@ -48,9 +48,9 @@ public class EstateDTO {
     @NotNull(message = "A estate should be saved by an employee")
     private Long userId;
 
-    private List<AddonsDTO> addons;
+    private List<AddonsDTO> addons = new LinkedList<>();
 
-    private List<FileDTO> files;
+    private List<FileDTO> files = new LinkedList<>();
 
     @Override
     public String toString() {

@@ -5,6 +5,11 @@ import com.ctlfab.estatehandle.dto.EstateDTO;
 import java.util.List;
 
 public interface EstateService {
+    /**
+     * Retrieves a list of all estates.
+     *
+     * @return A list of {@link EstateDTO} objects representing all estates.
+     */
     List<EstateDTO> getAllEstates();
 
     /**
