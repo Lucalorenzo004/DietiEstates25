@@ -50,15 +50,15 @@ public class Estate {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @NotEmpty(message = "A estate should be for rent or for sale")
+    @NotNull(message = "A estate should be for rent or for sale")
     @Column(name = "rental", nullable = false)
     private Boolean rental;
 
-    @NotEmpty(message = "A estate should have a price")
+    @NotNull(message = "A estate should have a price")
     @Column(name = "price", nullable = false)
     private Float price;
 
-    @NotEmpty(message = "A estate should have a mtq")
+    @NotNull(message = "A estate should have a mtq")
     @Column(name = "mtq", nullable = false)
     private Integer mtq;
 
@@ -66,20 +66,20 @@ public class Estate {
     @Column(name = "energy_class", nullable = false)
     private String energyClass;
 
-    @NotEmpty(message = "A estate should have at least 1 room")
+    @NotNull(message = "A estate should have at least 1 room")
     @Column(name = "rooms", nullable = false)
     private Integer rooms;
 
-    @NotEmpty(message = "A estate should have at least 1 service")
+    @NotNull(message = "A estate should have at least 1 service")
     @Column(name = "services", nullable = false)
     private Integer services;
 
-    @NotEmpty(message = "A estate should have a location")
+    @NotNull(message = "A estate should have a location")
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    @NotEmpty(message = "A estate should be saved by an employee")
+    @NotNull(message = "A estate should be saved by an employee")
     @Column(name = "user_id", nullable = false)
     private Long userId;
 

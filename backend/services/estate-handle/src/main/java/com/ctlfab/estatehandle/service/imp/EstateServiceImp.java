@@ -55,6 +55,8 @@ public class EstateServiceImp implements EstateService {
         LocationDTO savedLocation = saveLocation(estateDTO.getLocation());
         estateDTO.setLocation(savedLocation);
 
+        System.out.println(estateDTO);
+
         Estate estate = mapper.toEntity(estateDTO);
         estate = repository.save(estate);
         EstateDTO savedEstate = mapper.toDto(estate);
@@ -79,13 +81,17 @@ public class EstateServiceImp implements EstateService {
     }
 
     private LocationDTO saveLocation(LocationDTO locationDTO) {
+        locationDTO.setLng(14.14539f);
+        locationDTO.setLat(40.88013f);
         return locationService.save(locationDTO);
     }
 
     private List<FileDTO> saveFiles(List<FileDTO> fileDTOList, EstateDTO estateDTO) {
         List<FileDTO> savedFiles = new LinkedList<>();
-        for(FileDTO fileDTO : fileDTOList){
-            savedFiles.add(fileService.save(fileDTO, estateDTO));
+        if(fileDTOList != null){
+            for(FileDTO fileDTO : fileDTOList){
+                savedFiles.add(fileService.save(fileDTO, estateDTO));
+            }
         }
 
         return savedFiles;

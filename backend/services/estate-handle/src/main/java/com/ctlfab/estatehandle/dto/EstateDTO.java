@@ -1,6 +1,7 @@
 package com.ctlfab.estatehandle.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -22,28 +23,28 @@ public class EstateDTO {
     @NotEmpty(message = "A estate should have a description")
     private String description;
 
-    @NotEmpty(message = "A estate should be for rent or for sale")
+    @NotNull(message = "A estate should be for rent or for sale")
     private Boolean rental;
 
-    @NotEmpty(message = "A estate should have a price")
+    @NotNull(message = "A estate should have a price")
     private Float price;
 
-    @NotEmpty(message = "A estate should have a mtq")
+    @NotNull(message = "A estate should have a mtq")
     private Integer mtq;
 
     @NotEmpty(message = "A estate should have an energy class")
     private String energyClass;
 
-    @NotEmpty(message = "A estate should have at least 1 room")
+    @NotNull(message = "A estate should have at least 1 room")
     private Integer rooms;
 
-    @NotEmpty(message = "A estate should have at least 1 service")
+    @NotNull(message = "A estate should have at least 1 service")
     private Integer services;
 
-    @NotEmpty(message = "A estate should have a location")
+    @NotNull(message = "A estate should have a location")
     private LocationDTO location;
 
-    @NotEmpty(message = "A estate should be saved by an employee")
+    @NotNull(message = "A estate should be saved by an employee")
     private Long userId;
 
     private List<AddonDTO> addons;
