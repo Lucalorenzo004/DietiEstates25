@@ -13,15 +13,7 @@ public interface EstateService {
      * @param estateDTO The {@link EstateDTO} object containing details of the estate to be saved.
      * @return The saved {@link EstateDTO}
      */
-    EstateDTO saveEstate(EstateDTO estateDTO);
-
-    /**
-     * Updates an existing estate.
-     *
-     * @param estateDTO The {@link EstateDTO} object containing updated details of the estate.
-     * @return The updated {@link EstateDTO}.
-     */
-    EstateDTO editEstate(EstateDTO estateDTO);
+    EstateDTO save(EstateDTO estateDTO);
 
     /**
      * Deletes an estate by its ID.
@@ -29,5 +21,5 @@ public interface EstateService {
      * @param estateId The ID of the estate to be deleted.
      * @return {@code true} if the estate was successfully deleted, {@code false} otherwise.
      */
-    boolean deleteEstate(long estateId);
+    boolean delete(long estateId);
 }

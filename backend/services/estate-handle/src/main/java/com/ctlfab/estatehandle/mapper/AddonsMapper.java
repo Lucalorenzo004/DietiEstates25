@@ -1,14 +1,14 @@
 package com.ctlfab.estatehandle.mapper;
 
-import com.ctlfab.estatehandle.dto.AddonsDTO;
-import com.ctlfab.estatehandle.model.Addons;
+import com.ctlfab.estatehandle.dto.AddonDTO;
+import com.ctlfab.estatehandle.model.Addon;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(uses = EstateMapper.class, componentModel = "spring")
 public interface AddonsMapper {
     @Mapping(target = "estates", ignore = true)
-    Addons toEntity(AddonsDTO addonsDTO);
+    Addon toEntity(AddonDTO addonDTO);
 
-    AddonsDTO toDTO(Addons addons);
+    AddonDTO toDTO(Addon addon);
 }

@@ -27,7 +27,7 @@ public class FileServiceImp implements FileService{
     private final EstateMapper estateMapper;
 
     @Override
-    public List<FileDTO> getFilesByEstateId(long estateId) {
+    public List<FileDTO> getByEstateId(long estateId) {
         log.info("Fetching files by estate id {}", estateId);
         List<FileDTO> filesDTO  = new LinkedList<>();
 
@@ -41,7 +41,7 @@ public class FileServiceImp implements FileService{
     }
 
     @Override
-    public FileDTO saveFile(FileDTO fileDTO, EstateDTO estateDTO) {
+    public FileDTO save(FileDTO fileDTO, EstateDTO estateDTO) {
         log.info("Saving file {}", fileDTO);
 
         File file = fileMapper.toEntity(fileDTO);
@@ -55,21 +55,7 @@ public class FileServiceImp implements FileService{
     }
 
     @Override
-    public FileDTO editFile(FileDTO fileDTO, EstateDTO estateDTO) {
-        log.info("Updating file {}", fileDTO);
-
-        File file = fileMapper.toEntity(fileDTO);
-        file.setEstate(estateMapper.toEntity(estateDTO));
-
-        file = repository.save(file);
-        fileDTO = fileMapper.toDto(file);
-
-        log.info("File {} updated successfully", fileDTO);
-        return fileDTO;
-    }
-
-    @Override
-    public boolean deleteFile(long id) {
+    public boolean delete(long id) {
         log.info("Deleting file {}", id);
 
         repository.deleteById(id);

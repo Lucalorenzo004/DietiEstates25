@@ -2,7 +2,6 @@ package com.ctlfab.estatehandle.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.List;
@@ -13,24 +12,20 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "addons")
-public class Addons {
+@Table(name = "addon")
+public class Addon {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotEmpty(message = "An addons should have a name")
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "addon")
     private List<Estate> estates;
 
     @Override
     public String toString() {
-        return "Addons{" +
+        return "Addon{" +
                 "name='" + name + '\'' +
-                ", id=" + id +
+                ", estates=" + estates +
                 '}';
     }
 }

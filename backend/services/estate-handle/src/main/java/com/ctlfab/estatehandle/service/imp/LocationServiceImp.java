@@ -20,7 +20,7 @@ public class LocationServiceImp implements LocationService {
     private final LocationMapper mapper;
 
     @Override
-    public LocationDTO saveLocation(LocationDTO locationDTO) {
+    public LocationDTO save(LocationDTO locationDTO) {
         log.info("Saving location {}", locationDTO);
 
         Location location = mapper.toEntity(locationDTO);
@@ -28,18 +28,6 @@ public class LocationServiceImp implements LocationService {
         locationDTO = mapper.toDto(location);
 
         log.info("Location {} saved successfully", locationDTO);
-        return locationDTO;
-    }
-
-    @Override
-    public LocationDTO editLocation(LocationDTO locationDTO) {
-        log.info("Updating location {}", locationDTO);
-
-        Location location = mapper.toEntity(locationDTO);
-        location = repository.save(location);
-        locationDTO = mapper.toDto(location);
-
-        log.info("Location {} updated successfully", locationDTO);
         return locationDTO;
     }
 
