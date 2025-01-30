@@ -1,6 +1,8 @@
 package com.ctlfab.estatehandle.controller.v1;
 
 import com.ctlfab.estatehandle.dto.*;
+import com.ctlfab.estatehandle.serializzation.ApiResponse;
+import com.ctlfab.estatehandle.serializzation.Meta;
 import com.ctlfab.estatehandle.service.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,10 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 import static java.time.LocalDateTime.now;
-import static org.springframework.http.HttpStatus.*;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -24,15 +24,15 @@ import static org.springframework.http.HttpStatus.*;
 public class EstateController {
     private final EstateService estateService;
     private final FileService fileService;
-    private final LocationService locationService;
 
     @GetMapping
-    public ResponseEntity<EstateResponse> getAllEstates(){
+    public ResponseEntity<ApiResponse<List<EstateDTO>>> getAllEstates(){
         List<EstateDTO> estateDTOList = estateService.getAllEstates();
 
-        return ResponseEntity.ok(
-                buildResponse(estateDTOList, "Estate retrieved saved", OK)
-        );
+        Meta meta = new Meta(now(), "v1");
+        ApiResponse<List<EstateDTO>> response = new ApiResponse<>("success", estateDTOList, meta);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -42,20 +42,13 @@ public class EstateController {
      * @return A {@link ResponseEntity} containing a standardized response with the saved estate data.
      */
     @PostMapping
-    public ResponseEntity<EstateResponse> saveEstate(@RequestBody @Valid EstateDTO estateDTO) {
-        LocationDTO newLocation = locationService.saveLocation(estateDTO.getLocation());
-        EstateDTO newEstate = estateService.saveEstate(estateDTO);
+    public ResponseEntity<ApiResponse<EstateDTO>> saveEstate(@RequestBody @Valid EstateDTO estateDTO) {
+        EstateDTO savedEstate = estateService.save(estateDTO);
 
-        List<FileDTO> newFiles = estateDTO.getFiles().stream()
-                .map(fileDTO -> fileService.saveFile(fileDTO, newEstate))
-                .toList();
+        Meta meta = new Meta(now(), "v1");
+        ApiResponse<EstateDTO> response = new ApiResponse<>("success", savedEstate, meta);
 
-        newEstate.setLocation(newLocation);
-        newEstate.setFiles(newFiles);
-
-        return ResponseEntity.ok(
-                buildResponse(newEstate, "Estate saved", CREATED)
-        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -65,20 +58,13 @@ public class EstateController {
      * @return A {@link ResponseEntity} containing a standardized response with the updated estate data.
      */
     @PutMapping()
-    public ResponseEntity<EstateResponse> editEstate(@RequestBody @Valid EstateDTO estateDTO) {
-        LocationDTO updatedLocation  = locationService.editLocation(estateDTO.getLocation());
-        EstateDTO updatedEstate  = estateService.editEstate(estateDTO);
+    public ResponseEntity<ApiResponse<EstateDTO>> editEstate(@RequestBody @Valid EstateDTO estateDTO) {
+        EstateDTO updatedEstate  = estateService.save(estateDTO);
 
-        List<FileDTO> updatedFiles = estateDTO.getFiles().stream()
-                        .map(fileDTO -> fileService.editFile(fileDTO, updatedEstate))
-                        .toList();
+        Meta meta = new Meta(now(), "v1");
+        ApiResponse<EstateDTO> response = new ApiResponse<>("success", updatedEstate, meta);
 
-        updatedEstate.setLocation(updatedLocation);
-        updatedEstate.setFiles(updatedFiles);
-
-        return ResponseEntity.ok(
-                buildResponse(updatedEstate, "Estate updated", OK)
-        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -88,34 +74,11 @@ public class EstateController {
      * @return A {@link ResponseEntity} containing a standardized response with a success message if the deletion was successful.
      */
     @DeleteMapping
-    public ResponseEntity<EstateResponse> deleteEstate(@Param("estate") long estateId) {
-        List<FileDTO> filesDTO = fileService.getFilesByEstateId(estateId);
-        for (FileDTO fileDTO : filesDTO) {
-            fileService.deleteFile(fileDTO.getId());
-        }
+    public ResponseEntity<ApiResponse<EstateDTO>> deleteEstate(@Param("estate") long estateId) {
+        Meta meta = new Meta(now(), "v1");
+        ApiResponse<EstateDTO> response = new ApiResponse<>("success", meta);
 
-        return ResponseEntity.ok(
-                buildResponse(Map.of("estate", estateService.deleteEstate(estateId)),"Estate deleted", OK)
-        );
-    }
-
-    /**
-     * Builds a standardized response for operations related to the Estate entity.
-     *
-     * @param <T>       The generic type of the data contained in the response.
-     * @param data      The object containing the data to be included in the response. Can be of any type.
-     * @param message   A descriptive message accompanying the response, useful for context.
-     * @param status The HTTP status associated with the response (e.g., 200 OK, 201 CREATED, 400 BAD REQUEST, etc.).
-     * @return          An {@link EstateResponse} object built with the provided information.
-     */
-    private <T> EstateResponse buildResponse(T data, String message, HttpStatus status) {
-        return EstateResponse.builder()
-                .timestamp(now())
-                .message(message)
-                .httpStatus(status)
-                .statusCode(status.value())
-                .data(Map.of("estate", data))
-                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 

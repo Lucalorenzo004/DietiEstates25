@@ -8,17 +8,14 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AddonsDTO {
-    private Long id;
-
-    @NotEmpty(message = "An addons should have a name")
+public class AddonDTO {
+    @NotEmpty(message = "An addon should have a name")
     private String name;
 
     @Override
     public String toString() {
-        return "AddonsDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+        return "AddonDTO{" +
+                "name='" + name + '\'' +
                 '}';
     }
 }

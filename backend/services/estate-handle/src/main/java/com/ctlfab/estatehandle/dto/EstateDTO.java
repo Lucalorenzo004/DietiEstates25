@@ -1,10 +1,8 @@
 package com.ctlfab.estatehandle.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -24,31 +22,31 @@ public class EstateDTO {
     @NotEmpty(message = "A estate should have a description")
     private String description;
 
-    @NotNull(message = "A estate should be for rent or for sale")
-    private boolean rental;
+    @NotEmpty(message = "A estate should be for rent or for sale")
+    private Boolean rental;
 
-    @NotNull(message = "A estate should have a price")
-    private float price;
+    @NotEmpty(message = "A estate should have a price")
+    private Float price;
 
-    @NotNull(message = "A estate should have a mtq")
-    private int mtq;
+    @NotEmpty(message = "A estate should have a mtq")
+    private Integer mtq;
 
-    @NotNull(message = "A estate should have an energy class")
+    @NotEmpty(message = "A estate should have an energy class")
     private String energyClass;
 
-    @NotNull(message = "A estate should have at least 1 room")
-    private int rooms;
+    @NotEmpty(message = "A estate should have at least 1 room")
+    private Integer rooms;
 
-    @NotNull(message = "A estate should have at least 1 service")
-    private int services;
+    @NotEmpty(message = "A estate should have at least 1 service")
+    private Integer services;
 
-    @NotNull(message = "A estate should have a location")
+    @NotEmpty(message = "A estate should have a location")
     private LocationDTO location;
 
-    @NotNull(message = "A estate should be saved by an employee")
+    @NotEmpty(message = "A estate should be saved by an employee")
     private Long userId;
 
-    private List<AddonsDTO> addons;
+    private List<AddonDTO> addons;
 
     private List<FileDTO> files;
 
