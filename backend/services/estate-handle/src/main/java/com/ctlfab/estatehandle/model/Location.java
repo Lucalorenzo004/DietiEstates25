@@ -2,6 +2,7 @@ package com.ctlfab.estatehandle.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -37,15 +38,11 @@ public class Location {
     @Column(name = "street", nullable = false)
     private String street;
 
-    @NotEmpty(message = "A location should have an street number")
-    @Column(name = "street_number", nullable = false)
-    private String streetNumber;
-
-    @NotEmpty(message = "A location should have a latitude")
+    //@NotNull(message = "A location should have a latitude")
     @Column(name = "lat", nullable = false)
     private Float lat;
 
-    @NotEmpty(message = "A location should have a longitude")
+    //@NotNull(message = "A location should have a longitude")
     @Column(name = "lng", nullable = false)
     private Float lng;
 
@@ -59,7 +56,6 @@ public class Location {
     List<Poi> poiList;
 
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
-    @NotEmpty(message = "A location should have a reference to an estate")
     List<Estate> estates;
 
     @Override
@@ -70,7 +66,6 @@ public class Location {
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +
                 ", street='" + street + '\'' +
-                ", streetNumber='" + streetNumber + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
                 ", createdAt=" + createdAt +

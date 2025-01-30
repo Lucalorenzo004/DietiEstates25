@@ -18,7 +18,7 @@ public class Addon {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "addon")
+    @ManyToMany(mappedBy = "addons")
     private List<Estate> estates;
 
     @Override
