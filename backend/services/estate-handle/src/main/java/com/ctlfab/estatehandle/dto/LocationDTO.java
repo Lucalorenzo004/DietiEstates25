@@ -1,7 +1,6 @@
 package com.ctlfab.estatehandle.dto;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class LocationDTO {
-    @NotNull(message = "A location should have id")
     private Long id;
 
     @NotEmpty(message = "A location should have an county")
@@ -31,7 +29,16 @@ public class LocationDTO {
 
     private Float lng;
 
-    private List<PoiDTO> poiDTOList;
+    private List<PoiDTO> poi;
+
+    public LocationDTO(String county, String city, String postalCode, String street, Float lat, Float lng) {
+        this.county = county;
+        this.city = city;
+        this.postalCode = postalCode;
+        this.street = street;
+        this.lat = lat;
+        this.lng = lng;
+    }
 
     @Override
     public String toString() {
@@ -43,7 +50,7 @@ public class LocationDTO {
                 ", street='" + street + '\'' +
                 ", lat=" + lat +
                 ", lng=" + lng +
-                ", poiDTOList=" + poiDTOList +
+                ", poi=" + poi +
                 '}';
     }
 }
