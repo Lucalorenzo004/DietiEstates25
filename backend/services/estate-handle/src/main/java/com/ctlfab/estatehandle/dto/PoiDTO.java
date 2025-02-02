@@ -1,6 +1,7 @@
 package com.ctlfab.estatehandle.dto;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -11,14 +12,20 @@ import lombok.*;
 public class PoiDTO {
     private Long id;
 
-    @NotEmpty(message = "A POI should have a latitude")
+    @NotNull(message = "A POI should have a latitude")
     private Float lat;
 
-    @NotEmpty(message = "A POI should have a longitude")
+    @NotNull(message = "A POI should have a longitude")
     private Float lng;
 
     @NotEmpty(message = "A POI should have a category")
     private String category;
+
+    public PoiDTO(Float lat, Float lng, String category) {
+        this.lat = lat;
+        this.lng = lng;
+        this.category = category;
+    }
 
     @Override
     public String toString() {
