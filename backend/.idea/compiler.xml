@@ -8,17 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
-        <module name="estate-handle" />
         <module name="discovery-server" />
+        <module name="estate-handle-service" />
+        <module name="estate-handle" />
       </profile>
-      <profile name="Annotation profile for User" enabled="true">
+      <profile name="Annotation profile for estate-search" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
+        <module name="estate-search" />
         <module name="User" />
       </profile>
     </annotationProcessing>
@@ -32,6 +33,8 @@
       <module name="config-server" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="estate-handle" options="-parameters" />
+      <module name="estate-handle-service" options="-parameters" />
+      <module name="estate-search" options="-parameters" />
     </option>
   </component>
 </project>
