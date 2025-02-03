@@ -1,7 +1,7 @@
 package com.backend.user.service.implementation;
 
-import com.backend.user.dto.UserRequestDTO;
-import com.backend.user.dto.UserResponseDTO;
+import com.backend.user.dto.UserRequest;
+import com.backend.user.dto.UserResponse;
 import com.backend.user.model.Role;
 import com.backend.user.model.User;
 import com.backend.user.repository.UserRepository;
@@ -26,7 +26,7 @@ public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     @Override
-    public UserResponseDTO getUser(Long userId) {
+    public UserResponse getUser(Long userId) {
         log.info("Fetching user by id: {}",userId);
 
         Optional<User> optional = userRepository.findById(userId);
@@ -39,7 +39,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserResponseDTO registerUser(UserRequestDTO request) {
+    public UserResponse registerUser(UserRequest request) {
         log.info("Saving new user {}", request);
 
         User user = mapDTOToEntity(request);
@@ -50,7 +50,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserResponseDTO updateUser(UserRequestDTO request) {
+    public UserResponse updateUser(UserRequest request) {
         log.info("Updating the user {}",request);
 
         User user = mapDTOToEntity(request);
@@ -66,8 +66,8 @@ public class UserServiceImplementation implements UserService {
         return TRUE;
     }
 
-    private UserResponseDTO mapEntityToDTO(User user) {
-        return UserResponseDTO.builder()
+    private UserResponse mapEntityToDTO(User user) {
+        return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
@@ -76,7 +76,7 @@ public class UserServiceImplementation implements UserService {
                 .build();
     }
 
-    private User mapDTOToEntity(UserRequestDTO request) {
+    private User mapDTOToEntity(UserRequest request) {
         return User.builder()
                 .id(request.getId())
                 .email(request.getEmail())

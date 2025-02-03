@@ -1,4 +1,4 @@
-package com.backend.offer.model;
+package com.backend.offer.serialization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

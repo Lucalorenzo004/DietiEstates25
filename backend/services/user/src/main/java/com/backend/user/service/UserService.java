@@ -1,13 +1,13 @@
 package com.backend.user.service;
 
-import com.backend.user.dto.UserRequestDTO;
-import com.backend.user.dto.UserResponseDTO;
+import com.backend.user.dto.UserRequest;
+import com.backend.user.dto.UserResponse;
 
 
 public interface UserService {
-    UserResponseDTO getUser(Long userId);
-    UserResponseDTO registerUser(UserRequestDTO request);
-    UserResponseDTO updateUser(UserRequestDTO request);
+    UserResponse getUser(Long userId);
+    UserResponse registerUser(UserRequest request);
+    UserResponse updateUser(UserRequest request);
     Boolean deleteUser(Long userId);
 
 }

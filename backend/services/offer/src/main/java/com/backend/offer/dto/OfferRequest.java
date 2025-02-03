@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OfferRequestDTO {
+public class OfferRequest {
     private Long id;
 
     @NotNull(message = "è richiesto l'id dell'immobile a cui è riferita l'offerta")

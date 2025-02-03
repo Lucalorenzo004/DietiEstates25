@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +21,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -37,14 +42,21 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         token = authHeader.substring(7);
+        String role = jwtService.extractRole(token);
+        Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
         if (jwtService.validateToken(token)) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    jwtService.extractUsername(token),
-                    null,
-                    Collections.singletonList(new SimpleGrantedAuthority(jwtService.extractRole(token))));
-            authToken.setDetails(new WebAuthenticationDetailsSource()
-                    .buildDetails(request));
+                jwtService.extractUsername(token),null,authorities
+            );
+
+            Object webAuthDetails = new WebAuthenticationDetailsSource().buildDetails(request);
+            Map<String, Object> combinedDetails = new HashMap<>();
+            Long userId = jwtService.extractId(token);
+            combinedDetails.put("webAuthDetails", webAuthDetails);
+            combinedDetails.put("userId", userId);
+            authToken.setDetails(combinedDetails);
+
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }
 

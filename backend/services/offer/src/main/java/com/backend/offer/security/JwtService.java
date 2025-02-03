@@ -3,7 +3,6 @@ package com.backend.offer.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.WeakKeyException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,20 +21,9 @@ public class JwtService {
                     .build()
                     .parseClaimsJws(token);
             return !isTokenExpired(token);
-        } catch (ExpiredJwtException ex) {
-            System.out.println("Token scaduto: " + ex.getMessage());
-        } catch (UnsupportedJwtException ex) {
-            System.out.println("Formato del token non supportato: " + ex.getMessage());
-        } catch (MalformedJwtException ex) {
-            System.out.println("Token malformato: " + ex.getMessage());
-        } catch (SignatureException ex) {
-            System.out.println("Firma non valida: " + ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            System.out.println("Token nullo o vuoto: " + ex.getMessage());
-        } catch (WeakKeyException ex) {
-            System.out.println("Chiave debole: " + ex.getMessage());
+        } catch (Exception ex) {
+           return false;
         }
-        return false;
     }
 
     private boolean isTokenExpired(String token) {
@@ -52,10 +40,15 @@ public class JwtService {
 
     public String extractRole(String token){
         Claims claims = extractAllClaims(token);
-        return claims.get("role", String.class);
+        return claims.get("role",String.class);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public Long extractId(String token){
+        Claims claims = extractAllClaims(token);
+        return claims.get("id", Long.class);
+    }
+
+    private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -71,4 +64,5 @@ public class JwtService {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+
 }

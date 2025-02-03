@@ -1,7 +1,7 @@
 package com.backend.user.controller;
 
-import com.backend.user.dto.UserRequestDTO;
-import com.backend.user.model.Response;
+import com.backend.user.dto.UserRequest;
+import com.backend.user.serialization.Response;
 import com.backend.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> registerUser(@RequestBody @Valid UserRequestDTO request){
+    public ResponseEntity<Response> registerUser(@RequestBody @Valid UserRequest request){
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())
@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<Response> updateUser(@RequestBody @Valid UserRequestDTO request){
+    public ResponseEntity<Response> updateUser(@RequestBody @Valid UserRequest request){
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())

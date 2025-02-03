@@ -2,6 +2,7 @@ package com.backend.user.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,6 +39,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotEmpty(message = "L'utente dovrebbe specificare una password")
+    @Size(min = 8, message = "la password deve avere almeno 8 caratteri")
     @Column(name = "password",nullable = false)
     private String password;
 

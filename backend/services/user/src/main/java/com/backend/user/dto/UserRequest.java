@@ -1,6 +1,7 @@
 package com.backend.user.dto;
 
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Getter
@@ -8,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequestDTO {
+public class UserRequest {
     private Long id;
 
     @NotNull(message = "è richiesto il nome dell'utente")
@@ -21,6 +22,7 @@ public class UserRequestDTO {
     private String email;
 
     @NotNull(message = "è richiesta la password dell'utente")
+    @Size(min = 8, message = "la password deve avere almeno 8 caratteri")
     private String password;
 
     @NotNull(message = "è richiesto il provider dell'utente")

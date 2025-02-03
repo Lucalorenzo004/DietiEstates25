@@ -1,7 +1,7 @@
 package com.backend.offer.controller;
 
-import com.backend.offer.dto.OfferRequestDTO;
-import com.backend.offer.model.Response;
+import com.backend.offer.dto.OfferRequest;
+import com.backend.offer.serialization.Response;
 import com.backend.offer.service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,11 +23,11 @@ public class OfferController {
     private final OfferService offerService;
 
     @PostMapping
-    public ResponseEntity<Response> createOffer(@RequestBody @Valid OfferRequestDTO offerRequestDTO){
+    public ResponseEntity<Response> createOffer(@RequestBody @Valid OfferRequest offerRequest){
         return ResponseEntity.ok(
                 Response.builder()
                         .timestamp(LocalDateTime.now())
-                        .data(Map.of("offer",offerService.createOffer(offerRequestDTO)))
+                        .data(Map.of("offer",offerService.createOffer(offerRequest)))
                         .message("offer saved")
                         .httpStatus(CREATED)
                         .statusCode(CREATED.value())
@@ -63,7 +63,7 @@ public class OfferController {
     }
 
     @GetMapping("/{estateId}")
-    public ResponseEntity<Response> getOffers(@PathVariable Long estateId,@RequestParam(value = "page") Long page,
+    public ResponseEntity<Response> getOffers(@PathVariable Long estateId, @RequestParam(value = "page") Long page,
                                               @RequestParam(value = "pageSize") Long pageSize){
         return ResponseEntity.ok(
                 Response.builder()
@@ -75,5 +75,6 @@ public class OfferController {
                         .build()
         );
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.backend.user.authentication;
+package com.backend.user.dto;
 
 import lombok.*;
 

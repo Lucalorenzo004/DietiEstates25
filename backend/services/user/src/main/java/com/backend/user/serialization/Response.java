@@ -1,4 +1,4 @@
-package com.backend.user.model;
+package com.backend.user.serialization;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
