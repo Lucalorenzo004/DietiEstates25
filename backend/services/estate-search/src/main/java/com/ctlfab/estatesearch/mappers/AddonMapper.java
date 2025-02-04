@@ -1,7 +1,7 @@
-package com.ctlfab.estatehandle.mappers;
+package com.ctlfab.estatesearch.mappers;
 
-import com.ctlfab.estatehandle.dto.AddonDTO;
-import com.ctlfab.estatehandle.entities.Addon;
+import com.ctlfab.estatesearch.dto.AddonDTO;
+import com.ctlfab.estatesearch.entities.Addon;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,7 +10,7 @@ import org.mapstruct.ReportingPolicy;
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
-public interface AddonsMapper {
+public interface AddonMapper {
     Addon toEntity(AddonDTO addonDTO);
 
     AddonDTO toDTO(Addon addon);

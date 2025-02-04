@@ -1074,7 +1074,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="uFCwiWWRb5kQhKwBdHDp" name="EstateSearch">
-    <mxGraphModel dx="3633" dy="986" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="3388" dy="838" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -1289,22 +1289,16 @@
           <mxGeometry y="164" width="161" height="26" as="geometry" />
         </mxCell>
         <mxCell id="8f1kxtNSUrL8GRDMD2YH-69" value="controllers.v1" style="shape=folder;fontStyle=1;tabWidth=110;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;labelInHeader=1;container=0;collapsible=0;whiteSpace=wrap;fontFamily=Helvetica;fontSize=11;fontColor=default;" vertex="1" parent="1">
-          <mxGeometry x="-1397" y="193" width="527" height="237" as="geometry" />
+          <mxGeometry x="-1421" y="188.5" width="527" height="237" as="geometry" />
         </mxCell>
         <mxCell id="8f1kxtNSUrL8GRDMD2YH-70" value="EstateController" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-1370.5" y="271" width="420" height="112" as="geometry" />
+          <mxGeometry x="-1397.75" y="270" width="479.5" height="60" as="geometry" />
         </mxCell>
         <mxCell id="8f1kxtNSUrL8GRDMD2YH-71" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="8f1kxtNSUrL8GRDMD2YH-70">
-          <mxGeometry y="26" width="420" height="8" as="geometry" />
+          <mxGeometry y="26" width="479.5" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="8f1kxtNSUrL8GRDMD2YH-72" value="+saveEstate&lt;span style=&quot;background-color: initial;&quot;&gt;(EstateDTO): ResponseEntity&amp;lt;ApiResponse&amp;lt;EstateDTO&amp;gt;&amp;gt;&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8f1kxtNSUrL8GRDMD2YH-70">
-          <mxGeometry y="34" width="420" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="8f1kxtNSUrL8GRDMD2YH-73" value="+editEstate(EstateDTO): ResponseEntity&amp;lt;ApiResponse&amp;lt;EstateDTO&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8f1kxtNSUrL8GRDMD2YH-70">
-          <mxGeometry y="60" width="420" height="26" as="geometry" />
-        </mxCell>
-        <mxCell id="8f1kxtNSUrL8GRDMD2YH-74" value="+deleteEstate&lt;span style=&quot;background-color: initial;&quot;&gt;(long estateId): ResponseEntity&amp;lt;&lt;/span&gt;ApiResponse&amp;lt;EstateDTO&amp;gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;gt;&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8f1kxtNSUrL8GRDMD2YH-70">
-          <mxGeometry y="86" width="420" height="26" as="geometry" />
+        <mxCell id="8f1kxtNSUrL8GRDMD2YH-72" value="+getEstateByFilter&lt;span style=&quot;background-color: initial;&quot;&gt;(FilterDTO): ResponseEntity&amp;lt;ApiResponse&amp;lt;EstateDTO&amp;gt;&amp;gt;&lt;/span&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="8f1kxtNSUrL8GRDMD2YH-70">
+          <mxGeometry y="34" width="479.5" height="26" as="geometry" />
         </mxCell>
         <mxCell id="8f1kxtNSUrL8GRDMD2YH-75" value="Addon" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="1749" y="1525" width="161" height="86" as="geometry" />

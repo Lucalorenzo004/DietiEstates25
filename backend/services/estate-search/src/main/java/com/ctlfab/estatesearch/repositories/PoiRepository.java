@@ -1,6 +1,6 @@
-package com.ctlfab.estatehandle.repositories;
+package com.ctlfab.estatesearch.repositories;
 
-import com.ctlfab.estatehandle.entities.Poi;
+import com.ctlfab.estatesearch.entities.Poi;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
