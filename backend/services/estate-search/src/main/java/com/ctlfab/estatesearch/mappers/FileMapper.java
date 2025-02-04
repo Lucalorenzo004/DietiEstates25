@@ -1,7 +1,7 @@
-package com.ctlfab.estatehandle.mappers;
+package com.ctlfab.estatesearch.mappers;
 
-import com.ctlfab.estatehandle.dto.FileDTO;
-import com.ctlfab.estatehandle.entities.File;
+import com.ctlfab.estatesearch.dto.FileDTO;
+import com.ctlfab.estatesearch.entities.File;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

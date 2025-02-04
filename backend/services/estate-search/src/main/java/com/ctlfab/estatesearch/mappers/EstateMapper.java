@@ -1,13 +1,13 @@
-package com.ctlfab.estatehandle.mappers;
+package com.ctlfab.estatesearch.mappers;
 
-import com.ctlfab.estatehandle.dto.EstateDTO;
-import com.ctlfab.estatehandle.entities.Estate;
+import com.ctlfab.estatesearch.dto.EstateDTO;
+import com.ctlfab.estatesearch.entities.Estate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-        uses = {LocationMapper.class, AddonsMapper.class, FileMapper.class},
+        uses = {LocationMapper.class, AddonMapper.class, FileMapper.class},
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
