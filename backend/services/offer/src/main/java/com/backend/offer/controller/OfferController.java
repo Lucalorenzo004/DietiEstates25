@@ -1,18 +1,21 @@
 package com.backend.offer.controller;
 
 import com.backend.offer.dto.OfferRequest;
-import com.backend.offer.serialization.Response;
+import com.backend.offer.dto.OfferResponse;
+import com.backend.offer.serialization.ApiResponse;
+import com.backend.offer.serialization.Meta;
 import com.backend.offer.service.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
-
-import static org.springframework.http.HttpStatus.CREATED;
+import static java.time.LocalDateTime.now;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -23,57 +26,49 @@ public class OfferController {
     private final OfferService offerService;
 
     @PostMapping
-    public ResponseEntity<Response> createOffer(@RequestBody @Valid OfferRequest offerRequest){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("offer",offerService.createOffer(offerRequest)))
-                        .message("offer saved")
-                        .httpStatus(CREATED)
-                        .statusCode(CREATED.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<OfferResponse>> createOffer(@RequestBody @Valid OfferRequest offerRequest){
+        OfferResponse offerResponse = offerService.createOffer(offerRequest);
+
+        Meta meta = new Meta(now(),"v1");
+        String status = "offer saved";
+        ApiResponse<OfferResponse> apiResponse = new ApiResponse<>(status,offerResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PatchMapping("/{offerId}")
-    public ResponseEntity<Response> updateOffer(@PathVariable Long offerId,
-                                                @RequestParam(value = "status") String status){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("offer",offerService.updateOffer(offerId,status)))
-                        .message("offer updated")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<OfferResponse>> updateOffer(@PathVariable Long offerId,
+                                                          @RequestParam(value = "status") String status){
+        OfferResponse offerResponse = offerService.updateOffer(offerId,status);
+
+        Meta meta = new Meta(now(),"v1");
+        String statusResponse = "offer updated";
+        ApiResponse<OfferResponse> apiResponse = new ApiResponse<>(statusResponse,offerResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Response> deleteOffer(@RequestParam(value = "offerId") Long offerId){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("offer",offerService.deleteOffer(offerId)))
-                        .message("offer deleted")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<Void>> deleteOffer(@RequestParam(value = "offerId") Long offerId){
+        offerService.deleteOffer(offerId);
+
+        Meta meta = new Meta(now(),"v1");
+        String status = "offer deleted";
+        ApiResponse<Void> apiResponse = new ApiResponse<>(status,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @GetMapping("/{estateId}")
-    public ResponseEntity<Response> getOffers(@PathVariable Long estateId, @RequestParam(value = "page") Long page,
-                                              @RequestParam(value = "pageSize") Long pageSize){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("offer",offerService.getOffers(estateId, page, pageSize)))
-                        .message("offers retrieved")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<List<OfferResponse>>> getOffers(@PathVariable Long estateId, @RequestParam(value = "page") Long page,
+                                                       @RequestParam(value = "pageSize") Long pageSize){
+        List<OfferResponse> offerResponse = offerService.getOffers(estateId,page,pageSize);
+
+        Meta meta = new Meta(now(),"v1");
+        String status = "offers retrieved";
+        ApiResponse<List<OfferResponse>> apiResponse = new ApiResponse<>(status,offerResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
 

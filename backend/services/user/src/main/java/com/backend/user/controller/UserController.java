@@ -1,19 +1,18 @@
 package com.backend.user.controller;
 
 import com.backend.user.dto.UserRequest;
-import com.backend.user.serialization.Response;
+import com.backend.user.dto.UserResponse;
+import com.backend.user.serialization.ApiResponse;
+import com.backend.user.serialization.Meta;
 import com.backend.user.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static java.time.LocalDateTime.now;
 
 @RestController
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
@@ -21,57 +20,49 @@ import static org.springframework.http.HttpStatus.OK;
 public class UserController {
 
     private final UserService userService;
-
+    //@CrossOrigin(origins = "http://127.0.0.1:4200")
     @GetMapping("/{userId}")
-    public ResponseEntity<Response> getUser(@PathVariable Long userId){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",userService.getUser(userId)))
-                        .message("user retrieved")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable Long userId){
+        UserResponse userResponse = userService.getUser(userId);
+
+        Meta meta = new Meta(now(), "v1");
+        String status = "user retrieved";
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>(status,userResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Response> registerUser(@RequestBody @Valid UserRequest request){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",userService.registerUser(request)))
-                        .message("user saved")
-                        .httpStatus(CREATED)
-                        .statusCode(CREATED.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<UserResponse>> registerUser(@RequestBody @Valid UserRequest request){
+        UserResponse userResponse = userService.registerUser(request);
+
+        Meta meta = new Meta(now(), "v1");
+        String status = "user saved";
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>(status,userResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Response> updateUser(@RequestBody @Valid UserRequest request){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",userService.updateUser(request)))
-                        .message("user updated")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<UserResponse>> updateUser(@RequestBody @Valid UserRequest request){
+        UserResponse userResponse = userService.updateUser(request);
+
+        Meta meta = new Meta(now(), "v1");
+        String status = "user updated";
+        ApiResponse<UserResponse> apiResponse = new ApiResponse<>(status,userResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<Response> deleteUser(@RequestParam(value = "userId") Long userId){
-        return ResponseEntity.ok(
-                Response.builder()
-                        .timestamp(LocalDateTime.now())
-                        .data(Map.of("user",userService.deleteUser(userId)))
-                        .message("user deleted")
-                        .httpStatus(OK)
-                        .statusCode(OK.value())
-                        .build()
-        );
+    public ResponseEntity<ApiResponse<Void>> deleteUser(@RequestParam(value = "userId") Long userId){
+        userService.deleteUser(userId);
+
+        Meta meta = new Meta(now(), "v1");
+        String status = "user deleted";
+        ApiResponse<Void> apiResponse = new ApiResponse<>(status,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 }
