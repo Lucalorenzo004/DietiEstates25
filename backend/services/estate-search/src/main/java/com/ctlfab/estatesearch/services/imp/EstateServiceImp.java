@@ -35,11 +35,10 @@ public class EstateServiceImp implements EstateService {
     private final EstateMapper mapper;
 
     @Override
-    public List<EstateDTO> getAllEstates(FilterDTO filterDTO) {
+    public List<EstateDTO> getAll(FilterDTO filterDTO) {
         log.info("Fetching all estates");
 
         Specification<Estate> specification = EstateSpecification.getSpecification(filterDTO);
-        System.out.println(specification);
 
         List<EstateDTO> estatesDTO = new ArrayList<>();
         for(Estate estate : repository.findAll(specification)){
@@ -48,6 +47,17 @@ public class EstateServiceImp implements EstateService {
 
         log.info("Estates fetched successfully");
         return estatesDTO;
+    }
+
+    @Override
+    public EstateDTO getById(long id) {
+        log.info("Fetching estate with id {}", id);
+
+        Estate estate = repository.findById(id).orElse(null);
+        EstateDTO estateDTO = mapper.toDto(estate);
+
+        log.info("EstateDTO fetched successfully");
+        return estateDTO;
     }
 
     /**

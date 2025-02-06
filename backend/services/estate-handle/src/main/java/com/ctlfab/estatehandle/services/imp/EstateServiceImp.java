@@ -61,8 +61,6 @@ public class EstateServiceImp implements EstateService {
         estate = repository.save(estate);
         EstateDTO savedEstate = mapper.toDto(estate);
 
-        log.info("======> Estate {}", savedEstate);
-
         List<FileDTO> savedFiles = saveFiles(estateDTO.getFiles(), savedEstate);
         savedEstate.setLocation(savedLocation);
         savedEstate.setFiles(savedFiles);
