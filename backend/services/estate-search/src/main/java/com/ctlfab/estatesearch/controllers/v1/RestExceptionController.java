@@ -1,4 +1,4 @@
-package com.ctlfab.estatesearch.controller.v1;
+package com.ctlfab.estatesearch.controllers.v1;
 
 import com.ctlfab.estatesearch.exceptions.AppException;
 import com.ctlfab.estatesearch.serialization.ApiResponse;

@@ -47,7 +47,7 @@ public class EstateSpecification{
                 predicates.add(cb.lessThanOrEqualTo(root.get("services"), filterDTO.getMaxServices()));
             }
             if (filterDTO.getUserId() != null) {
-                predicates.add(cb.equal(root.get("user_id"), filterDTO.getUserId()));
+                predicates.add(cb.equal(root.get("userId"), filterDTO.getUserId()));
             }
             if (filterDTO.getAddons() != null && !filterDTO.getAddons().isEmpty()) {
                 Join<Estate, Addon> addonJoin = root.join("addons");

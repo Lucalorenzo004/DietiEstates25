@@ -6,5 +6,7 @@ import com.ctlfab.estatesearch.dto.FilterDTO;
 import java.util.List;
 
 public interface EstateService {
-    List<EstateDTO> getAllEstates(FilterDTO filterDTO);
+    List<EstateDTO> getAll(FilterDTO filterDTO);
+
+    EstateDTO getById(long id);
 }
