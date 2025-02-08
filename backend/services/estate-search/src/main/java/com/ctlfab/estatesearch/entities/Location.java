@@ -21,6 +21,10 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "A location should have an county code")
+    @Column(name = "county_code", nullable = false)
+    private String countyCode;
+
     @NotEmpty(message = "A location should have an county")
     @Column(name = "county", nullable = false)
     private String county;

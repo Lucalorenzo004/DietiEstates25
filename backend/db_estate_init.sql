@@ -4,6 +4,7 @@ set search_path to dietiestate25_estate;
 
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.location(
     "id" SERIAL PRIMARY KEY,
+    "county_code" VARCHAR(255) NOT NULL,
     "county" VARCHAR(255) NOT NULL,
     "city" VARCHAR(255) NOT NULL,
     "postal_code" VARCHAR(5) NOT NULL,
