@@ -5,8 +5,8 @@ import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
 import com.ctlfab.estatehandle.dto.LocationDTO;
 
-import com.ctlfab.estatehandle.mappers.EstateMapper;
 import com.ctlfab.estatehandle.entities.Estate;
+import com.ctlfab.estatehandle.mappers.EstateMapper;
 
 import com.ctlfab.estatehandle.repositories.EstateRepository;
 
@@ -60,8 +60,6 @@ public class EstateServiceImp implements EstateService {
         Estate estate = mapper.toEntity(estateDTO);
         estate = repository.save(estate);
         EstateDTO savedEstate = mapper.toDto(estate);
-
-        log.info("======> Estate {}", savedEstate);
 
         List<FileDTO> savedFiles = saveFiles(estateDTO.getFiles(), savedEstate);
         savedEstate.setLocation(savedLocation);

@@ -53,6 +53,7 @@ public class HereClient {
                         JsonNode rootNode = mapper.readTree(jsonString).path("items").get(0);
 
                         JsonNode addressNode = rootNode.path("address");
+                        String countyCode = addressNode.path("countyCode").asText();
                         String county = addressNode.path("county").asText();
                         String city = addressNode.path("city").asText();
                         String postalCode = addressNode.path("postalCode").asText();
@@ -62,7 +63,7 @@ public class HereClient {
                         Float lat = positionNode.path("lat").floatValue();
                         Float lng = positionNode.path("lng").floatValue();
 
-                        return new LocationDTO(county, city, postalCode, street, lat, lng);
+                        return new LocationDTO(countyCode, county, city, postalCode, street, lat, lng);
                     }catch (JsonProcessingException e) {
                         return null;
                     }

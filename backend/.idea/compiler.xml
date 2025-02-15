@@ -8,8 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="config-server" />
-        <module name="estate-handle" />
         <module name="discovery-server" />
+        <module name="estate-handle-service" />
+        <module name="estate-search-service" />
+        <module name="estate-handle" />
+        <module name="estate-search" />
       </profile>
       <profile name="Annotation profile for User" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -32,6 +35,9 @@
       <module name="config-server" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="estate-handle" options="-parameters" />
+      <module name="estate-handle-service" options="-parameters" />
+      <module name="estate-search" options="-parameters" />
+      <module name="estate-search-service" options="-parameters" />
     </option>
   </component>
 </project>
