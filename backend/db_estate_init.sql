@@ -4,6 +4,7 @@ set search_path to dietiestate25_estate;
 
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.location(
     "id" SERIAL PRIMARY KEY,
+    "county_code" VARCHAR(2) NOT NULL,
     "county" VARCHAR(255) NOT NULL,
     "city" VARCHAR(255) NOT NULL,
     "postal_code" VARCHAR(5) NOT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS dietiestate25_estate.poi(
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate(
     "id" SERIAL PRIMARY KEY,
     "title" VARCHAR(255) NOT NULL,
-    "category" VARCHAR(255) NOT NULL,
+    "category_id" VARCHAR(255) NOT NULL,
     "description" VARCHAR(1000) NOT null,
     "rental" BOOLEAN NOT NULL DEFAULT FALSE,
     "price" REAL NOT NULL,
@@ -48,7 +49,12 @@ CREATE TABLE IF NOT EXISTS dietiestate25_estate.estate(
     CONSTRAINT positive_rooms CHECK (rooms > 0),
     CONSTRAINT positive_service CHECK (services > 0),
 
+    CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES dietiestate25_estate.category(name) ON DELETE CASCADE,
     CONSTRAINT fk_location_id FOREIGN KEY (location_id) REFERENCES dietiestate25_estate.location(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS dietiestate25_estate.category(
+    "name" VARCHAR(255) NOT NULL PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS dietiestate25_estate.favorite_estate(

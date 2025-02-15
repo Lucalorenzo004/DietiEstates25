@@ -5,8 +5,8 @@ import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
 import com.ctlfab.estatehandle.dto.LocationDTO;
 
-import com.ctlfab.estatehandle.mappers.EstateMapper;
 import com.ctlfab.estatehandle.entities.Estate;
+import com.ctlfab.estatehandle.mappers.EstateMapper;
 
 import com.ctlfab.estatehandle.repositories.EstateRepository;
 

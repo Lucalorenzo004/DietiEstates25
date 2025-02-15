@@ -2,6 +2,7 @@ package com.ctlfab.estatehandle.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,6 +22,10 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "A location should have an county code")
+    @Column(name = "county_code", nullable = false)
+    private String countyCode;
+
     @NotEmpty(message = "A location should have an county")
     @Column(name = "county", nullable = false)
     private String county;
@@ -37,11 +42,11 @@ public class Location {
     @Column(name = "street", nullable = false)
     private String street;
 
-    //@NotNull(message = "A location should have a latitude")
+    @NotNull(message = "A location should have a latitude")
     @Column(name = "lat", nullable = false)
     private Float lat;
 
-    //@NotNull(message = "A location should have a longitude")
+    @NotNull(message = "A location should have a longitude")
     @Column(name = "lng", nullable = false)
     private Float lng;
 
@@ -61,6 +66,7 @@ public class Location {
     public String toString() {
         return "Location{" +
                 "id=" + id +
+                ", countyCode='" + countyCode + '\'' +
                 ", county='" + county + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +

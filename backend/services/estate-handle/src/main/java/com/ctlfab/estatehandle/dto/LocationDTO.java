@@ -13,6 +13,9 @@ import java.util.List;
 public class LocationDTO {
     private Long id;
 
+    @NotEmpty(message = "A location should have an county code")
+    private String countyCode;
+
     @NotEmpty(message = "A location should have an county")
     private String county;
 
@@ -31,7 +34,8 @@ public class LocationDTO {
 
     private List<PoiDTO> poi;
 
-    public LocationDTO(String county, String city, String postalCode, String street, Float lat, Float lng) {
+    public LocationDTO(String countyCode, String county, String city, String postalCode, String street, Float lat, Float lng) {
+        this.countyCode = countyCode;
         this.county = county;
         this.city = city;
         this.postalCode = postalCode;
@@ -44,6 +48,7 @@ public class LocationDTO {
     public String toString() {
         return "LocationDTO{" +
                 "id=" + id +
+                ", countyCode='" + countyCode + '\'' +
                 ", county='" + county + '\'' +
                 ", city='" + city + '\'' +
                 ", postalCode='" + postalCode + '\'' +

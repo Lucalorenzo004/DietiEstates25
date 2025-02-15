@@ -17,9 +17,6 @@ public class EstateDTO {
     @NotEmpty(message = "A estate should have a title")
     private String title;
 
-    @NotEmpty(message = "A estate should have a category")
-    private String category;
-
     @NotEmpty(message = "A estate should have a description")
     private String description;
 
@@ -50,6 +47,9 @@ public class EstateDTO {
     private List<AddonDTO> addons;
 
     private List<FileDTO> files;
+
+    @NotNull(message = "A estate should have a category")
+    private CategoryDTO category;
 
     @Override
     public String toString() {
