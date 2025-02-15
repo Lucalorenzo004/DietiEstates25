@@ -42,10 +42,6 @@ public class Estate {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @NotEmpty(message = "A estate should have a category")
-    @Column(name = "category", nullable = false)
-    private String category;
-
     @NotEmpty(message = "A estate should have a description")
     @Column(name = "description", nullable = false)
     private String description;
@@ -101,6 +97,11 @@ public class Estate {
 
     @OneToMany(mappedBy = "estate", cascade = CascadeType.ALL)
     private List<File> files;
+
+    @NotNull(message = "A estate should have a category")
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Override
     public String toString() {

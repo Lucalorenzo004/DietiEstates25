@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-        uses = {LocationMapper.class, AddonMapper.class, FileMapper.class},
+        uses = {LocationMapper.class, AddonMapper.class, FileMapper.class, CategoryMapper.class},
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )

@@ -4,7 +4,6 @@ import static java.time.LocalDateTime.now;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
@@ -88,7 +87,9 @@ public class EstateController {
      * @return A {@link ResponseEntity} containing a standardized response with a success message if the deletion was successful.
      */
     @DeleteMapping
-    public ResponseEntity<ApiResponse<EstateDTO>> deleteEstate(@Param("estate") long estateId) {
+    public ResponseEntity<ApiResponse<EstateDTO>> deleteEstate(@RequestParam(value = "estate") Long estateId) {
+        estateService.delete(estateId);
+
         Meta meta = new Meta(now(), "v1");
         String status = "Estate deleted";
         ApiResponse<EstateDTO> response = new ApiResponse<>(status, meta);
