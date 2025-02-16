@@ -30,20 +30,12 @@ public class FileServiceImp implements FileService{
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Override
-    public List<FileDTO> getByEstateId(long estateId) {
-        log.info("Fetching files by estate id {}", estateId);
-        List<FileDTO> filesDTO  = new LinkedList<>();
-
-        for(File file : repository.findAllFileByEstateId(estateId)){
-            FileDTO fileDTO = fileMapper.toDTO(file);
-            filesDTO.add(fileDTO);
-        }
-
-        log.info("Files fetched successfully");
-        return filesDTO;
-    }
-
+    /**
+     * Saves file metadata related to estate.
+     * @param fileDTO The {@link FileDTO} object containing details of the file to be saved.
+     * @param estateDTO The {@link EstateDTO} object containing details of the related to the file.
+     * @return The saved {@link FileDTO}.
+     */
     @Override
     public FileDTO save(FileDTO fileDTO, EstateDTO estateDTO) {
         log.info("Saving file {}", fileDTO);
@@ -62,11 +54,20 @@ public class FileServiceImp implements FileService{
         return savedFileDTO;
     }
 
+    /**
+     * Deletes an existing file by its ID.
+     * @param file File's name to be deleted.
+     * @return {@code true} if the file was successfully deleted, {@code false} otherwise.
+     */
     @Override
-    public boolean delete(long id) {
-        log.info("Deleting file {}", id);
+    public boolean delete(String file) {
+        log.info("Deleting file {}", file);
 
-        repository.deleteById(id);
+        int deletedRows = repository.deleteByName(file);
+        if (deletedRows == 0) {
+            log.info("File deletion failed");
+            return false;
+        }
 
         log.info("File deleted successfully");
         return true;

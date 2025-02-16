@@ -34,21 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 public class EstateController {
     private final EstateService estateService;
 
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<EstateDTO>>> getAllEstates(){
-
-         Meta meta = new Meta(now(), "v1");
-         String status = "Estate retrieved";
-         List<EstateDTO> estateDTOList = estateService.getAllEstates();
-         ApiResponse<List<EstateDTO>> response = new ApiResponse<>(status, estateDTOList, meta);
-
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
     /**
      * Handles HTTP POST requests to create a new estate.
-     *
      * @param estateDTO The EstateDTO containing details of the estate to be saved
      * @return A {@link ResponseEntity} containing a standardized response with the saved estate data.
      */
@@ -65,7 +52,6 @@ public class EstateController {
 
     /**
      * Handles HTTP PUT requests to update an existing estate.
-     *
      * @param estateDTO The EstateDTO containing the updated estate information.
      * @return A {@link ResponseEntity} containing a standardized response with the updated estate data.
      */
@@ -82,7 +68,6 @@ public class EstateController {
 
     /**
      * Handles HTTP DELETE requests to delete an existing estate.
-     *
      * @param estateId The ID of the estate to be deleted.
      * @return A {@link ResponseEntity} containing a standardized response with a success message if the deletion was successful.
      */

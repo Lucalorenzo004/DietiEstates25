@@ -20,6 +20,12 @@ import static java.time.LocalDateTime.now;
 public class LocationController {
     private final LocationService service;
 
+    /**
+     * Handles HTTP POST requests to fetch location if exists.
+     * @param locationDTO {@link LocationDTO} data of location to fetch.
+     * @return A {@link ResponseEntity} containing a standardized response with a {@link LocationDTO} data if exists,
+     * null otherwise.
+     */
     @PostMapping
     public ResponseEntity<ApiResponse<LocationDTO>> getLocation(@RequestBody @Valid LocationDTO locationDTO) {
         Meta meta = new Meta(now(), "v1");

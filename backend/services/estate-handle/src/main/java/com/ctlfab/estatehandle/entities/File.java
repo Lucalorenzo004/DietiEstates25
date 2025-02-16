@@ -25,7 +25,7 @@ public class File {
     @Column(name = "bucket", nullable = false)
     private String bucket;
 
-    //@NotEmpty(message = "A file should have a url reference")
+    @NotEmpty(message = "A file should have a url reference")
     @Column(name = "url", nullable = false)
     private String url;
 

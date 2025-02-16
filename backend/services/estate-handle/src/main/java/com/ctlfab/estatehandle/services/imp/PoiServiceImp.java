@@ -28,11 +28,16 @@ public class PoiServiceImp implements PoiService {
     private final LocationMapper locationMapper;
     private final EstateSearchClient estateSearchClient;
 
+    /**
+     * Check if the POI already exists and in case it does not exist save it.
+     * @param poiDTO The {@link PoiDTO} object containing details of the POI to be saved.
+     * @return The saved {@link PoiDTO}.
+     */
     @Override
     public PoiDTO save(PoiDTO poiDTO, LocationDTO locationDTO) {
         log.info("Saving poi: {}", poiDTO);
-        ApiResponse<PoiDTO> response = estateSearchClient.findPoiByLatAndLng(poiDTO);
 
+        ApiResponse<PoiDTO> response = estateSearchClient.findPoi(poiDTO);
         if(response.getData() != null){
             poiDTO = response.getData();
         }else{

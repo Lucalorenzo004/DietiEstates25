@@ -21,6 +21,11 @@ import static java.time.LocalDateTime.now;
 public class EstateController {
     private final EstateService estateService;
 
+    /**
+     * Handles HTTP GET requests to fetch estate data.
+     * @param id ID of {@link EstateDTO} to fetch.
+     * @return A {@link ResponseEntity} containing a standardized response with {@link EstateDTO} data.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<EstateDTO>> getEstateById(@PathVariable("id") Long id) {
         Meta meta = new Meta(now(), "v1");
@@ -31,6 +36,11 @@ public class EstateController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    /**
+     * Handles HTTP POST requests to fetch estate data by filter.
+     * @param filterDTO Filter criteria {@link FilterDTO} to be applied for fetching estate.
+     * @return A {@link ResponseEntity} containing a standardized response with a List of {@link EstateDTO} data.
+     */
     @PostMapping
     public ResponseEntity<ApiResponse<List<EstateDTO>>> getEstateByFilter(@RequestBody(required = false) FilterDTO filterDTO){
 

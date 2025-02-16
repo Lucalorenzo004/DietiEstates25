@@ -71,7 +71,7 @@ public class Estate {
     private Integer services;
 
     @NotNull(message = "A estate should have a location")
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
@@ -95,7 +95,7 @@ public class Estate {
     )
     private List<Addon> addons;
 
-    @OneToMany(mappedBy = "estate", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "estate")
     private List<File> files;
 
     @NotNull(message = "A estate should have a category")

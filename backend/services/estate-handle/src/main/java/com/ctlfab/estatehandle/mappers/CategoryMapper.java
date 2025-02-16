@@ -11,7 +11,18 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface CategoryMapper {
+
+    /**
+     * Map {@link CategoryDTO} to {@link Category}
+     * @param categoryDTO {@link CategoryDTO} to map
+     * @return {@link Category} object
+     */
     Category toEntity(CategoryDTO categoryDTO);
 
+    /**
+     * Map {@link Category} to {@link CategoryDTO}
+     * @param category {@link Category} to map
+     * @return {@link CategoryDTO} object
+     */
     CategoryDTO toDTO(Category category);
 }
