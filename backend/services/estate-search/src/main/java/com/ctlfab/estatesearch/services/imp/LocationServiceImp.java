@@ -1,19 +1,18 @@
 package com.ctlfab.estatesearch.services.imp;
 
 import com.ctlfab.estatesearch.dto.LocationDTO;
-import com.ctlfab.estatesearch.dto.PoiDTO;
+import com.ctlfab.estatesearch.entities.Location;
 import com.ctlfab.estatesearch.mappers.LocationMapper;
 import com.ctlfab.estatesearch.repositories.LocationRepository;
 import com.ctlfab.estatesearch.services.LocationService;
-import com.ctlfab.estatesearch.services.PoiService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,10 +22,18 @@ public class LocationServiceImp implements LocationService {
     private final LocationRepository repository;
     private final LocationMapper mapper;
 
-    private final PoiService poiService;
+    @Cacheable(cacheNames = "location-cache", key = "#street + #city + #postalCode + #county + #countyCode")
+    @Override
+    public LocationDTO findByFullAddress(String street, String city, String postalCode, String county, String countyCode) {
+        log.info("Fetching location data from full address");
+        Optional<Location> optionalLocation = repository.findByFullAddress(street, city, postalCode, county, countyCode);
 
-
-    private List<PoiDTO> getPoi(LocationDTO locationDTO){
-       return null;
+        if (optionalLocation.isPresent()) {
+            log.info("Location fetched successfully");
+            return mapper.toDTO(optionalLocation.get());
+        }else{
+            log.info("Location not found");
+            return null;
+        }
     }
 }

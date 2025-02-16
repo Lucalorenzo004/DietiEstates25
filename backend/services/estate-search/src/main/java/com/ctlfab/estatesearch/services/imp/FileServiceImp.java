@@ -28,7 +28,7 @@ public class FileServiceImp implements FileService{
         List<FileDTO> filesDTO  = new LinkedList<>();
 
         for(File file : repository.findAllFileByEstateId(estateId)){
-            FileDTO fileDTO = fileMapper.toDto(file);
+            FileDTO fileDTO = fileMapper.toDTO(file);
             filesDTO.add(fileDTO);
         }
 
