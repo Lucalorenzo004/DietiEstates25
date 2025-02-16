@@ -1,8 +1,8 @@
 package com.ctlfab.estatesearch.services.imp;
 
 import com.ctlfab.estatesearch.dto.FileDTO;
-import com.ctlfab.estatesearch.mappers.FileMapper;
 import com.ctlfab.estatesearch.entities.File;
+import com.ctlfab.estatesearch.mappers.FileMapper;
 import com.ctlfab.estatesearch.repositories.FileRepository;
 import com.ctlfab.estatesearch.services.FileService;
 import jakarta.transaction.Transactional;
@@ -22,6 +22,11 @@ public class FileServiceImp implements FileService{
     private final FileRepository repository;
     private final FileMapper fileMapper;
 
+    /**
+     * Retrieve file by estate ID
+     * @param estateId ID of Estate
+     * @return List of File related to the Estate with ID passed as argument
+     */
     @Override
     public List<FileDTO> getByEstateId(long estateId) {
         log.info("Fetching files by estate id {}", estateId);

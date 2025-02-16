@@ -3,9 +3,9 @@ package com.ctlfab.estatesearch.services.imp;
 import com.ctlfab.estatesearch.dto.EstateDTO;
 import com.ctlfab.estatesearch.dto.FilterDTO;
 
-import com.ctlfab.estatesearch.mappers.EstateMapper;
 import com.ctlfab.estatesearch.entities.Estate;
 
+import com.ctlfab.estatesearch.mappers.EstateMapper;
 import com.ctlfab.estatesearch.repositories.EstateRepository;
 
 import com.ctlfab.estatesearch.services.EstateService;
@@ -31,6 +31,11 @@ public class EstateServiceImp implements EstateService {
     private final EstateRepository repository;
     private final EstateMapper mapper;
 
+    /**
+     * Fetch all the estate that match the filter passed as the argument.
+     * @param filterDTO Filter criteria {@link FilterDTO}.
+     * @return List of {@link EstateDTO}.
+     */
     @Override
     public List<EstateDTO> getAll(FilterDTO filterDTO) {
         log.info("Fetching all estates");
@@ -46,6 +51,11 @@ public class EstateServiceImp implements EstateService {
         return estatesDTO;
     }
 
+    /**
+     * Fetch estate by its ID.
+     * @param id ID of estate.
+     * @return {@link EstateDTO} object.
+     */
     @Cacheable(cacheNames = "estate-cache", key = "#id")
     @Override
     public EstateDTO getById(long id) {

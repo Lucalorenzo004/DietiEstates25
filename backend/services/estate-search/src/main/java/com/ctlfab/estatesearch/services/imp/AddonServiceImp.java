@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +23,10 @@ public class AddonServiceImp implements AddonService {
     private final AddonRepository repository;
     private final AddonMapper mapper;
 
+    /**
+     * Fetch all addons.
+     * @return List of {@link AddonDTO}.
+     */
     @Cacheable(cacheNames = "addon-cache")
     @Override
     public List<AddonDTO> getAll() {

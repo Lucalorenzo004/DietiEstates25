@@ -1,13 +1,10 @@
 package com.ctlfab.estatesearch.services.imp;
 
 import com.ctlfab.estatesearch.dto.PoiDTO;
-import com.ctlfab.estatesearch.entities.Location;
 import com.ctlfab.estatesearch.entities.Poi;
-import com.ctlfab.estatesearch.mappers.LocationMapper;
 import com.ctlfab.estatesearch.mappers.PoiMapper;
 import com.ctlfab.estatesearch.repositories.PoiRepository;
 import com.ctlfab.estatesearch.services.PoiService;
-import com.thoughtworks.xstream.core.util.Pool;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +22,12 @@ public class PoiServiceImp implements PoiService {
     private final PoiRepository repository;
     private final PoiMapper mapper;
 
+    /**
+     * Check if the poi already exists.
+     * @param lat Lat of poi.
+     * @param lng Lng of poi.
+     * @return  {@link Poi} if location's data exists, null otherwise.
+     */
     @Cacheable(cacheNames = "poi-cache", key = "#lat + #lng")
     @Override
     public PoiDTO findByLatAndLng(Float lat, Float lng) {

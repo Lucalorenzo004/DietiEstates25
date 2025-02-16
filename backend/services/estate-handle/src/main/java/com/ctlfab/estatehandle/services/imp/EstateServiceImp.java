@@ -37,19 +37,11 @@ public class EstateServiceImp implements EstateService {
     private final FileService fileService;
     private final HereClient hereClient;
 
-    @Override
-    public List<EstateDTO> getAllEstates() {
-        log.info("Fetching all estates");
-
-        List<EstateDTO> estatesDTO = new ArrayList<>();
-        for(Estate estate : repository.findAll()){
-            estatesDTO.add(mapper.toDTO(estate));
-        }
-
-        log.info("Estates fetched successfully");
-        return estatesDTO;
-    }
-
+    /**
+     * Saves a new estate.
+     * @param estateDTO The {@link EstateDTO} object containing details of the estate to be saved.
+     * @return The saved {@link EstateDTO}.
+     */
     @Override
     public EstateDTO save(EstateDTO estateDTO) {
         log.info("Saving estate {}", estateDTO);
@@ -69,12 +61,15 @@ public class EstateServiceImp implements EstateService {
         return savedEstate;
     }
 
-
+    /**
+     * Deletes an estate by its ID.
+     * @param estateId The ID of the estate to be deleted.
+     * @return {@code true} if the estate was successfully deleted, {@code false} otherwise.
+     */
     @Override
     public boolean delete(long estateId) {
         log.info("Deleting estate {}", estateId);
 
-        deleteFiles(estateId);
         repository.deleteById(estateId);
 
         log.info("Estate {} deleted successfully", estateId);
@@ -82,9 +77,9 @@ public class EstateServiceImp implements EstateService {
     }
 
     /**
-     * Save location and poi information about an estate
-     * @param locationDTO The {@link LocationDTO} object containing details of the location to geocode.
-     * @return A {@link LocationDTO} object containing the geolocation data
+     * Save estate's location and poi data
+     * @param locationDTO {@link LocationDTO} object containing details of the location to geocode.
+     * @return {@link LocationDTO} object containing the geolocation data.
      */
     private LocationDTO saveLocation(LocationDTO locationDTO) {
         String queryStreet = locationDTO.getStreet().replaceAll("[ ,]", "+");
@@ -99,11 +94,10 @@ public class EstateServiceImp implements EstateService {
     }
 
     /**
-     * Save all file of an estate
-     *
-     * @param fileDTOList A List of The {@link FileDTO} object containing details of the file to be saved.
-     * @param estateDTO   The {@link EstateDTO} object containing details of the related to the file
-     * @return List of the saved {@link FileDTO}
+     * Save all estate's files.
+     * @param fileDTOList A List of The {@link List<FileDTO>} object containing details of the file to be saved.
+     * @param estateDTO   The {@link EstateDTO} object containing details of the related to the file.
+     * @return List of the saved {@link List<FileDTO>}.
      */
     private List<FileDTO> saveFiles(List<FileDTO> fileDTOList, EstateDTO estateDTO) {
         List<FileDTO> savedFiles = new LinkedList<>();
@@ -114,17 +108,5 @@ public class EstateServiceImp implements EstateService {
         }
 
         return savedFiles;
-    }
-
-    /**
-     * Deletes an existing file by its estate ID.
-     * @param estateId The ID of the estate related to the file to be deleted.
-     */
-    private void deleteFiles(long estateId){
-        List<FileDTO> filesDTO = fileService.getByEstateId(estateId);
-
-        for (FileDTO fileDTO : filesDTO) {
-            fileService.delete(fileDTO.getId());
-        }
     }
 }

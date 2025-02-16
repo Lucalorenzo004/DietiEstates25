@@ -24,6 +24,10 @@ import static java.time.LocalDateTime.now;
 public class CategoryController {
     private final CategoryService service;
 
+    /**
+     * Handles HTTP GET requests to fetch categories.
+     * @return A {@link ResponseEntity} containing a standardized response with a List of {@link CategoryDTO}.
+     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<CategoryDTO>>> getCategories() {
         Meta meta = new Meta(now(), "v1");

@@ -11,6 +11,18 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface PoiMapper {
+
+    /**
+     * Map {@link Poi} to {@link PoiDTO}
+     * @param poi {@link Poi} to map
+     * @return {@link PoiDTO} object
+     */
     PoiDTO toDTO(Poi poi);
+
+    /**
+     * Map {@link PoiDTO} to {@link Poi}
+     * @param poiDTO {@link PoiDTO} to map
+     * @return {@link Poi} object
+     */
     Poi toEntity(PoiDTO poiDTO);
 }
