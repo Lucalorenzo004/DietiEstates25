@@ -43,7 +43,7 @@ public class EstateServiceImp implements EstateService {
 
         List<EstateDTO> estatesDTO = new ArrayList<>();
         for(Estate estate : repository.findAll()){
-            estatesDTO.add(mapper.toDto(estate));
+            estatesDTO.add(mapper.toDTO(estate));
         }
 
         log.info("Estates fetched successfully");
@@ -59,7 +59,7 @@ public class EstateServiceImp implements EstateService {
 
         Estate estate = mapper.toEntity(estateDTO);
         estate = repository.save(estate);
-        EstateDTO savedEstate = mapper.toDto(estate);
+        EstateDTO savedEstate = mapper.toDTO(estate);
 
         List<FileDTO> savedFiles = saveFiles(estateDTO.getFiles(), savedEstate);
         savedEstate.setLocation(savedLocation);

@@ -1,9 +1,7 @@
 package com.ctlfab.estatesearch.services.imp;
 
 import com.ctlfab.estatesearch.dto.EstateDTO;
-import com.ctlfab.estatesearch.dto.FileDTO;
 import com.ctlfab.estatesearch.dto.FilterDTO;
-import com.ctlfab.estatesearch.dto.LocationDTO;
 
 import com.ctlfab.estatesearch.mappers.EstateMapper;
 import com.ctlfab.estatesearch.entities.Estate;
@@ -11,14 +9,13 @@ import com.ctlfab.estatesearch.entities.Estate;
 import com.ctlfab.estatesearch.repositories.EstateRepository;
 
 import com.ctlfab.estatesearch.services.EstateService;
-import com.ctlfab.estatesearch.services.FileService;
-import com.ctlfab.estatesearch.services.LocationService;
 
 import com.ctlfab.estatesearch.specification.EstateSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -42,40 +39,22 @@ public class EstateServiceImp implements EstateService {
 
         List<EstateDTO> estatesDTO = new ArrayList<>();
         for(Estate estate : repository.findAll(specification)){
-            estatesDTO.add(mapper.toDto(estate));
+            estatesDTO.add(mapper.toDTO(estate));
         }
 
         log.info("Estates fetched successfully");
         return estatesDTO;
     }
 
+    @Cacheable(cacheNames = "estate-cache", key = "#id")
     @Override
     public EstateDTO getById(long id) {
         log.info("Fetching estate with id {}", id);
 
         Estate estate = repository.findById(id).orElse(null);
-        EstateDTO estateDTO = mapper.toDto(estate);
+        EstateDTO estateDTO = mapper.toDTO(estate);
 
         log.info("EstateDTO fetched successfully");
         return estateDTO;
-    }
-
-    /**
-     * Save location and poi information about an estate
-     * @param locationDTO The {@link LocationDTO} object containing details of the location to geocode.
-     * @return A {@link LocationDTO} object containing the geolocation data
-     */
-    private LocationDTO getLocation(LocationDTO locationDTO) {
-       return null;
-    }
-
-    /**
-     * Retrieve all file of an estate
-     *
-     * @param estateDTO   The {@link EstateDTO} object containing details of the related to the file
-     * @return List of the retrieved {@link FileDTO}
-     */
-    private List<FileDTO> getFiles(EstateDTO estateDTO) {
-        return null;
     }
 }

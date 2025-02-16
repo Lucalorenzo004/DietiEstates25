@@ -1,11 +1,13 @@
 package com.ctlfab.estatehandle.services.imp;
 
+import com.ctlfab.estatehandle.client.EstateSearchClient;
 import com.ctlfab.estatehandle.client.HereClient;
 import com.ctlfab.estatehandle.dto.LocationDTO;
 import com.ctlfab.estatehandle.dto.PoiDTO;
 import com.ctlfab.estatehandle.mappers.LocationMapper;
 import com.ctlfab.estatehandle.entities.Location;
 import com.ctlfab.estatehandle.repositories.LocationRepository;
+import com.ctlfab.estatehandle.serialization.ApiResponse;
 import com.ctlfab.estatehandle.services.LocationService;
 import com.ctlfab.estatehandle.services.PoiService;
 import jakarta.transaction.Transactional;
@@ -14,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,16 +29,22 @@ public class LocationServiceImp implements LocationService {
 
     private final HereClient hereClient;
     private final PoiService poiService;
+    private final EstateSearchClient estateSearchClient;
 
     @Override
     public LocationDTO save(LocationDTO locationDTO) {
         log.info("Saving location {}", locationDTO);
 
-        Location location = mapper.toEntity(locationDTO);
-        location = repository.save(location);
-        locationDTO = mapper.toDto(location);
+        ApiResponse<LocationDTO> response = estateSearchClient.findLocationByFullAddress(locationDTO);
 
-        locationDTO.setPoi(savePoi(locationDTO));
+        if(response.getData() != null){
+            locationDTO = response.getData();
+        }else{
+            Location location = mapper.toEntity(locationDTO);
+            location = repository.save(location);
+            locationDTO = mapper.toDTO(location);
+            locationDTO.setPoi(savePoi(locationDTO));
+        }
 
         log.info("Location {} saved successfully", locationDTO);
         return locationDTO;

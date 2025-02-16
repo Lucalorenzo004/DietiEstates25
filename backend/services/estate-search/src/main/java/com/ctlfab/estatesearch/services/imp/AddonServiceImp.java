@@ -9,6 +9,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class AddonServiceImp implements AddonService {
     private final AddonRepository repository;
     private final AddonMapper mapper;
 
+    @Cacheable(cacheNames = "addon-cache")
     @Override
     public List<AddonDTO> getAll() {
         log.info("Fetching all Addons");

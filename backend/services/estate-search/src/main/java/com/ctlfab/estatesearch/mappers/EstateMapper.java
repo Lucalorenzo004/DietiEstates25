@@ -12,7 +12,7 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface EstateMapper {
-    EstateDTO toDto(Estate estate);
+    EstateDTO toDTO(Estate estate);
 
     @Mapping(target = "files", ignore = true)
     Estate toEntity(EstateDTO estateDTO);

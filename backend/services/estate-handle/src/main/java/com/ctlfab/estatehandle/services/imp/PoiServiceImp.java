@@ -1,5 +1,6 @@
 package com.ctlfab.estatehandle.services.imp;
 
+import com.ctlfab.estatehandle.client.EstateSearchClient;
 import com.ctlfab.estatehandle.dto.LocationDTO;
 import com.ctlfab.estatehandle.dto.PoiDTO;
 import com.ctlfab.estatehandle.entities.Location;
@@ -7,12 +8,15 @@ import com.ctlfab.estatehandle.mappers.LocationMapper;
 import com.ctlfab.estatehandle.mappers.PoiMapper;
 import com.ctlfab.estatehandle.entities.Poi;
 import com.ctlfab.estatehandle.repositories.PoiRepository;
+import com.ctlfab.estatehandle.serialization.ApiResponse;
 import com.ctlfab.estatehandle.services.PoiService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,16 +26,21 @@ public class PoiServiceImp implements PoiService {
     private final PoiRepository repository;
     private final PoiMapper mapper;
     private final LocationMapper locationMapper;
+    private final EstateSearchClient estateSearchClient;
 
     @Override
     public PoiDTO save(PoiDTO poiDTO, LocationDTO locationDTO) {
         log.info("Saving poi: {}", poiDTO);
+        ApiResponse<PoiDTO> response = estateSearchClient.findPoiByLatAndLng(poiDTO);
 
-        Poi poi = mapper.toEntity(poiDTO);
-        poi.setLocation(locationMapper.toEntity(locationDTO));
-        poi = repository.save(poi);
-
-        poiDTO = mapper.toDTO(poi);
+        if(response.getData() != null){
+            poiDTO = response.getData();
+        }else{
+            Poi poi = mapper.toEntity(poiDTO);
+            poi.setLocation(locationMapper.toEntity(locationDTO));
+            poi = repository.save(poi);
+            poiDTO = mapper.toDTO(poi);
+        }
 
         log.info("Saved poi: {}", poiDTO);
         return poiDTO;
