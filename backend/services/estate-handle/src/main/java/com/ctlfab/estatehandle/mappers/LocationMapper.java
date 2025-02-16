@@ -11,6 +11,6 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface LocationMapper {
-    LocationDTO toDto(Location location);
+    LocationDTO toDTO(Location location);
     Location toEntity(LocationDTO locationDTO);
 }

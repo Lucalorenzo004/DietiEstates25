@@ -11,6 +11,6 @@ import org.mapstruct.ReportingPolicy;
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
 public interface FileMapper {
-    FileDTO toDto(File file);
+    FileDTO toDTO(File file);
     File toEntity(FileDTO fileDTO);
 }
