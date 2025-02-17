@@ -20,7 +20,6 @@ import static java.time.LocalDateTime.now;
 public class UserController {
 
     private final UserService userService;
-    //@CrossOrigin(origins = "http://127.0.0.1:4200")
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable Long userId){
         UserResponse userResponse = userService.getUser(userId);
@@ -42,7 +41,6 @@ public class UserController {
 
         return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
     }
-
     @PutMapping
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(@RequestBody @Valid UserRequest request){
         UserResponse userResponse = userService.updateUser(request);

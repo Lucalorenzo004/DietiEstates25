@@ -7,8 +7,10 @@ import com.backend.user.dto.UserResponse;
 import com.backend.user.model.Role;
 import com.backend.user.model.User;
 import com.backend.user.repository.UserRepository;
+import com.backend.user.security.GoogleService;
 import com.backend.user.security.JwtService;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +27,7 @@ public class AuthServiceImplementation {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final GoogleService googleService;
 
     public UserResponse register(UserRequest request) {
         var user = User.builder()
@@ -32,7 +35,7 @@ public class AuthServiceImplementation {
                 .surname(request.getSurname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .provider(request.getProvider())
+                .provider("local")
                 .role(Role.valueOf(request.getRole()))
                 .build();
         var savedUser = repository.save(user);
@@ -43,6 +46,41 @@ public class AuthServiceImplementation {
                 .email(savedUser.getEmail())
                 .role(String.valueOf(savedUser.getRole()))
                 .build();
+    }
+
+    public AuthResponse authenticateGoogle(Map<String, String> request){
+        User newUser;
+        String token = request.get("token");
+        GoogleIdToken.Payload payload = googleService.verifyToken(token);
+
+        String email = payload.getEmail();
+
+        if(!userExists(email)){
+            newUser = User.builder()
+                    .name((String) payload.get("given_name"))
+                    .surname((String) payload.get("family_name"))
+                    .email(email)
+                    .password(null)
+                    .provider("google")
+                    .role(Role.valueOf("USER"))
+                    .build();
+            repository.save(newUser);
+        }
+
+        var user = repository.findByEmail(email).orElseThrow();
+
+        Map<String, Object> extraClaims = setExtraClaims(user);
+        String jwtToken = jwtService.generateToken(extraClaims,user);
+
+        return AuthResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    private boolean userExists(String email){
+        var user = repository.findByEmail(email);
+
+        return user.isPresent();
     }
 
     public AuthResponse authenticate(AuthRequest request) {

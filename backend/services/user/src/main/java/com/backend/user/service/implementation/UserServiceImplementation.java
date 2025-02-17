@@ -54,16 +54,15 @@ public class UserServiceImplementation implements UserService {
         log.info("Updating the user {}",request);
 
         User user = mapDTOToEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return mapEntityToDTO(userRepository.save(user));
     }
 
     @Override
-    public Boolean deleteUser(Long userId) {
+    public void deleteUser(Long userId) {
         log.info("Deleting user by ID: {}", userId);
         userRepository.deleteById(userId);
-
-        return TRUE;
     }
 
     private UserResponse mapEntityToDTO(User user) {
@@ -72,6 +71,8 @@ public class UserServiceImplementation implements UserService {
                 .email(user.getEmail())
                 .name(user.getName())
                 .surname(user.getSurname())
+                .password(user.getPassword())
+                .provider(user.getProvider())
                 .role(String.valueOf(user.getRole()))
                 .build();
     }

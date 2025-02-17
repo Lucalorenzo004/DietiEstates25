@@ -43,6 +43,19 @@ public class AuthController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
+    @PostMapping("/google")
+    public ResponseEntity<ApiResponse<AuthResponse>> authenticateGoogle(
+            @RequestBody Map<String, String> request
+    ) {
+        AuthResponse authResponse = service.authenticateGoogle(request);
+
+        Meta meta = new Meta(now(), "v1");
+        String status = "user logged";
+        ApiResponse<AuthResponse> apiResponse = new ApiResponse<>(status,authResponse,meta);
+
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+    }
+
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<UserResponse>> register(
             @RequestBody UserRequest request
