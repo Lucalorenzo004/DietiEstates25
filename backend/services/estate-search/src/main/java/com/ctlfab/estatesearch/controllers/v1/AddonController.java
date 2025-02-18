@@ -22,6 +22,10 @@ import static java.time.LocalDateTime.now;
 public class AddonController {
     private final AddonService service;
 
+    /**
+     * Handles HTTP GET requests to fetch addons.
+     * @return A {@link ResponseEntity} containing a standardized response with a List of {@link AddonDTO}.
+     */
     @GetMapping
     public ResponseEntity<ApiResponse<List<AddonDTO>>> getAddons() {
         Meta meta = new Meta(now(), "v1");

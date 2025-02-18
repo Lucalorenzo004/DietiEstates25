@@ -31,12 +31,16 @@ public class LocationServiceImp implements LocationService {
     private final PoiService poiService;
     private final EstateSearchClient estateSearchClient;
 
+    /**
+     * Check if the location already exists and in case it does not exist save it.
+     * @param locationDTO The {@link LocationDTO} object containing details of the location to be saved.
+     * @return The saved {@link LocationDTO}.
+     */
     @Override
     public LocationDTO save(LocationDTO locationDTO) {
         log.info("Saving location {}", locationDTO);
 
-        ApiResponse<LocationDTO> response = estateSearchClient.findLocationByFullAddress(locationDTO);
-
+        ApiResponse<LocationDTO> response = estateSearchClient.findLocation(locationDTO);
         if(response.getData() != null){
             locationDTO = response.getData();
         }else{
@@ -50,6 +54,11 @@ public class LocationServiceImp implements LocationService {
         return locationDTO;
     }
 
+    /**
+     * Call api here to find all poi within 500m radius with center in {@link LocationDTO} object and saves them.
+     * @param locationDTO {@link LocationDTO}.
+     * @return List of the saved {@link PoiDTO}.
+     */
     private List<PoiDTO> savePoi(LocationDTO locationDTO){
         List<PoiDTO> poiDTOList = hereClient.callBrowser(locationDTO.getLat(), locationDTO.getLng());
 

@@ -5,10 +5,9 @@ import com.ctlfab.estatehandle.dto.PoiDTO;
 
 public interface PoiService {
     /**
-     * Saves a new POI.
-     *
+     * Check if the POI already exists and in case it does not exist save it.
      * @param poiDTO The {@link PoiDTO} object containing details of the POI to be saved.
-     * @return The saved {@link PoiDTO}
+     * @return The saved {@link PoiDTO}.
      */
     PoiDTO save(PoiDTO poiDTO, LocationDTO locationDTO);
 }

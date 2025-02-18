@@ -55,7 +55,7 @@ public class Estate {
     private Integer services;
 
     @NotNull(message = "A estate should have a location")
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 

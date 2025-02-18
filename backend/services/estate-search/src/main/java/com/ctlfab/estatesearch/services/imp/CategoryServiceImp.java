@@ -4,7 +4,6 @@ import com.ctlfab.estatesearch.dto.CategoryDTO;
 import com.ctlfab.estatesearch.entities.Category;
 import com.ctlfab.estatesearch.mappers.CategoryMapper;
 import com.ctlfab.estatesearch.repositories.CategoryRepository;
-import com.ctlfab.estatesearch.services.AddonService;
 import com.ctlfab.estatesearch.services.CategoryService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +23,10 @@ public class CategoryServiceImp implements CategoryService {
     private final CategoryRepository repository;
     private final CategoryMapper mapper;
 
+    /**
+     * Fetch all categories.
+     * @return List of {@link CategoryDTO}.
+     */
     @Cacheable(cacheNames = "category-cache")
     @Override
     public List<CategoryDTO> getAll() {
