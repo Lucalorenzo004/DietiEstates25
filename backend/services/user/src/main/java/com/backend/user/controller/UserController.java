@@ -31,16 +31,6 @@ public class UserController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<ApiResponse<UserResponse>> registerUser(@RequestBody @Valid UserRequest request){
-        UserResponse userResponse = userService.registerUser(request);
-
-        Meta meta = new Meta(now(), "v1");
-        String status = "user saved";
-        ApiResponse<UserResponse> apiResponse = new ApiResponse<>(status,userResponse,meta);
-
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
-    }
     @PutMapping
     public ResponseEntity<ApiResponse<UserResponse>> updateUser(@RequestBody @Valid UserRequest request){
         UserResponse userResponse = userService.updateUser(request);

@@ -26,6 +26,8 @@ public class UserRequest {
 
     private String provider;
 
+    private String agency;
+
     @NotNull(message = "è richiesto il ruolo dell'utente")
     private String role;
 }

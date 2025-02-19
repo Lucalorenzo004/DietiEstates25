@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user-api/v1/auth/**").permitAll() // Percorsi pubblici
-                        .requestMatchers(HttpMethod.POST,"/user-api/v1/users").hasAnyRole("ADMIN","MANAGER")
+                        .requestMatchers("/user-api/v1/backoffice/**").hasAnyRole("ADMIN","MANAGER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

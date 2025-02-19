@@ -46,6 +46,9 @@ public class User implements UserDetails {
     @Column(name = "provider",nullable = false)
     private String provider;
 
+    @Column(name = "agency")
+    private String agency;
+
     @CreatedDate
     @Column(name = "created_at",updatable = false)
     private Date createdAt;

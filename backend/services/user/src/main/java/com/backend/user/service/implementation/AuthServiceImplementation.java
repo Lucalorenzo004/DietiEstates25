@@ -36,6 +36,7 @@ public class AuthServiceImplementation {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .provider("local")
+                .agency(request.getAgency())
                 .role(Role.valueOf(request.getRole()))
                 .build();
         var savedUser = repository.save(user);
@@ -62,6 +63,7 @@ public class AuthServiceImplementation {
                     .email(email)
                     .password(null)
                     .provider("google")
+                    .agency(null)
                     .role(Role.valueOf("USER"))
                     .build();
             repository.save(newUser);
@@ -103,6 +105,11 @@ public class AuthServiceImplementation {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("id", user.getId());
         extraClaims.put("role","ROLE_"+user.getRole());
+
+        String role = String.valueOf(user.getRole());
+        if (role.equals("ADMIN") || role.equals("MANAGER")){
+            extraClaims.put("agency",user.getAgency());
+        }
 
         return extraClaims;
     }

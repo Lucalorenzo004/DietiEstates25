@@ -19,5 +19,7 @@ public class UserResponse {
 
     private String provider;
 
+    private String agency;
+
     private String role;
 }

@@ -59,7 +59,7 @@ public class OfferServiceImplementation implements OfferService {
         List<Offer> offers;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long pageable = (page - 1) * pageSize;
-        String role = authentication.getAuthorities().iterator().toString();
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
 
         if(role.equals("ROLE_USER")) {
             Long userId = getCurrentUserId();
