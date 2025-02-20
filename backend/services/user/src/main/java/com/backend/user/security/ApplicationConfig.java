@@ -1,6 +1,6 @@
 package com.backend.user.security;
 
-import com.backend.user.repository.UserRepository;
+import com.backend.user.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

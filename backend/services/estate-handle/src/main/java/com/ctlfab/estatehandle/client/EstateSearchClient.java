@@ -23,7 +23,7 @@ public interface EstateSearchClient {
     /**
      * Call the estate-search-service microservice and check if the poi exists
      * @param poiDTO A {@link PoiDTO} object containing lat and lng data
-     * @returnA {@link ResponseEntity} containing a standardized response with the PoiDTO {@link PoiDTO} data if location exists,
+     * @return A {@link ResponseEntity} containing a standardized response with the PoiDTO {@link PoiDTO} data if location exists,
      * null otherwise .
      */
     @PostMapping("/v1/poi")

@@ -1,4 +1,4 @@
-package com.ctlfab.estatehandle.controller.v1;
+package com.ctlfab.estatehandle.controllers.v1;
 
 import com.ctlfab.estatehandle.serialization.ApiResponse;
 import com.ctlfab.estatehandle.serialization.Meta;

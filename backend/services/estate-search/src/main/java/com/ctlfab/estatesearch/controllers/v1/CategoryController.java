@@ -1,10 +1,8 @@
 package com.ctlfab.estatesearch.controllers.v1;
 
-import com.ctlfab.estatesearch.dto.AddonDTO;
 import com.ctlfab.estatesearch.dto.CategoryDTO;
 import com.ctlfab.estatesearch.serialization.ApiResponse;
 import com.ctlfab.estatesearch.serialization.Meta;
-import com.ctlfab.estatesearch.services.AddonService;
 import com.ctlfab.estatesearch.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

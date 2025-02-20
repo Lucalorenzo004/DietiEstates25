@@ -1,9 +1,9 @@
-package com.backend.user.controller;
+package com.backend.user.controllers.v1;
 
 import com.backend.user.dto.AuthResponse;
 import com.backend.user.dto.UserResponse;
 import com.backend.user.serialization.Meta;
-import com.backend.user.service.implementation.AuthServiceImplementation;
+import com.backend.user.services.AuthService;
 import com.backend.user.dto.AuthRequest;
 import com.backend.user.dto.UserRequest;
 import com.backend.user.serialization.ApiResponse;
@@ -16,19 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 import static java.time.LocalDateTime.now;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping("/user-api/v1/auth")
 public class AuthController {
 
-    private final AuthServiceImplementation service;
+    private final AuthService service;
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<AuthResponse>> authenticate(

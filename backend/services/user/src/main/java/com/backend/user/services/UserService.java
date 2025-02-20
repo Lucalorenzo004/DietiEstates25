@@ -1,4 +1,4 @@
-package com.backend.user.service;
+package com.backend.user.services;
 
 import com.backend.user.dto.UserRequest;
 import com.backend.user.dto.UserResponse;

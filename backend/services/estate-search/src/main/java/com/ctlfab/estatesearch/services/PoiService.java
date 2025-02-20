@@ -1,6 +1,5 @@
 package com.ctlfab.estatesearch.services;
 
-
 import com.ctlfab.estatesearch.dto.PoiDTO;
 import com.ctlfab.estatesearch.entities.Poi;
 

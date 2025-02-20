@@ -1,6 +1,5 @@
 package com.ctlfab.estatesearch.services;
 
-
 import com.ctlfab.estatesearch.dto.LocationDTO;
 
 public interface LocationService {

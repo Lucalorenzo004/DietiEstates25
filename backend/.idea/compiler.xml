@@ -7,38 +7,23 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="offer" />
         <module name="config-server" />
-        <module name="user" />
-        <module name="gateway" />
         <module name="discovery-server" />
-        <module name="estate-handle-service" />
+        <module name="User" />
         <module name="estate-search-service" />
-        <module name="estate-handle" />
         <module name="estate-search" />
-      </profile>
-      <profile name="Annotation profile for User" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="user" />
+        <module name="estate-handle-service" />
+        <module name="estate-handle" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="user" target="21" />
       <module name="discovery" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="User" options="-parameters" />
       <module name="config-server" options="-parameters" />
-      <module name="gateway" options="-parameters" />
-      <module name="offer" options="-parameters" />
-      <module name="user" options="-parameters" />
       <module name="discovery-server" options="-parameters" />
       <module name="estate-handle" options="-parameters" />
       <module name="estate-handle-service" options="-parameters" />

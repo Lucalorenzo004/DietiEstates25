@@ -1,4 +1,4 @@
-package com.backend.user.model;
+package com.backend.user.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;

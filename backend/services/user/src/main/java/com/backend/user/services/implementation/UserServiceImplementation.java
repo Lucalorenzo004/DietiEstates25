@@ -1,11 +1,11 @@
-package com.backend.user.service.implementation;
+package com.backend.user.services.implementation;
 
 import com.backend.user.dto.UserRequest;
 import com.backend.user.dto.UserResponse;
-import com.backend.user.model.Role;
-import com.backend.user.model.User;
-import com.backend.user.repository.UserRepository;
-import com.backend.user.service.UserService;
+import com.backend.user.entities.Role;
+import com.backend.user.entities.User;
+import com.backend.user.repositories.UserRepository;
+import com.backend.user.services.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static java.lang.Boolean.TRUE;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

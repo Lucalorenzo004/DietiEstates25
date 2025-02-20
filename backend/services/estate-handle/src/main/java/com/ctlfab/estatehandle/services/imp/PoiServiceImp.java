@@ -3,7 +3,6 @@ package com.ctlfab.estatehandle.services.imp;
 import com.ctlfab.estatehandle.client.EstateSearchClient;
 import com.ctlfab.estatehandle.dto.LocationDTO;
 import com.ctlfab.estatehandle.dto.PoiDTO;
-import com.ctlfab.estatehandle.entities.Location;
 import com.ctlfab.estatehandle.mappers.LocationMapper;
 import com.ctlfab.estatehandle.mappers.PoiMapper;
 import com.ctlfab.estatehandle.entities.Poi;
@@ -15,8 +14,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))

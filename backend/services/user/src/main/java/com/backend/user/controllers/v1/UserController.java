@@ -1,10 +1,10 @@
-package com.backend.user.controller;
+package com.backend.user.controllers.v1;
 
 import com.backend.user.dto.UserRequest;
 import com.backend.user.dto.UserResponse;
 import com.backend.user.serialization.ApiResponse;
 import com.backend.user.serialization.Meta;
-import com.backend.user.service.UserService;
+import com.backend.user.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

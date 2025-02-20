@@ -1,15 +1,16 @@
-package com.backend.user.service.implementation;
+package com.backend.user.services.implementation;
 
 import com.backend.user.dto.AuthRequest;
 import com.backend.user.dto.AuthResponse;
 import com.backend.user.dto.UserRequest;
 import com.backend.user.dto.UserResponse;
-import com.backend.user.model.Role;
-import com.backend.user.model.User;
-import com.backend.user.repository.UserRepository;
+import com.backend.user.entities.Role;
+import com.backend.user.entities.User;
+import com.backend.user.repositories.UserRepository;
 import com.backend.user.security.GoogleService;
 import com.backend.user.security.JwtService;
 
+import com.backend.user.services.AuthService;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,13 +23,14 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplementation {
+public class AuthServiceImplementation implements AuthService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final GoogleService googleService;
 
+    @Override
     public UserResponse register(UserRequest request) {
         var user = User.builder()
                 .name(request.getName())
@@ -49,6 +51,7 @@ public class AuthServiceImplementation {
                 .build();
     }
 
+    @Override
     public AuthResponse authenticateGoogle(Map<String, String> request){
         User newUser;
         String token = request.get("token");
@@ -79,12 +82,7 @@ public class AuthServiceImplementation {
                 .build();
     }
 
-    private boolean userExists(String email){
-        var user = repository.findByEmail(email);
-
-        return user.isPresent();
-    }
-
+    @Override
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -99,6 +97,12 @@ public class AuthServiceImplementation {
         return AuthResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private boolean userExists(String email){
+        var user = repository.findByEmail(email);
+
+        return user.isPresent();
     }
 
     private Map<String,Object> setExtraClaims(User user){
