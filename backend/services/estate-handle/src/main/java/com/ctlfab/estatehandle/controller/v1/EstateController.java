@@ -1,5 +1,33 @@
 package com.ctlfab.estatehandle.controller.v1;
 
+import static java.time.LocalDateTime.now;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ctlfab.estatehandle.dto.EstateDTO;
+import com.ctlfab.estatehandle.dto.EstateResponse;
+import com.ctlfab.estatehandle.dto.FileDTO;
+import com.ctlfab.estatehandle.dto.LocationDTO;
+import com.ctlfab.estatehandle.service.EstateService;
+import com.ctlfab.estatehandle.service.FileService;
+import com.ctlfab.estatehandle.service.LocationService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import com.ctlfab.estatehandle.dto.EstateDTO;
 import com.ctlfab.estatehandle.serialization.ApiResponse;
 import com.ctlfab.estatehandle.serialization.Meta;
@@ -14,6 +42,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static java.time.LocalDateTime.now;
+
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
