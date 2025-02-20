@@ -1,7 +1,7 @@
 package com.backend.user.service.implementation;
 
-import com.backend.user.dto.UserRequestDTO;
-import com.backend.user.dto.UserResponseDTO;
+import com.backend.user.dto.UserRequest;
+import com.backend.user.dto.UserResponse;
 import com.backend.user.model.Role;
 import com.backend.user.model.User;
 import com.backend.user.repository.UserRepository;
@@ -11,8 +11,11 @@ import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Boolean.TRUE;
@@ -23,8 +26,9 @@ import static java.lang.Boolean.TRUE;
 @Slf4j
 public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @Override
-    public UserResponseDTO getUser(Long userId) {
+    public UserResponse getUser(Long userId) {
         log.info("Fetching user by id: {}",userId);
 
         Optional<User> optional = userRepository.findById(userId);
@@ -37,43 +41,77 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public UserResponseDTO registerUser(UserRequestDTO request) {
+    public UserResponse registerUser(UserRequest request) {
         log.info("Saving new user {}", request);
 
         User user = mapDTOToEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setProvider("local");
         user = userRepository.save(user);
 
         return mapEntityToDTO(user);
     }
 
     @Override
-    public UserResponseDTO updateUser(UserRequestDTO request) {
+    public UserResponse updateUser(UserRequest request) {
         log.info("Updating the user {}",request);
 
         User user = mapDTOToEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return mapEntityToDTO(userRepository.save(user));
     }
 
     @Override
-    public Boolean deleteUser(Long userId) {
+    public void deleteUser(Long userId) {
         log.info("Deleting user by ID: {}", userId);
         userRepository.deleteById(userId);
-
-        return TRUE;
     }
 
-    private UserResponseDTO mapEntityToDTO(User user) {
-        return UserResponseDTO.builder()
+    @Override
+    public List<UserResponse> getAllEmployees(String agency) {
+        log.info("Retrieving all the employees of an agency");
+
+        List<User> retrievedEmployees = userRepository.getAllEmployees(agency);
+        List<UserResponse> employees = new ArrayList<>();
+
+        for (User retrievedEmployee : retrievedEmployees){
+            UserResponse employee = mapEntityToDTO(retrievedEmployee);
+            employees.add(employee);
+        }
+
+        return employees;
+    }
+
+    @Override
+    public List<UserResponse> getAllAgents(String agency) {
+        log.info("Retrieving all the agents of an agency");
+
+        List<User> retrievedAgents = userRepository.getAllAgents(agency);
+        List<UserResponse> agents = new ArrayList<>();
+
+        for (User retrievedAgent : retrievedAgents){
+            UserResponse agent = mapEntityToDTO(retrievedAgent);
+            agents.add(agent);
+        }
+
+        return agents;
+    }
+
+    private UserResponse mapEntityToDTO(User user) {
+        return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
                 .name(user.getName())
                 .surname(user.getSurname())
+                .password(user.getPassword())
+                .provider(user.getProvider())
+                .agency(user.getAgency())
                 .role(String.valueOf(user.getRole()))
                 .build();
     }
 
-    private User mapDTOToEntity(UserRequestDTO request) {
+    private User mapDTOToEntity(UserRequest request) {
         return User.builder()
                 .id(request.getId())
                 .email(request.getEmail())
@@ -81,6 +119,7 @@ public class UserServiceImplementation implements UserService {
                 .surname(request.getSurname())
                 .provider(request.getProvider())
                 .password(request.getPassword())
+                .agency(request.getAgency())
                 .role(Role.valueOf(request.getRole()))
                 .build();
     }

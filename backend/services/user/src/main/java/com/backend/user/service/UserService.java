@@ -1,11 +1,17 @@
 package com.backend.user.service;
 
-import com.backend.user.dto.UserRequestDTO;
-import com.backend.user.dto.UserResponseDTO;
+import com.backend.user.dto.UserRequest;
+import com.backend.user.dto.UserResponse;
+
+import java.util.List;
+
 
 public interface UserService {
-    UserResponseDTO getUser(Long userId);
-    UserResponseDTO registerUser(UserRequestDTO request);
-    UserResponseDTO updateUser(UserRequestDTO request);
-    Boolean deleteUser(Long userId);
+    UserResponse getUser(Long userId);
+    UserResponse registerUser(UserRequest request);
+    UserResponse updateUser(UserRequest request);
+    void deleteUser(Long userId);
+    List<UserResponse> getAllEmployees(String agency);
+    List<UserResponse> getAllAgents(String agency);
+
 }

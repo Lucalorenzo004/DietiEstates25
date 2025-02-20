@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponseDTO {
+public class UserResponse {
     private Long id;
 
     private String name;
@@ -14,6 +14,12 @@ public class UserResponseDTO {
     private String surname;
 
     private String email;
+
+    private String password;
+
+    private String provider;
+
+    private String agency;
 
     private String role;
 }
