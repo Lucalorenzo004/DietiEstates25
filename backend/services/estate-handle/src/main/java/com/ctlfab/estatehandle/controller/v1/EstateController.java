@@ -28,6 +28,22 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import com.ctlfab.estatehandle.dto.EstateDTO;
+import com.ctlfab.estatehandle.serialization.ApiResponse;
+import com.ctlfab.estatehandle.serialization.Meta;
+import com.ctlfab.estatehandle.services.EstateService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static java.time.LocalDateTime.now;
+
+
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
 @RequestMapping("/estate-handle-api/v1/estates")
