@@ -9,7 +9,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OfferResponseDTO {
+public class OfferResponse {
     private Long id;
 
     private float price;

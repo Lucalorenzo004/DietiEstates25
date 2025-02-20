@@ -6,6 +6,8 @@
 
 # BlueJ files
 *.ctxt
+backend/services/gateway/.mvn/wrapper
+backend/services/user/src/main/resources/application.properties
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
