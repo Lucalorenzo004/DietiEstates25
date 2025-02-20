@@ -6,7 +6,7 @@
 
 # BlueJ files
 *.ctxt
-backend/services/gateway/.mvn/*
+backend/services/gateway/.mvn/wrapper
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
