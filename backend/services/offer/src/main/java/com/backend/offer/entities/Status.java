@@ -1,4 +1,4 @@
-package com.backend.offer.model;
+package com.backend.offer.entities;
 
 public enum Status {
     DECLINED,

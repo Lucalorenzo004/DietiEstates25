@@ -1,4 +1,4 @@
-package com.backend.offer.service;
+package com.backend.offer.services;
 
 import com.backend.offer.dto.OfferRequest;
 import com.backend.offer.dto.OfferResponse;
@@ -9,7 +9,7 @@ public interface OfferService {
 
     OfferResponse createOffer(OfferRequest request);
 
-    Boolean deleteOffer(Long offerId);
+    void deleteOffer(Long offerId);
 
     OfferResponse updateOffer(Long offerId, String status);
 

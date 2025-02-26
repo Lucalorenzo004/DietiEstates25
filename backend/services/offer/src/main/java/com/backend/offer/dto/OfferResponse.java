@@ -14,6 +14,8 @@ public class OfferResponse {
 
     private float price;
 
+    private String emailUser;
+
     private String status;
 
     private Date createdAt;

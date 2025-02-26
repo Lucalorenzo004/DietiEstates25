@@ -1,10 +1,10 @@
-package com.backend.offer.controller;
+package com.backend.offer.controllers.v1;
 
 import com.backend.offer.dto.OfferRequest;
 import com.backend.offer.dto.OfferResponse;
 import com.backend.offer.serialization.ApiResponse;
 import com.backend.offer.serialization.Meta;
-import com.backend.offer.service.OfferService;
+import com.backend.offer.services.OfferService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
