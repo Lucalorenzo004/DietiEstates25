@@ -1,11 +1,11 @@
-package com.backend.offer.service.implementation;
+package com.backend.offer.services.implementation;
 
 import com.backend.offer.dto.OfferRequest;
 import com.backend.offer.dto.OfferResponse;
-import com.backend.offer.model.Offer;
-import com.backend.offer.model.Status;
-import com.backend.offer.repository.OfferRepository;
-import com.backend.offer.service.OfferService;
+import com.backend.offer.entities.Offer;
+import com.backend.offer.entities.Status;
+import com.backend.offer.repositories.OfferRepository;
+import com.backend.offer.services.OfferService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,11 +37,9 @@ public class OfferServiceImplementation implements OfferService {
     }
 
     @Override
-    public Boolean deleteOffer(Long offerId) {
+    public void deleteOffer(Long offerId) {
         log.info("Deleting offer by ID: {}", offerId);
         offerRepository.deleteById(offerId);
-
-        return TRUE;
     }
 
     @Override
@@ -62,8 +60,8 @@ public class OfferServiceImplementation implements OfferService {
         String role = authentication.getAuthorities().iterator().next().getAuthority();
 
         if(role.equals("ROLE_USER")) {
-            Long userId = getCurrentUserId();
-            offers = offerRepository.getOffers(estateId, userId, pageable, pageSize);
+            String userEmail = getCurrentUser();
+            offers = offerRepository.getOffers(estateId, userEmail, pageable, pageSize);
         } else {
             offers = offerRepository.getOffers(estateId, pageable, pageSize);
         }
@@ -81,6 +79,7 @@ public class OfferServiceImplementation implements OfferService {
         return OfferResponse.builder()
                 .id(offer.getId())
                 .price(offer.getPrice())
+                .emailUser(offer.getEmailUser())
                 .status(String.valueOf(offer.getStatus()))
                 .createdAt(offer.getCreatedAt())
                 .updatedAt(offer.getUpdatedAt())
@@ -91,20 +90,14 @@ public class OfferServiceImplementation implements OfferService {
         return Offer.builder()
                 .id(request.getId())
                 .idEstate(request.getIdEstate())
-                .idUser(request.getIdUser())
+                .emailUser(request.getEmailUser())
                 .price(request.getPrice())
                 .status(Status.valueOf(request.getStatus()))
                 .build();
     }
 
-    private Long getCurrentUserId(){
+    private String getCurrentUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Map<?, ?> details = (Map<?, ?>) authentication.getDetails();
-
-        if (details.containsKey("userId") && details.get("userId") instanceof Long) {
-            return (Long) details.get("userId");
-        }
-
-        return null;
+        return authentication.getName();
     }
 }

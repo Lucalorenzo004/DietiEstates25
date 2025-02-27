@@ -21,7 +21,7 @@ public class UserRequest {
     @NotNull(message = "è richiesta l'email dell'utente")
     private String email;
 
-    @Size(min = 8, message = "la password deve avere almeno 8 caratteri")
+    @Size(min = 6, message = "la password deve avere almeno 8 caratteri")
     private String password;
 
     private String provider;

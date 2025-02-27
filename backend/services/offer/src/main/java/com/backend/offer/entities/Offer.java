@@ -1,4 +1,4 @@
-package com.backend.offer.model;
+package com.backend.offer.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -26,8 +26,8 @@ public class Offer {
     private Long idEstate;
 
     @NotNull(message = "L'offerta dovrebbe esser stata effettuata da un utente")
-    @Column(name = "user_id",nullable = false)
-    private Long idUser;
+    @Column(name = "user_email",nullable = false)
+    private String emailUser;
 
     @NotNull(message = "L'offerta dovrebbe avere un importo offerto")
     @Column(name = "price",nullable = false)

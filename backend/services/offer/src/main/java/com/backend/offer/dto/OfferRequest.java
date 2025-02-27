@@ -14,8 +14,8 @@ public class OfferRequest {
     @NotNull(message = "è richiesto l'id dell'immobile a cui è riferita l'offerta")
     private Long idEstate;
 
-    @NotNull(message = "è richiesto l'id dell'utente che ha effettuato l'offerta")
-    private Long idUser;
+    @NotNull(message = "è richiesta l'email dell'utente che ha effettuato l'offerta")
+    private String emailUser;
 
     @NotNull(message = "è richiesto l'importo dell'offerta")
     private Float price;
