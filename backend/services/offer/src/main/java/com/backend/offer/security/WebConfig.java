@@ -1,5 +1,4 @@
-package com.backend.user.security;
-
+package com.backend.offer.security;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,3 +51,4 @@ public class WebConfig {
         return bean;
     }
 }
+

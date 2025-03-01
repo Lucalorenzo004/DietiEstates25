@@ -1,4 +1,4 @@
-package com.backend.offer.security;
+package com.ctlfab.estatehandle.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,11 +39,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         token = authHeader.substring(7);
         String role = jwtService.extractRole(token);
+
+        if (role.equals("ROLE_USER")){
+            filterChain.doFilter(request, response);
+            return;
+        }
         Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(role));
 
         if (jwtService.validateToken(token)) {
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                jwtService.extractUsername(token),null,authorities
+                    jwtService.extractUsername(token),null,authorities
             );
 
             Object webAuthDetails = new WebAuthenticationDetailsSource().buildDetails(request);

@@ -25,7 +25,10 @@ public class WebConfig {
         config.setAllowCredentials(false);
         config.setAllowedOrigins(Arrays.asList(
                 "http://localhost:4200",
-                "http://localhost"  // Per Postman
+                "http://localhost",  // Per Postman
+                "http://127.0.0.1:4200",
+                "http://127.0.0.1:42000",
+                "http://localhost:42000"
         ));
 
         config.setAllowedHeaders(Arrays.asList(
