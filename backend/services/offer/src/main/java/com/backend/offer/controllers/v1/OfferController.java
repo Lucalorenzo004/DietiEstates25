@@ -68,7 +68,7 @@ public class OfferController {
         String status = "offers retrieved";
         ApiResponse<List<OfferResponse>> apiResponse = new ApiResponse<>(status,offerResponse,meta);
 
-        return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
 

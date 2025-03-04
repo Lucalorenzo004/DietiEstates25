@@ -1,5 +1,6 @@
 package com.ctlfab.estatesearch.dto;
 
+import com.ctlfab.estatesearch.entities.Category;
 import lombok.*;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class FilterDTO {
-    private String category;
+    private CategoryDTO category;
     private Boolean rental;
     private Float minPrice;
     private Float maxPrice;
@@ -22,5 +23,6 @@ public class FilterDTO {
     private Long minServices;
     private Long maxServices;
     private Long userId;
+    private LocationDTO location;
     private List<AddonDTO> addons;
 }

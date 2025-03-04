@@ -16,11 +16,11 @@
         <module name="estate-handle-service" />
         <module name="user" />
         <module name="estate-handle" />
-        <module name="gateway" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="discovery" target="21" />
+      <module name="gateway" target="21" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

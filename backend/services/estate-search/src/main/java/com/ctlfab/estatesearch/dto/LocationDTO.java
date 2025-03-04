@@ -13,19 +13,15 @@ import java.util.List;
 public class LocationDTO {
     private Long id;
 
-    @NotEmpty(message = "A location should have an county code")
     private String countyCode;
 
     @NotEmpty(message = "A location should have an county")
     private String county;
 
-    @NotEmpty(message = "A location should have an city")
     private String city;
 
-    @NotEmpty(message = "A location should have an postal code")
     private String postalCode;
 
-    @NotEmpty(message = "A location should have an street")
     private String street;
 
     private Float lat;

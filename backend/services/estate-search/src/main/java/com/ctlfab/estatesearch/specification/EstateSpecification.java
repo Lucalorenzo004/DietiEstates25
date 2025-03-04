@@ -1,9 +1,12 @@
 package com.ctlfab.estatesearch.specification;
 
 import com.ctlfab.estatesearch.dto.AddonDTO;
+import com.ctlfab.estatesearch.dto.CategoryDTO;
 import com.ctlfab.estatesearch.dto.FilterDTO;
+import com.ctlfab.estatesearch.dto.LocationDTO;
 import com.ctlfab.estatesearch.entities.Addon;
 import com.ctlfab.estatesearch.entities.Estate;
+import com.ctlfab.estatesearch.entities.Location;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -23,7 +26,7 @@ public class EstateSpecification{
         return (root, query, cb) -> {
             List<Predicate> predicates = new LinkedList<>();
 
-            addEqualPredicate(cb, predicates, root.get("category"), filterDTO.getCategory());
+            //addEqualPredicate(cb, predicates, root.get("category"), filterDTO.getCategory());
             addEqualPredicate(cb, predicates, root.get("rental"), filterDTO.getRental());
             addEqualPredicate(cb, predicates, root.get("userId"), filterDTO.getUserId());
 
@@ -33,6 +36,9 @@ public class EstateSpecification{
             addRangePredicate(cb, predicates, root.get("services"), filterDTO.getMinServices(), filterDTO.getMaxServices());
 
             addAddonPredicates(cb, predicates, root, filterDTO.getAddons());
+            addLocationPredicates(cb, predicates, root, filterDTO.getLocation());
+            addCategoryPredicates(cb, predicates, root, filterDTO.getCategory());
+
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
@@ -88,6 +94,23 @@ public class EstateSpecification{
         }
     }
 
+    private static void addLocationPredicates(CriteriaBuilder cb, List<Predicate> predicates, Root<Estate> root, LocationDTO location) {
+        if (location != null) {
+            Join<Estate, Location> locationJoin = root.join("location");
+
+            addEqualPredicate(cb, predicates, locationJoin.get("city"), location.getCity());
+            addEqualPredicate(cb, predicates, locationJoin.get("county"), location.getCounty());
+        }
+    }
+
+    private static void addCategoryPredicates(CriteriaBuilder cb, List<Predicate> predicates, Root<Estate> root, CategoryDTO category) {
+        if (category != null) {
+            Join<Estate, Location> locationJoin = root.join("category");
+
+            addEqualPredicate(cb, predicates, locationJoin.get("name"), category.getName());
+
+        }
+    }
 }
 
 
