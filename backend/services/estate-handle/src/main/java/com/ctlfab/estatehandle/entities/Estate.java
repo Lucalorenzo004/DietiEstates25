@@ -1,32 +1,14 @@
 package com.ctlfab.estatehandle.entities;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import jakarta.persistence.*;
+import java.sql.Timestamp;
+import java.util.List;
 
 @Getter
 @Setter
@@ -73,7 +55,7 @@ public class Estate {
     private Integer services;
 
     @NotNull(message = "A estate should have a location")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
@@ -97,13 +79,16 @@ public class Estate {
     )
     private List<Addon> addons;
 
-    @OneToMany(mappedBy = "estate")
+    @OneToMany(mappedBy = "estate", cascade = CascadeType.ALL)
     private List<File> files;
 
     @NotNull(message = "A estate should have a category")
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @OneToMany(mappedBy = "estate")
+    private List<FavoriteEstate> favoriteEstates;
 
     @Override
     public String toString() {

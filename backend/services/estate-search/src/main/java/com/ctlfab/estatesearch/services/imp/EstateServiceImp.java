@@ -67,4 +67,23 @@ public class EstateServiceImp implements EstateService {
         log.info("EstateDTO fetched successfully");
         return estateDTO;
     }
+
+    /**
+     * Fetch favorite user estate.
+     *
+     * @param userId ID of user.
+     * @return {@link EstateDTO} object.
+     */
+    @Override
+    public List<EstateDTO> getFavorite(long userId) {
+        log.info("Fetching all favorite estates");
+
+        List<EstateDTO> estatesDTO = new ArrayList<>();
+        for(Estate estate : repository.getFavoriteEstate(userId)){
+            estatesDTO.add(mapper.toDTO(estate));
+        }
+
+        log.info("Favorite estates fetched successfully");
+        return estatesDTO;
+    }
 }

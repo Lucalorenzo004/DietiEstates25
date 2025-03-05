@@ -2,14 +2,18 @@ package com.ctlfab.estatehandle.services.imp;
 
 import com.ctlfab.estatehandle.client.HereClient;
 import com.ctlfab.estatehandle.dto.EstateDTO;
+import com.ctlfab.estatehandle.dto.FavoriteEstateDTO;
 import com.ctlfab.estatehandle.dto.FileDTO;
 import com.ctlfab.estatehandle.dto.LocationDTO;
 
 import com.ctlfab.estatehandle.entities.Estate;
+import com.ctlfab.estatehandle.entities.FavoriteEstate;
 import com.ctlfab.estatehandle.mappers.EstateMapper;
 
+import com.ctlfab.estatehandle.mappers.FavoriteEstateMapper;
 import com.ctlfab.estatehandle.repositories.EstateRepository;
 
+import com.ctlfab.estatehandle.repositories.FavoriteEstateRepository;
 import com.ctlfab.estatehandle.services.EstateService;
 import com.ctlfab.estatehandle.services.FileService;
 import com.ctlfab.estatehandle.services.LocationService;
@@ -32,8 +36,10 @@ import java.util.List;
 public class EstateServiceImp implements EstateService {
     private final EstateRepository repository;
     private final EstateMapper mapper;
+    private final FavoriteEstateMapper favoriteMapper;
 
     private final LocationService locationService;
+    private final FavoriteEstateRepository favoriteRepository;
     private final FileService fileService;
     private final HereClient hereClient;
 
@@ -74,6 +80,26 @@ public class EstateServiceImp implements EstateService {
 
         log.info("Estate {} deleted successfully", estateId);
         return true;
+    }
+
+    /**
+     * Add or Remove favorite relationship between user and estate.
+     * @param favoriteEstateDTO data about relationship.
+     * @return {@code true} if the estate was successfully added o removed to favorite, {@code false} otherwise.
+     */
+    @Override
+    public boolean favorite(FavoriteEstateDTO favoriteEstateDTO) {
+        log.info("Adding estate {} to user {} favorites", favoriteEstateDTO.getEstateId(), favoriteEstateDTO.getUserId());
+
+        if(favoriteEstateDTO.isAddToFavorite()){
+            FavoriteEstate favoriteEstate = favoriteMapper.toEntity(favoriteEstateDTO);
+            favoriteRepository.save(favoriteEstate);
+        }else{
+            favoriteRepository.removeToFavorite(favoriteEstateDTO.getEstateId(), favoriteEstateDTO.getUserId());
+        }
+
+        log.info("Relationship modified successfully");
+        return false;
     }
 
     /**

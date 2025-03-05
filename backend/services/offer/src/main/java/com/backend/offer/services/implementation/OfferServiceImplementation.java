@@ -1,7 +1,6 @@
 package com.backend.offer.services.implementation;
 
-import com.backend.offer.dto.OfferRequest;
-import com.backend.offer.dto.OfferResponse;
+import com.backend.offer.dto.OfferDTO;
 import com.backend.offer.entities.Offer;
 import com.backend.offer.entities.Status;
 import com.backend.offer.repositories.OfferRepository;
@@ -16,9 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static java.lang.Boolean.TRUE;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,7 +23,7 @@ import static java.lang.Boolean.TRUE;
 public class OfferServiceImplementation implements OfferService {
     private final OfferRepository offerRepository;
     @Override
-    public OfferResponse createOffer(OfferRequest request) {
+    public OfferDTO createOffer(OfferDTO request) {
         log.info("Saving new offer {}", request);
 
         Offer offer = mapDTOToEntity(request);
@@ -43,7 +39,7 @@ public class OfferServiceImplementation implements OfferService {
     }
 
     @Override
-    public OfferResponse updateOffer(Long offerId, String status) {
+    public OfferDTO updateOffer(Long offerId, String status) {
         log.info("Updating the status of the offer having ID: {}",offerId);
 
         Offer offer = offerRepository.getReferenceById(offerId);
@@ -53,40 +49,51 @@ public class OfferServiceImplementation implements OfferService {
     }
 
     @Override
-    public List<OfferResponse> getOffers(Long estateId, Long page, Long pageSize) {
+    public List<OfferDTO> getOffersById(Long estateId) {
         List<Offer> offers;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long pageable = (page - 1) * pageSize;
         String role = authentication.getAuthorities().iterator().next().getAuthority();
 
         if(role.equals("ROLE_USER")) {
             String userEmail = getCurrentUser();
-            offers = offerRepository.getOffers(estateId, userEmail, pageable, pageSize);
+            offers = offerRepository.getOffers(estateId, userEmail);
         } else {
-            offers = offerRepository.getOffers(estateId, pageable, pageSize);
+            offers = offerRepository.getOffers(estateId);
         }
 
-        List<OfferResponse> offerResponses = new ArrayList<>();
+        List<OfferDTO> offerResponses = new ArrayList<>();
         for (Offer offer : offers) {
-            OfferResponse offerResponse = mapEntityToDTO(offer);
+            OfferDTO offerResponse = mapEntityToDTO(offer);
             offerResponses.add(offerResponse);
         }
 
         return offerResponses;
     }
 
-    private OfferResponse mapEntityToDTO(Offer offer) {
-        return OfferResponse.builder()
+    @Override
+    public List<OfferDTO> getOffersByUser(String emailUser) {
+        List<Offer> offers = offerRepository.getOffersByUser(emailUser);
+
+        List<OfferDTO> offerResponses = new ArrayList<>();
+        for (Offer offer : offers) {
+            OfferDTO offerResponse = mapEntityToDTO(offer);
+            offerResponses.add(offerResponse);
+        }
+
+        return offerResponses;
+    }
+
+    private OfferDTO mapEntityToDTO(Offer offer) {
+        return OfferDTO.builder()
                 .id(offer.getId())
+                .idEstate(offer.getIdEstate())
                 .price(offer.getPrice())
                 .emailUser(offer.getEmailUser())
                 .status(String.valueOf(offer.getStatus()))
-                .createdAt(offer.getCreatedAt())
-                .updatedAt(offer.getUpdatedAt())
                 .build();
     }
 
-    private Offer mapDTOToEntity(OfferRequest request) {
+    private Offer mapDTOToEntity(OfferDTO request) {
         return Offer.builder()
                 .id(request.getId())
                 .idEstate(request.getIdEstate())

@@ -1,6 +1,7 @@
 package com.ctlfab.estatehandle.services;
 
 import com.ctlfab.estatehandle.dto.EstateDTO;
+import com.ctlfab.estatehandle.dto.FavoriteEstateDTO;
 
 
 public interface EstateService {
@@ -17,4 +18,11 @@ public interface EstateService {
      * @return {@code true} if the estate was successfully deleted, {@code false} otherwise.
      */
     boolean delete(long estateId);
+
+    /**
+     * Add or Remove favorite relationship between user and estate.
+     * @param favoriteEstateDTO data about relationship.
+     * @return {@code true} if the estate was successfully added o removed to favorite, {@code false} otherwise.
+     */
+    boolean favorite(FavoriteEstateDTO favoriteEstateDTO);
 }

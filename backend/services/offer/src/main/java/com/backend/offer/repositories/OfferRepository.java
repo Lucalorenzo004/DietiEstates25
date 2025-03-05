@@ -9,11 +9,12 @@ import java.util.List;
 
 @Repository
 public interface OfferRepository extends JpaRepository<Offer,Long> {
-    @Query(value = "SELECT * FROM offer WHERE estate_id = :estateId AND user_email = :userEmail " +
-            "ORDER BY updated_at DESC LIMIT :pageSize OFFSET :pageable",nativeQuery = true)
-    List<Offer> getOffers(Long estateId, String userEmail, Long pageable, Long pageSize);
+    @Query("SELECT o FROM Offer o WHERE o.idEstate = :estateId AND o.emailUser = :userEmail ORDER BY o.updatedAt DESC")
+    List<Offer> getOffers(Long estateId, String userEmail);
 
-    @Query(value = "SELECT * FROM offer WHERE estate_id = :estateId " +
-            "ORDER BY updated_at DESC LIMIT :pageSize OFFSET :pageable",nativeQuery = true)
-    List<Offer> getOffers(Long estateId,Long pageable,Long pageSize);
+    @Query("SELECT o FROM Offer o WHERE o.idEstate = :estateId ORDER BY o.updatedAt DESC ")
+    List<Offer> getOffers(Long estateId);
+
+    @Query("SELECT o FROM Offer o WHERE o.emailUser = :emailUser ORDER BY o.updatedAt DESC ")
+    List<Offer> getOffersByUser(String emailUser);
 }

@@ -1,18 +1,18 @@
 package com.backend.offer.services;
 
-import com.backend.offer.dto.OfferRequest;
-import com.backend.offer.dto.OfferResponse;
+import com.backend.offer.dto.OfferDTO;
 
 import java.util.List;
 
 public interface OfferService {
 
-    OfferResponse createOffer(OfferRequest request);
+    OfferDTO createOffer(OfferDTO request);
 
     void deleteOffer(Long offerId);
 
-    OfferResponse updateOffer(Long offerId, String status);
+    OfferDTO updateOffer(Long offerId, String status);
 
-    List<OfferResponse> getOffers(Long estateId, Long page, Long pageSize);
+    List<OfferDTO> getOffersById(Long estateId);
 
+    List<OfferDTO> getOffersByUser(String emailUser);
 }

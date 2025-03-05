@@ -20,4 +20,11 @@ public interface EstateService {
      * @return {@link EstateDTO} object.
      */
     EstateDTO getById(long id);
+
+    /**
+     * Fetch favorite user estate.
+     * @param userID ID of user.
+     * @return {@link EstateDTO} object.
+     */
+    List<EstateDTO> getFavorite(long userID);
 }

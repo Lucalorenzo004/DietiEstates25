@@ -1,6 +1,5 @@
 package com.ctlfab.estatesearch.dto;
 
-import com.ctlfab.estatesearch.entities.Category;
 import lombok.*;
 
 import java.util.List;
@@ -25,4 +24,5 @@ public class FilterDTO {
     private Long userId;
     private LocationDTO location;
     private List<AddonDTO> addons;
+    private boolean favorite;
 }

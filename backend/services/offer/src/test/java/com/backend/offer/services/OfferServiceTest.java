@@ -3,7 +3,7 @@ package com.backend.offer.services;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import com.backend.offer.dto.OfferResponse;
+import com.backend.offer.dto.OfferDTO;
 import com.backend.offer.entities.Offer;
 import com.backend.offer.entities.Status;
 import com.backend.offer.repositories.OfferRepository;
@@ -43,7 +43,7 @@ class OfferServiceTest {
         when(offerRepository.getReferenceById(offerId)).thenReturn(offer);
         when(offerRepository.save(any(Offer.class))).thenReturn(offer);
 
-        OfferResponse response = offerService.updateOffer(offerId, newStatus);
+        OfferDTO response = offerService.updateOffer(offerId, newStatus);
 
         assertNotNull(response);
         assertEquals(Status.DECLINED, offer.getStatus());
@@ -72,7 +72,7 @@ class OfferServiceTest {
         when(offerRepository.getReferenceById(offerId)).thenReturn(offer);
         when(offerRepository.save(any(Offer.class))).thenReturn(offer);
 
-        OfferResponse response = offerService.updateOffer(offerId, newStatus);
+        OfferDTO response = offerService.updateOffer(offerId, newStatus);
 
         assertNotNull(response);
         assertEquals(Status.COUNTEROFFER, offer.getStatus());
@@ -88,7 +88,7 @@ class OfferServiceTest {
         when(offerRepository.getReferenceById(offerId)).thenReturn(offer);
         when(offerRepository.save(any(Offer.class))).thenReturn(offer);
 
-        OfferResponse response = offerService.updateOffer(offerId, newStatus);
+        OfferDTO response = offerService.updateOffer(offerId, newStatus);
 
         assertNotNull(response);
         assertEquals(Status.ACCEPTED, offer.getStatus());

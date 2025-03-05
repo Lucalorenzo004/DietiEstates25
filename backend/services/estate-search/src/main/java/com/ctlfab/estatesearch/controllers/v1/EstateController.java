@@ -43,13 +43,18 @@ public class EstateController {
      */
     @PostMapping
     public ResponseEntity<ApiResponse<List<EstateDTO>>> getEstateByFilter(@RequestBody(required = false) FilterDTO filterDTO){
-
          Meta meta = new Meta(now(), "v1");
          String status = "Estate retrieved";
-         List<EstateDTO> estateDTOList = estateService.getAll(filterDTO);
-         ApiResponse<List<EstateDTO>> response = new ApiResponse<>(status, estateDTOList, meta);
 
-        return new ResponseEntity<>(response, HttpStatus.OK);
+         List<EstateDTO> estateDTOList;
+         if(filterDTO.isFavorite()){
+            estateDTOList = estateService.getFavorite(filterDTO.getUserId());
+         }else {
+             estateDTOList = estateService.getAll(filterDTO);
+         }
+
+         ApiResponse<List<EstateDTO>> response = new ApiResponse<>(status, estateDTOList, meta);
+         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
 

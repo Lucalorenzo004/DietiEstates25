@@ -109,6 +109,7 @@ public class AuthServiceImplementation implements AuthService {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("id", user.getId());
         extraClaims.put("role","ROLE_"+user.getRole());
+        extraClaims.put("email",user.getEmail());
 
         String role = String.valueOf(user.getRole());
         if (role.equals("ADMIN") || role.equals("MANAGER")){

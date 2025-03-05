@@ -2,6 +2,7 @@ package com.ctlfab.estatehandle.controllers.v1;
 
 import static java.time.LocalDateTime.now;
 
+import com.ctlfab.estatehandle.dto.FavoriteEstateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -71,6 +72,17 @@ public class EstateController {
 
         Meta meta = new Meta(now(), "v1");
         String status = "Estate deleted";
+        ApiResponse<EstateDTO> response = new ApiResponse<>(status, meta);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/favorite")
+    public ResponseEntity<ApiResponse<EstateDTO>> addToFavorite(@RequestBody FavoriteEstateDTO favoriteEstateDTO) {
+
+        estateService.favorite(favoriteEstateDTO);
+        Meta meta = new Meta(now(), "v1");
+        String status = "Relationship modified successfully";
         ApiResponse<EstateDTO> response = new ApiResponse<>(status, meta);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

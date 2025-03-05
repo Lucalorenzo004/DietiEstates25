@@ -87,6 +87,12 @@ public class Estate {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_estate",
+            joinColumns = @JoinColumn(name = "estate_id"))
+    private List<FavoriteEstate> favoriteEstates;
+
     @Override
     public String toString() {
         return "Estate{" +

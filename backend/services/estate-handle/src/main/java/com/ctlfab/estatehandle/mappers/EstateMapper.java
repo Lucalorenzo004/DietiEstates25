@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 @Mapper(
-        uses = {LocationMapper.class, AddonMapper.class, FileMapper.class},
+        uses = {LocationMapper.class, AddonMapper.class, FileMapper.class, FavoriteEstateMapper.class},
         componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE
 )
@@ -26,5 +26,6 @@ public interface EstateMapper {
      * @return {@link Estate} object
      */
     @Mapping(target = "files", ignore = true)
+    @Mapping(target = "favoriteEstates", ignore = true)
     Estate toEntity(EstateDTO estateDTO);
 }
