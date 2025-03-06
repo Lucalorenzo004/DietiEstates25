@@ -56,8 +56,8 @@ public class OfferController {
     }
 
     @GetMapping("/{estateId}")
-    public ResponseEntity<ApiResponse<List<OfferDTO>>> getOffersById(@PathVariable Long estateId){
-        List<OfferDTO> offerDTO = offerService.getOffersById(estateId);
+    public ResponseEntity<ApiResponse<List<OfferDTO>>> getOffersByEstateId(@PathVariable Long estateId){
+        List<OfferDTO> offerDTO = offerService.getOffersByEstateId(estateId);
 
         Meta meta = new Meta(now(),"v1");
         String status = "offers retrieved";

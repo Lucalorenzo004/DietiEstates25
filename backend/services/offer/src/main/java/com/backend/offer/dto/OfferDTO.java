@@ -1,7 +1,8 @@
 package com.backend.offer.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -18,4 +19,6 @@ public class OfferDTO {
     private Float price;
 
     private String status;
+
+    private Date updatedAt;
 }

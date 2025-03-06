@@ -12,7 +12,7 @@ public interface OfferService {
 
     OfferDTO updateOffer(Long offerId, String status);
 
-    List<OfferDTO> getOffersById(Long estateId);
+    List<OfferDTO> getOffersByEstateId(Long estateId);
 
     List<OfferDTO> getOffersByUser(String emailUser);
 }

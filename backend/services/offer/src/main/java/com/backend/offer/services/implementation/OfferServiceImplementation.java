@@ -49,7 +49,7 @@ public class OfferServiceImplementation implements OfferService {
     }
 
     @Override
-    public List<OfferDTO> getOffersById(Long estateId) {
+    public List<OfferDTO> getOffersByEstateId(Long estateId) {
         List<Offer> offers;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String role = authentication.getAuthorities().iterator().next().getAuthority();
@@ -90,6 +90,7 @@ public class OfferServiceImplementation implements OfferService {
                 .price(offer.getPrice())
                 .emailUser(offer.getEmailUser())
                 .status(String.valueOf(offer.getStatus()))
+                .updatedAt(offer.getUpdatedAt())
                 .build();
     }
 
@@ -100,6 +101,7 @@ public class OfferServiceImplementation implements OfferService {
                 .emailUser(request.getEmailUser())
                 .price(request.getPrice())
                 .status(Status.valueOf(request.getStatus()))
+                .updatedAt(request.getUpdatedAt())
                 .build();
     }
 
