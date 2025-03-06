@@ -40,7 +40,7 @@ class PoiServiceTest {
     }
 
     @Test
-    void testFindByLatAndLng_ValidPositiveCoordinates() {
+    void testFindByLatAndLngValidPositiveCoordinates() {
         Float lat = 89.0F;
         Float lng = 178.0F;
 
@@ -63,7 +63,7 @@ class PoiServiceTest {
     }
 
     @Test
-    void testFindByLatAndLng_ValidNegativeCoordinates() {
+    void testFindByLatAndLngValidNegativeCoordinates() {
         Float lat = -1.0f;
         Float lng = -1.0f;
 
@@ -86,7 +86,7 @@ class PoiServiceTest {
     }
 
     @Test
-    void testFindByLatAndLng_InvalidLatitude() {
+    void testFindByLatAndLngInvalidLatitude() {
         Float lat = 91.0f;
         Float lng = 50.0f;
 
@@ -97,7 +97,7 @@ class PoiServiceTest {
     }
 
     @Test
-    void testFindByLatAndLng_InvalidLongitude() {
+    void testFindByLatAndLngInvalidLongitude() {
         Float lat = 90.0f;
         Float lng = 181.0f;
 
@@ -108,7 +108,7 @@ class PoiServiceTest {
     }
 
     @Test
-    void testFindByLatAndLng_InvalidLatitudeAndLongitude() {
+    void testFindByLatAndLngInvalidLatitudeAndLongitude() {
         Float lat = -91.0f;
         Float lng = -181.0f;
 
