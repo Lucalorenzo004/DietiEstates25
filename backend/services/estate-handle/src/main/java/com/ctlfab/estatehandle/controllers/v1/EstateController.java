@@ -79,7 +79,6 @@ public class EstateController {
 
     @PostMapping("/favorite")
     public ResponseEntity<ApiResponse<EstateDTO>> addToFavorite(@RequestBody FavoriteEstateDTO favoriteEstateDTO) {
-
         estateService.favorite(favoriteEstateDTO);
         Meta meta = new Meta(now(), "v1");
         String status = "Relationship modified successfully";
