@@ -9,12 +9,12 @@ import java.util.List;
 
 @Repository
 public interface OfferRepository extends JpaRepository<Offer,Long> {
-    @Query("SELECT o FROM Offer o WHERE o.idEstate = :estateId AND o.emailUser = :userEmail ORDER BY o.updatedAt DESC")
+    @Query("SELECT o FROM Offer o WHERE o.idEstate = :estateId AND o.emailUser = :userEmail ORDER BY o.createdAt DESC")
     List<Offer> getOffers(Long estateId, String userEmail);
 
-    @Query("SELECT o FROM Offer o WHERE o.idEstate = :estateId ORDER BY o.updatedAt DESC ")
+    @Query("SELECT o FROM Offer o WHERE o.idEstate = :estateId ORDER BY o.createdAt DESC ")
     List<Offer> getOffers(Long estateId);
 
-    @Query("SELECT o FROM Offer o WHERE o.emailUser = :emailUser ORDER BY o.updatedAt DESC ")
+    @Query("SELECT o FROM Offer o WHERE o.emailUser = :emailUser ORDER BY o.createdAt DESC")
     List<Offer> getOffersByUser(String emailUser);
 }

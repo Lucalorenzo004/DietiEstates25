@@ -39,6 +39,10 @@ public class EstateSpecification{
             addLocationPredicates(cb, predicates, root, filterDTO.getLocation());
             addCategoryPredicates(cb, predicates, root, filterDTO.getCategory());
 
+            if (query != null) {
+                query.orderBy(cb.asc(root.get("createdAt")));
+            }
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
