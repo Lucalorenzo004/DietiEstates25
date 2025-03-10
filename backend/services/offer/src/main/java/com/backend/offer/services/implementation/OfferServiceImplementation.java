@@ -40,6 +40,9 @@ public class OfferServiceImplementation implements OfferService {
 
     @Override
     public OfferDTO updateOffer(Long offerId, String status) {
+        if (offerId == null){
+            throw new NullPointerException("invalid offer");
+        }
         log.info("Updating the status of the offer having ID: {}",offerId);
 
         Offer offer = offerRepository.getReferenceById(offerId);

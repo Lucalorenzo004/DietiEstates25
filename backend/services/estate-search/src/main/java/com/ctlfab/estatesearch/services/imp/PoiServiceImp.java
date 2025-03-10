@@ -37,9 +37,9 @@ public class PoiServiceImp implements PoiService {
         if (optionalPoi.isPresent()) {
             log.info("Poi fetched successfully");
             return mapper.toDTO(optionalPoi.get());
-        }else{
-            log.info("Poi not found");
-            return null;
         }
+
+        log.info("Poi not found");
+        return null;
     }
 }

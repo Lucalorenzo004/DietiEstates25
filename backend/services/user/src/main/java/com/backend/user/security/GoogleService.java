@@ -28,7 +28,7 @@ public class GoogleService {
             return (idToken != null) ? idToken.getPayload() : null;
 
         } catch (Exception e) {
-            return null;
+            return new GoogleIdToken.Payload();
         }
     }
 }

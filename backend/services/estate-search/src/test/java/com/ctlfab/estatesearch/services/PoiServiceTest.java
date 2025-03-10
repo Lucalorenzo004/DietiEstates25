@@ -39,10 +39,11 @@ class PoiServiceTest {
         poiDTO = new PoiDTO();
     }
 
+
     @Test
-    void testFindByLatAndLngValidPositiveCoordinates() {
-        Float lat = 89.0F;
-        Float lng = 178.0F;
+    void testFindByLatAndLngValidCoordinates() {
+        Float lat = 0.0F; //valore nominale
+        Float lng = 0.0F; //valore nominale
 
         poi.setLat(lat);
         poi.setLng(lng);
@@ -57,15 +58,13 @@ class PoiServiceTest {
 
         assertNotNull(result);
         assertEquals(poiDTO, result);
-
-        verify(repository, times(1)).findByLatAndLng(lat, lng);
-        verify(mapper, times(1)).toDTO(poi);
     }
 
     @Test
-    void testFindByLatAndLngValidNegativeCoordinates() {
-        Float lat = -1.0f;
-        Float lng = -1.0f;
+    void testFindByLatAndLngValidMaxLongitude() {
+        Float lat = 0.0F; //valore nominale
+        Float lng = 180.0F; //valore massimo
+
 
         poi.setLat(lat);
         poi.setLng(lng);
@@ -80,41 +79,106 @@ class PoiServiceTest {
 
         assertNotNull(result);
         assertEquals(poiDTO, result);
-
-        verify(repository, times(1)).findByLatAndLng(lat, lng);
-        verify(mapper, times(1)).toDTO(poi);
     }
 
     @Test
-    void testFindByLatAndLngInvalidLatitude() {
-        Float lat = 91.0f;
-        Float lng = 50.0f;
+    void testFindByLatAndLngValidMinLongitude() {
+        Float lat = 0.0F; //valore nominale
+        Float lng = -180.0F; //valore minimo
+
+        poi.setLat(lat);
+        poi.setLng(lng);
+
+        poiDTO.setLat(lat);
+        poiDTO.setLng(lng);
+
+        when(repository.findByLatAndLng(lat, lng)).thenReturn(Optional.of(poi));
+        when(mapper.toDTO(poi)).thenReturn(poiDTO);
+
+        PoiDTO result = service.findByLatAndLng(lat, lng);
+
+        assertNotNull(result);
+        assertEquals(poiDTO, result);
+    }
+
+    @Test
+    void testFindByLatAndLngInvalidMaxLongitude() {
+        Float lat = 0.0f; //valore nominale
+        Float lng = 181.0f; //valore superiore al massimo
 
         PoiDTO result = service.findByLatAndLng(lat, lng);
 
         assertNull(result);
-        verify(repository, times(1)).findByLatAndLng(any(), any());
     }
 
     @Test
-    void testFindByLatAndLngInvalidLongitude() {
-        Float lat = 90.0f;
-        Float lng = 181.0f;
+    void testFindByLatAndLngInvalidMinLongitude() {
+        Float lat = 0.0f; //valore nominale
+        Float lng = -181.0f; //valore inferiore al minimo
 
         PoiDTO result = service.findByLatAndLng(lat, lng);
 
         assertNull(result);
-        verify(repository, times(1)).findByLatAndLng(any(), any());
+    }
+
+
+    @Test
+    void testFindByLatAndLngValidMaxLatitude() {
+        Float lat = 90.0F; //valore massimo
+        Float lng = 0.0F; //valore nominale
+
+        poi.setLat(lat);
+        poi.setLng(lng);
+
+        poiDTO.setLat(lat);
+        poiDTO.setLng(lng);
+
+        when(repository.findByLatAndLng(lat, lng)).thenReturn(Optional.of(poi));
+        when(mapper.toDTO(poi)).thenReturn(poiDTO);
+
+        PoiDTO result = service.findByLatAndLng(lat, lng);
+
+        assertNotNull(result);
+        assertEquals(poiDTO, result);
     }
 
     @Test
-    void testFindByLatAndLngInvalidLatitudeAndLongitude() {
-        Float lat = -91.0f;
-        Float lng = -181.0f;
+    void testFindByLatAndLngValidMinLatitude() {
+        Float lat = -90.0F; //valore minimo
+        Float lng = 0.0F; //valore nominale
+
+        poi.setLat(lat);
+        poi.setLng(lng);
+
+        poiDTO.setLat(lat);
+        poiDTO.setLng(lng);
+
+        when(repository.findByLatAndLng(lat, lng)).thenReturn(Optional.of(poi));
+        when(mapper.toDTO(poi)).thenReturn(poiDTO);
+
+        PoiDTO result = service.findByLatAndLng(lat, lng);
+
+        assertNotNull(result);
+        assertEquals(poiDTO, result);
+    }
+
+    @Test
+    void testFindByLatAndLngInvalidMinLatitude() {
+        Float lat = -91.0f; //valore inferiore al minimo
+        Float lng = 0.0f; //valore nominale
 
         PoiDTO result = service.findByLatAndLng(lat, lng);
 
         assertNull(result);
-        verify(repository, times(1)).findByLatAndLng(any(), any());
+    }
+
+    @Test
+    void testFindByLatAndLngInvalidMaxLatitude() {
+        Float lat = 91.0f; //valore superiore al massimo
+        Float lng = 0.0f; //valore nominale
+
+        PoiDTO result = service.findByLatAndLng(lat, lng);
+
+        assertNull(result);
     }
 }

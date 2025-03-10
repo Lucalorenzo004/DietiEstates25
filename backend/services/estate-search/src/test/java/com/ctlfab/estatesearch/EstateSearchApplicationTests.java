@@ -8,6 +8,7 @@ class EstateSearchApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//empty method
 	}
 
 }

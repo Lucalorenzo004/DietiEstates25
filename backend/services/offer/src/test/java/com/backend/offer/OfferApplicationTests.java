@@ -8,6 +8,7 @@ class OfferApplicationTests {
 
 	@Test
 	void contextLoads() {
+		//empty method
 	}
 
 }

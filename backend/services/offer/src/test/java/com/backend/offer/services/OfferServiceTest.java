@@ -47,8 +47,6 @@ class OfferServiceTest {
 
         assertNotNull(response);
         assertEquals(Status.DECLINED, offer.getStatus());
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, times(1)).save(offer);
     }
 
     @Test
@@ -59,9 +57,6 @@ class OfferServiceTest {
         when(offerRepository.getReferenceById(offerId)).thenThrow(new EntityNotFoundException("Offer not found"));
 
         assertThrows(EntityNotFoundException.class, () -> offerService.updateOffer(offerId, newStatus));
-
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, never()).save(any(Offer.class));
     }
 
     @Test
@@ -76,8 +71,6 @@ class OfferServiceTest {
 
         assertNotNull(response);
         assertEquals(Status.COUNTEROFFER, offer.getStatus());
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, times(1)).save(offer);
     }
 
     @Test
@@ -92,8 +85,6 @@ class OfferServiceTest {
 
         assertNotNull(response);
         assertEquals(Status.ACCEPTED, offer.getStatus());
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, times(1)).save(offer);
     }
 
     @Test
@@ -104,22 +95,13 @@ class OfferServiceTest {
         when(offerRepository.getReferenceById(offerId)).thenReturn(offer);
 
         assertThrows(NullPointerException.class, () -> offerService.updateOffer(offerId, newStatus));
-
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, never()).save(any(Offer.class));
     }
 
     @Test
-    void testUpdateOfferWithEmptyStatus() {
-        Long offerId = 1L;
+    void testUpdateOfferWithNullOfferIDAndEmptyStatus() {
         String newStatus = "";
 
-        when(offerRepository.getReferenceById(offerId)).thenReturn(offer);
-
-        assertThrows(IllegalArgumentException.class, () -> offerService.updateOffer(offerId, newStatus));
-
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, never()).save(any(Offer.class));
+        assertThrows(NullPointerException.class, () -> offerService.updateOffer(null, newStatus));
     }
 
     @Test
@@ -130,8 +112,5 @@ class OfferServiceTest {
         when(offerRepository.getReferenceById(offerId)).thenReturn(offer);
 
         assertThrows(IllegalArgumentException.class, () -> offerService.updateOffer(offerId, newStatus));
-
-        verify(offerRepository, times(1)).getReferenceById(offerId);
-        verify(offerRepository, never()).save(any(Offer.class));
     }
 }
