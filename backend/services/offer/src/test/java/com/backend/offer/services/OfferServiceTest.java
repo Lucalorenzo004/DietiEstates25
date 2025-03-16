@@ -35,7 +35,7 @@ class OfferServiceTest {
         offer.setPrice(100F);
     }
 
-    @Test
+    @Test //OCE1-SCE2
     void testUpdateOfferFound() {
         Long offerId = 1L;
         String newStatus = "DECLINED";
@@ -49,7 +49,7 @@ class OfferServiceTest {
         assertEquals(Status.DECLINED, offer.getStatus());
     }
 
-    @Test
+    @Test //OCE2-SCE1
     void testUpdateOfferNotFound() {
         Long offerId = -1L;
         String newStatus = "DELIVERED";
@@ -59,7 +59,7 @@ class OfferServiceTest {
         assertThrows(EntityNotFoundException.class, () -> offerService.updateOffer(offerId, newStatus));
     }
 
-    @Test
+    @Test //OCE1-SCE4
     void testUpdateOfferWithCounterOffer() {
         Long offerId = 1L;
         String newStatus = "COUNTEROFFER";
@@ -73,7 +73,7 @@ class OfferServiceTest {
         assertEquals(Status.COUNTEROFFER, offer.getStatus());
     }
 
-    @Test
+    @Test //OCE1-SCE3
     void testUpdateOfferWithAccepted() {
         Long offerId = 1L;
         String newStatus = "ACCEPTED";
@@ -87,7 +87,7 @@ class OfferServiceTest {
         assertEquals(Status.ACCEPTED, offer.getStatus());
     }
 
-    @Test
+    @Test //OCE1-SCE5
     void testUpdateOfferWithNullStatus() {
         Long offerId = 1L;
         String newStatus = null;
@@ -97,14 +97,14 @@ class OfferServiceTest {
         assertThrows(NullPointerException.class, () -> offerService.updateOffer(offerId, newStatus));
     }
 
-    @Test
+    @Test //OCE3-SCE6
     void testUpdateOfferWithNullOfferIDAndEmptyStatus() {
         String newStatus = "";
 
         assertThrows(NullPointerException.class, () -> offerService.updateOffer(null, newStatus));
     }
 
-    @Test
+    @Test //OCE1-SCE7
     void testUpdateOfferWithRandomStatus() {
         Long offerId = 1L;
         String newStatus = "DELIVERATO";
